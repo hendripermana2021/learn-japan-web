@@ -1,12 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Learn Japan icon">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Ivo Sensei app icon">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#14532d" />
-      <stop offset="100%" stop-color="#0f3d22" />
+    <linearGradient id="ivoAppBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#157347" />
+      <stop offset="100%" stop-color="#8bd17c" />
     </linearGradient>
   </defs>
-  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bg)" />
-  <circle cx="128" cy="128" r="64" fill="#f6efe5" opacity="0.95" />
-  <path d="M87 99h82v16h-30v66h-22v-66H87V99z" fill="#14532d" />
-  <path d="M102 154h52v16h-52z" fill="#14532d" />
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#ivoAppBg)" />
+  <circle cx="176" cy="76" r="18" fill="#f4fff3" fill-opacity="0.28" />
+  <path d="M63 103H193V125H63V103Z" fill="#f6fff4" />
+  <path d="M81 125H175V141H81V125Z" fill="#f6fff4" fill-opacity="0.92" />
+  <path d="M95 141H111V196H95V141Z" fill="#f6fff4" />
+  <path d="M145 141H161V196H145V141Z" fill="#f6fff4" />
+  <path d="M70 196H186V210H70V196Z" fill="#f6fff4" fill-opacity="0.92" />
+  <path d="M50 76L78 62L106 76L78 90L50 76Z" fill="#f6fff4" fill-opacity="0.9" />
 </svg>

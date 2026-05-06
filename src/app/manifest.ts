@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Learn Japan",
-    short_name: "Learn Japan",
+    name: "Learn Japanese Free - Ivo Sensei",
+    short_name: "Ivo Sensei",
     description: "Mobile-first Japanese learning app with SRS review and quiz drills",
     start_url: "/",
     display: "standalone",

@@ -1,13 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6efe5;
-  --foreground: #192437;
-  --paper: #fffaf3;
-  --ink-soft: #4f607b;
-  --brand: #14532d;
-  --brand-soft: #d9f6e3;
-  --accent: #efb638;
+  --background: #eff9f0;
+  --foreground: #0f2b1d;
+  --paper: rgba(255, 255, 255, 0.84);
+  --ink-soft: #47685a;
+  --brand: #157347;
+  --brand-foreground: #ffffff;
+  --brand-soft: #d8f3df;
+  --accent: #8bd17c;
+  --surface-strong: rgba(255, 255, 255, 0.72);
+  --surface-panel: rgba(255, 255, 255, 0.72);
+  --surface-panel-soft: rgba(255, 255, 255, 0.62);
+  --surface-panel-strong: rgba(255, 255, 255, 0.92);
+  --surface-panel-tint: rgba(255, 255, 255, 0.8);
+  --border-subtle: rgba(15, 43, 29, 0.1);
+  --border-strong: rgba(15, 43, 29, 0.16);
+  --interactive-bg: #163424;
+  --interactive-foreground: #ffffff;
+  --font-body: "Aptos", "Segoe UI Variable Text", "Yu Gothic UI", "Hiragino Sans",
+    "Meiryo", sans-serif;
+  --font-heading: "Aptos Display", "Bahnschrift", "Segoe UI Variable Display",
+    "Trebuchet MS", sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --background: #07140d;
+  --foreground: #e8fff0;
+  --paper: rgba(10, 25, 17, 0.94);
+  --ink-soft: #c5e6d2;
+  --brand: #46c279;
+  --brand-foreground: #092014;
+  --brand-soft: rgba(32, 88, 56, 0.52);
+  --accent: #a7f58f;
+  --surface-strong: rgba(16, 40, 27, 0.9);
+  --surface-panel: rgba(16, 39, 27, 0.9);
+  --surface-panel-soft: rgba(19, 47, 32, 0.82);
+  --surface-panel-strong: rgba(23, 56, 38, 0.96);
+  --surface-panel-tint: rgba(26, 62, 42, 0.92);
+  --border-subtle: rgba(232, 255, 240, 0.12);
+  --border-strong: rgba(232, 255, 240, 0.2);
+  --interactive-bg: #d8f8e2;
+  --interactive-foreground: #0b1c12;
 }
 
 @theme inline {
@@ -18,11 +52,33 @@
 
 body {
   background:
-    radial-gradient(circle at 12% 0%, rgba(239, 182, 56, 0.3), transparent 42%),
-    radial-gradient(circle at 100% 30%, rgba(20, 83, 45, 0.22), transparent 35%),
+    radial-gradient(circle at 8% 5%, rgba(139, 209, 124, 0.28), transparent 32%),
+    radial-gradient(circle at 100% 0%, rgba(21, 115, 71, 0.22), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(70, 194, 121, 0.16), transparent 38%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease,
+    background 280ms ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.08), transparent 30%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.025) 0,
+      rgba(255, 255, 255, 0.025) 2px,
+      transparent 2px,
+      transparent 12px
+    );
+  opacity: 0.7;
 }
 
 h1,
@@ -34,5 +90,48 @@ h3,
 
 ::selection {
   background: var(--accent);
-  color: #1e1b16;
+  color: #0f1d14;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(21, 115, 71, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(21, 115, 71, 0.08);
+  }
+}
+
+.hero-rise {
+  animation: rise-in 420ms ease-out both;
+}
+
+.hero-rise-delay {
+  animation: rise-in 560ms ease-out both;
+}
+
+.challenge-glow {
+  animation: pulse-glow 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise,
+  .hero-rise-delay,
+  .challenge-glow {
+    animation: none;
+  }
 }

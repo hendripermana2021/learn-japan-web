@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn Japan Web
 
-## Getting Started
+Mobile-first Japanese learning web app built with Next.js 16 and TypeScript.
 
-First, run the development server:
+## Features
+
+- JLPT N5 starter vocabulary deck
+- SRS-style review card flow (Again, Hard, Good, Easy)
+- Meaning quiz with instant feedback
+- Kana practice tile grid
+- Daily reminders and progress stats
+- Optional Supabase anonymous auth + cloud progress sync
+- Responsive UI designed for phone and desktop screens
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build and check
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Start in production mode
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The start script runs the Next.js standalone server for production.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Mobile install (PWA)
 
-## Deploy on Vercel
+- On Android Chrome: open the site and tap Add to Home screen.
+- On iOS Safari: open the site, tap Share, then Add to Home Screen.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Supabase cloud sync setup (optional)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Create a Supabase project.
+2. Copy .env.example to .env.local and set:
+	- NEXT_PUBLIC_SUPABASE_URL
+	- NEXT_PUBLIC_SUPABASE_ANON_KEY
+3. In Supabase SQL editor, run [supabase/schema.sql](supabase/schema.sql).
+4. In Authentication settings, enable anonymous sign-ins.
+
+Without these env values, the app stays in local-only mode.
+
+## Production deployment (Vercel)
+
+1. Import this repository into Vercel and create a project.
+2. In Vercel project settings, set environment variables from [.env.example](.env.example).
+3. In GitHub repository secrets, add:
+	- VERCEL_TOKEN
+	- VERCEL_ORG_ID
+	- VERCEL_PROJECT_ID
+4. Push to main or run the GitHub Action manually:
+	- [.github/workflows/deploy-vercel.yml](.github/workflows/deploy-vercel.yml)
+
+## Health endpoint
+
+- Runtime health check URL: /api/health
+- File: [src/app/api/health/route.ts](src/app/api/health/route.ts)
+
+## Daily reminders
+
+- Use the Daily Reminder card in the app to set reminder hour and grant notification permission.
+- Service worker file is [public/sw.js](public/sw.js).
+- Reminders work as local device notifications and push-ready service worker events are handled.
+
+## Docker
+
+```bash
+docker build -t learn-japan-web .
+docker run --rm -p 3000:3000 learn-japan-web
+```
+
+Then open http://localhost:3000
+
+## Tech stack
+
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- Supabase JS client (optional)

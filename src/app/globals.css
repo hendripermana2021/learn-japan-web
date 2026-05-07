@@ -1,23 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #eff9f0;
+  --background: #eaf3ee;
   --foreground: #0f2b1d;
-  --paper: rgba(255, 255, 255, 0.84);
+  --paper: rgba(255, 255, 255, 0.58);
   --ink-soft: #47685a;
   --brand: #157347;
   --brand-foreground: #ffffff;
-  --brand-soft: #d8f3df;
+  --brand-soft: rgba(216, 243, 223, 0.68);
   --accent: #8bd17c;
-  --surface-strong: rgba(255, 255, 255, 0.72);
-  --surface-panel: rgba(255, 255, 255, 0.72);
-  --surface-panel-soft: rgba(255, 255, 255, 0.62);
-  --surface-panel-strong: rgba(255, 255, 255, 0.92);
-  --surface-panel-tint: rgba(255, 255, 255, 0.8);
-  --border-subtle: rgba(15, 43, 29, 0.1);
-  --border-strong: rgba(15, 43, 29, 0.16);
+  --surface-strong: rgba(255, 255, 255, 0.48);
+  --surface-panel: rgba(255, 255, 255, 0.44);
+  --surface-panel-soft: rgba(255, 255, 255, 0.32);
+  --surface-panel-strong: rgba(255, 255, 255, 0.68);
+  --surface-panel-tint: rgba(255, 255, 255, 0.54);
+  --border-subtle: rgba(255, 255, 255, 0.42);
+  --border-strong: rgba(15, 43, 29, 0.12);
   --interactive-bg: #163424;
   --interactive-foreground: #ffffff;
+  --glass-shadow: 0 30px 70px -42px rgba(19, 43, 31, 0.38);
+  --glass-shadow-strong: 0 26px 60px -36px rgba(12, 32, 22, 0.46);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  --glass-outline: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   --font-body: "Aptos", "Segoe UI Variable Text", "Yu Gothic UI", "Hiragino Sans",
     "Meiryo", sans-serif;
   --font-heading: "Aptos Display", "Bahnschrift", "Segoe UI Variable Display",
@@ -25,23 +29,27 @@
 }
 
 :root[data-theme="dark"] {
-  --background: #07140d;
+  --background: #06110c;
   --foreground: #e8fff0;
-  --paper: rgba(10, 25, 17, 0.94);
+  --paper: rgba(9, 22, 16, 0.56);
   --ink-soft: #c5e6d2;
   --brand: #46c279;
   --brand-foreground: #092014;
-  --brand-soft: rgba(32, 88, 56, 0.52);
+  --brand-soft: rgba(32, 88, 56, 0.42);
   --accent: #a7f58f;
-  --surface-strong: rgba(16, 40, 27, 0.9);
-  --surface-panel: rgba(16, 39, 27, 0.9);
-  --surface-panel-soft: rgba(19, 47, 32, 0.82);
-  --surface-panel-strong: rgba(23, 56, 38, 0.96);
-  --surface-panel-tint: rgba(26, 62, 42, 0.92);
-  --border-subtle: rgba(232, 255, 240, 0.12);
-  --border-strong: rgba(232, 255, 240, 0.2);
+  --surface-strong: rgba(17, 38, 28, 0.46);
+  --surface-panel: rgba(15, 34, 25, 0.42);
+  --surface-panel-soft: rgba(20, 43, 32, 0.34);
+  --surface-panel-strong: rgba(25, 55, 40, 0.62);
+  --surface-panel-tint: rgba(24, 50, 37, 0.54);
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(232, 255, 240, 0.14);
   --interactive-bg: #d8f8e2;
   --interactive-foreground: #0b1c12;
+  --glass-shadow: 0 34px 78px -44px rgba(0, 0, 0, 0.82);
+  --glass-shadow-strong: 0 30px 70px -38px rgba(0, 0, 0, 0.9);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-outline: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 @theme inline {
@@ -52,12 +60,16 @@
 
 body {
   background:
-    radial-gradient(circle at 8% 5%, rgba(139, 209, 124, 0.28), transparent 32%),
-    radial-gradient(circle at 100% 0%, rgba(21, 115, 71, 0.22), transparent 30%),
-    radial-gradient(circle at 50% 100%, rgba(70, 194, 121, 0.16), transparent 38%),
+    radial-gradient(circle at 10% 8%, rgba(255, 255, 255, 0.9), transparent 20%),
+    radial-gradient(circle at 12% 4%, rgba(139, 209, 124, 0.24), transparent 34%),
+    radial-gradient(circle at 94% 6%, rgba(21, 115, 71, 0.18), transparent 28%),
+    radial-gradient(circle at 78% 28%, rgba(255, 255, 255, 0.24), transparent 22%),
+    radial-gradient(circle at 52% 100%, rgba(70, 194, 121, 0.14), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 28%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
+  min-height: 100vh;
   transition:
     background-color 220ms ease,
     color 220ms ease,
@@ -70,7 +82,9 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(140deg, rgba(255, 255, 255, 0.08), transparent 30%),
+    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.24), transparent 18%),
+    radial-gradient(circle at 85% 24%, rgba(255, 255, 255, 0.12), transparent 20%),
+    linear-gradient(140deg, rgba(255, 255, 255, 0.1), transparent 30%),
     repeating-linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.025) 0,
@@ -79,6 +93,79 @@ body::before {
       transparent 12px
     );
   opacity: 0.7;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: auto -12% -22% auto;
+  width: 28rem;
+  height: 28rem;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), rgba(139, 209, 124, 0.04) 48%, transparent 72%);
+  filter: blur(34px);
+  opacity: 0.9;
+}
+
+main > section > header,
+main > section > article,
+main > aside > section {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  box-shadow: var(--glass-shadow), var(--glass-highlight), var(--glass-outline);
+}
+
+main > section > header::before,
+main > section > article::before,
+main > aside > section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08) 28%, transparent 62%),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 36%);
+  opacity: 0.72;
+}
+
+:root[data-theme="dark"] main > section > header::before,
+:root[data-theme="dark"] main > section > article::before,
+:root[data-theme="dark"] main > aside > section::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 26%),
+    radial-gradient(circle at top left, rgba(167, 245, 143, 0.08), transparent 34%);
+  opacity: 0.82;
+}
+
+main > section > header > *,
+main > section > article > *,
+main > aside > section > * {
+  position: relative;
+  z-index: 1;
+}
+
+button,
+input,
+select,
+textarea {
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+}
+
+button {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    opacity 220ms ease;
+}
+
+button:hover {
+  box-shadow: var(--glass-shadow-strong);
 }
 
 h1,

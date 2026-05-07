@@ -26,7 +26,7 @@ const categoryOptions = [
   "person",
   "expression",
 ] as const;
-const studyModes = ["review", "quiz", "listening", "grammar", "browse"] as const;
+const studyModes = ["review", "quiz", "listening", "grammar", "writing", "browse"] as const;
 const sortOptions = ["default", "kana", "meaning", "category"] as const;
 
 const kanaTiles = [
@@ -52,13 +52,21 @@ const STORAGE_KEY = "learn-japan-state-v1";
 const SETTINGS_KEY = "learn-japan-settings-v1";
 const FAVORITES_KEY = "learn-japan-favorites-v1";
 const WEAK_WORDS_KEY = "learn-japan-weak-words-v1";
+const WRITING_STATS_KEY = "learn-japan-writing-stats-v1";
 const quizModes = ["meaning", "kana"] as const;
 const listeningDifficulties = ["easy", "medium", "hard"] as const;
+const writingScripts = ["hiragana", "katakana", "kanji"] as const;
+const writingCharacters: Record<WritingScript, string[]> = {
+  hiragana: ["あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ"],
+  katakana: ["ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ"],
+  kanji: ["日", "月", "火", "水", "木", "金", "土", "山", "川", "人", "口", "田", "本", "中", "学"],
+};
 type PersistedState = {
   cardIndex: number;
   reviewed: number;
   quizScore: number;
   listeningScore: number;
+  writingScore: number;
   streak: number;
 };
 
@@ -70,10 +78,17 @@ type PersistedSettings = {
   listeningDifficulty: ListeningDifficulty;
 };
 
+type WritingStat = {
+  attempts: number;
+  passes: number;
+  bestSimilarity: number;
+};
+
 type StudyMode = (typeof studyModes)[number];
 type SortOption = (typeof sortOptions)[number];
 type QuizMode = (typeof quizModes)[number];
 type ListeningDifficulty = (typeof listeningDifficulties)[number];
+type WritingScript = (typeof writingScripts)[number];
 type Language = "en" | "id";
 type ThemeMode = "light" | "dark";
 
@@ -83,6 +98,7 @@ const modeLabels: Record<Language, Record<StudyMode, string>> = {
     quiz: "Quiz",
     listening: "Listening",
     grammar: "Grammar",
+    writing: "Writing",
     browse: "Browse",
   },
   id: {
@@ -90,6 +106,7 @@ const modeLabels: Record<Language, Record<StudyMode, string>> = {
     quiz: "Kuis",
     listening: "Listening",
     grammar: "Grammar",
+    writing: "Menulis",
     browse: "Jelajah",
   },
 };
@@ -155,6 +172,19 @@ const listeningDifficultyLabels: Record<Language, Record<ListeningDifficulty, st
     easy: "Mudah",
     medium: "Sedang",
     hard: "Sulit",
+  },
+};
+
+const writingScriptLabels: Record<Language, Record<WritingScript, string>> = {
+  en: {
+    hiragana: "Hiragana",
+    katakana: "Katakana",
+    kanji: "Kanji",
+  },
+  id: {
+    hiragana: "Hiragana",
+    katakana: "Katakana",
+    kanji: "Kanji",
   },
 };
 
@@ -228,6 +258,23 @@ const uiCopy = {
     japanese: "Japanese",
     grammarTitle: "Grammar Quiz",
     buildFromEnglish: "Build the Japanese sentence from this English meaning:",
+    writingTitle: "Writing Test",
+    writingInstruction: "Draw the same character on the scratch pad, then check similarity.",
+    writingScript: "Script",
+    writingTarget: "Target",
+    writingClear: "Clear",
+    writingCheck: "Check Similarity",
+    writingNext: "Next Character",
+    writingScore: "Writing Score",
+    writingSimilarity: "Similarity",
+    writingPass: "Great shape! Keep going.",
+    writingRetry: "Not close enough yet. Try matching shape and proportion.",
+    writingHint: "Tip: follow stroke direction and keep size close to target.",
+    writingGuide: "Guide overlay",
+    writingWeakChars: "Weak Writing Characters",
+    writingAccuracy: "accuracy",
+    writingAttempts: "attempts",
+    noWritingHistory: "No writing history yet.",
     score: "Score",
     question: "Question",
     browseTitle: "Browse Deck",
@@ -279,6 +326,7 @@ const uiCopy = {
     noQuizMatches: "No words match this search and category for quiz mode.",
     noListeningMatches: "No words match this search and category for listening mode.",
     noGrammarMatches: "No grammar questions match this JLPT level and search filter.",
+    noWritingMatches: "No writing characters available for this script.",
     noBrowseMatches: "No words match this search and category for browse mode.",
     favoritesCount: "favorites",
     weakHitsCount: "weak hits",
@@ -337,6 +385,23 @@ const uiCopy = {
     japanese: "Bahasa Jepang",
     grammarTitle: "Kuis Grammar",
     buildFromEnglish: "Susun kalimat Jepang dari arti bahasa Inggris ini:",
+    writingTitle: "Tes Menulis",
+    writingInstruction: "Gambar karakter yang sama di scratch pad, lalu cek kemiripannya.",
+    writingScript: "Skrip",
+    writingTarget: "Target",
+    writingClear: "Hapus",
+    writingCheck: "Cek Kemiripan",
+    writingNext: "Karakter Berikutnya",
+    writingScore: "Skor Menulis",
+    writingSimilarity: "Kemiripan",
+    writingPass: "Bentuknya bagus! Lanjutkan.",
+    writingRetry: "Belum cukup mirip. Coba samakan bentuk dan proporsi.",
+    writingHint: "Tip: ikuti arah goresan dan jaga ukuran mirip target.",
+    writingGuide: "Overlay panduan",
+    writingWeakChars: "Karakter Menulis Lemah",
+    writingAccuracy: "akurasi",
+    writingAttempts: "percobaan",
+    noWritingHistory: "Belum ada riwayat menulis.",
     score: "Skor",
     question: "Soal",
     browseTitle: "Jelajah Deck",
@@ -388,6 +453,7 @@ const uiCopy = {
     noQuizMatches: "Tidak ada kata yang cocok untuk mode kuis.",
     noListeningMatches: "Tidak ada kata yang cocok untuk mode listening.",
     noGrammarMatches: "Tidak ada soal grammar yang cocok untuk level JLPT dan filter ini.",
+    noWritingMatches: "Tidak ada karakter untuk latihan menulis pada skrip ini.",
     noBrowseMatches: "Tidak ada kata yang cocok untuk mode jelajah.",
     favoritesCount: "favorit",
     weakHitsCount: "kesalahan",
@@ -540,6 +606,28 @@ function buildListeningDistractors(
   );
 }
 
+function setupWritingCanvas(canvas: HTMLCanvasElement, size: number) {
+  const dpr = typeof window === "undefined" ? 1 : Math.max(window.devicePixelRatio || 1, 1);
+  const internalSize = Math.floor(size * dpr);
+  canvas.width = internalSize;
+  canvas.height = internalSize;
+  canvas.style.width = `${size}px`;
+  canvas.style.height = `${size}px`;
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  context.setTransform(dpr, 0, 0, dpr, 0, 0);
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, size, size);
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.strokeStyle = "#111111";
+  context.lineWidth = 10;
+}
+
 export default function Home() {
   const [language, setLanguage] = useState<Language>("id");
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
@@ -555,6 +643,8 @@ export default function Home() {
   const [reviewed, setReviewed] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
   const [listeningScore, setListeningScore] = useState(0);
+  const [writingScore, setWritingScore] = useState(0);
+  const [writingScript, setWritingScript] = useState<WritingScript>("hiragana");
   const [streak, setStreak] = useState(1);
   const [quizChoice, setQuizChoice] = useState<string | null>(null);
   const [quizLocked, setQuizLocked] = useState(false);
@@ -574,6 +664,7 @@ export default function Home() {
   const [notificationPermission, setNotificationPermission] = useState("default");
   const [favorites, setFavorites] = useState<string[]>([]);
   const [weakWordCounts, setWeakWordCounts] = useState<Record<string, number>>({});
+  const [writingStats, setWritingStats] = useState<Record<string, WritingStat>>({});
   const [storageReady, setStorageReady] = useState(false);
   const [appStatus, setAppStatus] = useState<string>(uiCopy.id.localMode);
   const text = uiCopy[language];
@@ -595,6 +686,9 @@ export default function Home() {
           }
           if (typeof parsedState.listeningScore === "number") {
             setListeningScore(parsedState.listeningScore);
+          }
+          if (typeof parsedState.writingScore === "number") {
+            setWritingScore(parsedState.writingScore);
           }
           if (typeof parsedState.streak === "number") {
             setStreak(parsedState.streak);
@@ -633,6 +727,11 @@ export default function Home() {
         const rawWeakWords = localStorage.getItem(WEAK_WORDS_KEY);
         if (rawWeakWords) {
           setWeakWordCounts(JSON.parse(rawWeakWords) as Record<string, number>);
+        }
+
+        const rawWritingStats = localStorage.getItem(WRITING_STATS_KEY);
+        if (rawWritingStats) {
+          setWritingStats(JSON.parse(rawWritingStats) as Record<string, WritingStat>);
         }
 
         if ("Notification" in window) {
@@ -819,8 +918,30 @@ export default function Home() {
     [weakWordCounts],
   );
 
+  const weakWritingCharacters = useMemo(
+    () =>
+      Object.entries(writingStats)
+        .filter(([, stat]) => stat.attempts > 0)
+        .sort((left, right) => {
+          const leftAccuracy = left[1].passes / Math.max(left[1].attempts, 1);
+          const rightAccuracy = right[1].passes / Math.max(right[1].attempts, 1);
+
+          if (leftAccuracy !== rightAccuracy) {
+            return leftAccuracy - rightAccuracy;
+          }
+
+          if (right[1].attempts !== left[1].attempts) {
+            return right[1].attempts - left[1].attempts;
+          }
+
+          return left[0].localeCompare(right[0]);
+        })
+        .slice(0, 5),
+    [writingStats],
+  );
+
   const dailyChallengeTarget = 16;
-  const dailyChallengePoints = reviewed + quizScore + listeningScore + grammarScore;
+  const dailyChallengePoints = reviewed + quizScore + listeningScore + grammarScore + writingScore;
   const dailyChallengePercent = Math.min(
     100,
     Math.round((dailyChallengePoints / dailyChallengeTarget) * 100),
@@ -838,10 +959,11 @@ export default function Home() {
       reviewed,
       quizScore,
       listeningScore,
+      writingScore,
       streak,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [cardIndex, listeningScore, quizScore, reviewed, storageReady, streak]);
+  }, [cardIndex, listeningScore, quizScore, reviewed, storageReady, streak, writingScore]);
 
   useEffect(() => {
     if (!storageReady) {
@@ -873,6 +995,14 @@ export default function Home() {
 
     localStorage.setItem(WEAK_WORDS_KEY, JSON.stringify(weakWordCounts));
   }, [storageReady, weakWordCounts]);
+
+  useEffect(() => {
+    if (!storageReady) {
+      return;
+    }
+
+    localStorage.setItem(WRITING_STATS_KEY, JSON.stringify(writingStats));
+  }, [storageReady, writingStats]);
 
   useEffect(() => {
     if (typeof window === "undefined" || !remindersEnabled) {
@@ -1048,6 +1178,7 @@ export default function Home() {
     setReviewed(0);
     setQuizScore(0);
     setListeningScore(0);
+    setWritingScore(0);
     setStreak(1);
     setQuizChoice(null);
     setQuizLocked(false);
@@ -1059,11 +1190,13 @@ export default function Home() {
     setGrammarIndex(0);
     setGrammarScore(0);
     setGrammarSolvedIds([]);
+    setWritingStats({});
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(WRITING_STATS_KEY);
   }
 
   function runSurpriseSession() {
-    const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "browse"];
+    const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "writing", "browse"];
     const randomMode = candidateModes[Math.floor(Math.random() * candidateModes.length)];
     setStudyMode(randomMode);
 
@@ -1104,6 +1237,26 @@ export default function Home() {
     setStudyMode("grammar");
     nextGrammarQuestion();
     setAppStatus(text.grammarSprintHint);
+  }
+
+  function registerWritingSuccess() {
+    setWritingScore((score) => score + 1);
+    setStreak((value) => value + 1);
+  }
+
+  function registerWritingAttempt(characterKey: string, similarity: number, passed: boolean) {
+    setWritingStats((current) => {
+      const existing = current[characterKey] ?? { attempts: 0, passes: 0, bestSimilarity: 0 };
+
+      return {
+        ...current,
+        [characterKey]: {
+          attempts: existing.attempts + 1,
+          passes: existing.passes + (passed ? 1 : 0),
+          bestSimilarity: Math.max(existing.bestSimilarity, similarity),
+        },
+      };
+    });
   }
 
   async function enableReminders() {
@@ -1224,6 +1377,7 @@ export default function Home() {
                 <ProgressChip label={text.quiz} value={`${quizScore}`} />
                 <ProgressChip label={text.listening} value={`${listeningScore}`} />
                 <ProgressChip label={text.grammar} value={`${grammarScore}`} />
+                <ProgressChip label={text.writingTitle} value={`${writingScore}`} />
               </div>
             </section>
           </div>
@@ -1695,6 +1849,36 @@ export default function Home() {
           </article>
         ) : null}
 
+        {studyMode === "writing" ? (
+          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+            <div className="mb-4 flex items-center justify-between gap-2">
+              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.writingTitle}</h2>
+              <div className="flex gap-2">
+                <select
+                  value={writingScript}
+                  onChange={(event) => setWritingScript(event.target.value as WritingScript)}
+                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                >
+                  {writingScripts.map((script) => (
+                    <option key={script} value={script}>
+                      {text.writingScript}: {writingScriptLabels[language][script]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <WritingPractice
+              key={writingScript}
+              script={writingScript}
+              text={text}
+              writingStats={writingStats}
+              onEvaluate={registerWritingAttempt}
+              onPass={registerWritingSuccess}
+            />
+          </article>
+        ) : null}
+
         {studyMode === "browse" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between">
@@ -1771,6 +1955,7 @@ export default function Home() {
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.focusCategory}: {categoryLabels[language][selectedCategory]}</li>
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.quizMode}: {quizModeLabels[language][quizMode]}</li>
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.listeningQuestions}</li>
+            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.writingTitle}: {writingScriptLabels[language][writingScript]}</li>
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.shadowing}</li>
           </ul>
         </section>
@@ -1828,6 +2013,34 @@ export default function Home() {
                 </ul>
               ) : (
                 <p className="mt-2">{text.noWeakWords}</p>
+              )}
+            </div>
+
+            <div>
+              <p className="font-semibold text-[var(--foreground)]">{text.writingWeakChars}</p>
+              {weakWritingCharacters.length > 0 ? (
+                <ul className="mt-2 space-y-2">
+                  {weakWritingCharacters.map(([characterKey, stat]) => {
+                    const [scriptName, character] = characterKey.split("::");
+                    const accuracy = Math.round((stat.passes / Math.max(stat.attempts, 1)) * 100);
+
+                    return (
+                      <li key={characterKey} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
+                        <div className="flex items-center justify-between gap-3 text-[var(--foreground)]">
+                          <span className="text-xl font-semibold leading-none">{character}</span>
+                          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                            {scriptName}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs text-[var(--ink-soft)]">
+                          {accuracy}% {text.writingAccuracy} • {stat.attempts} {text.writingAttempts}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p className="mt-2">{text.noWritingHistory}</p>
               )}
             </div>
           </div>
@@ -1924,6 +2137,543 @@ function EmptyDeckState({ title, message }: { title: string; message: string }) 
     <div className="rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-panel-soft)] px-4 py-8 text-center">
       <p className="text-sm font-medium text-[var(--foreground)]">{title}</p>
       <p className="mt-2 text-sm text-[var(--ink-soft)]">{message}</p>
+    </div>
+  );
+}
+
+type WritingText = {
+  writingInstruction: string;
+  writingTarget: string;
+  writingClear: string;
+  writingCheck: string;
+  writingNext: string;
+  writingSimilarity: string;
+  writingPass: string;
+  writingRetry: string;
+  writingHint: string;
+  writingGuide: string;
+  writingAccuracy: string;
+  writingAttempts: string;
+  noWritingMatches: string;
+  noMatchingCards: string;
+};
+
+function WritingPractice({
+  script,
+  text,
+  writingStats,
+  onEvaluate,
+  onPass,
+}: {
+  script: WritingScript;
+  text: WritingText;
+  writingStats: Record<string, WritingStat>;
+  onEvaluate: (characterKey: string, similarity: number, passed: boolean) => void;
+  onPass: () => void;
+}) {
+  const size = 260;
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const isDrawingRef = useRef(false);
+  const lastPointRef = useRef<{ x: number; y: number } | null>(null);
+  const [targetIndex, setTargetIndex] = useState(0);
+  const [similarity, setSimilarity] = useState<number | null>(null);
+  const [feedback, setFeedback] = useState("");
+  const [passedCurrent, setPassedCurrent] = useState(false);
+  const [guideVisible, setGuideVisible] = useState(true);
+
+  const characters = writingCharacters[script] ?? [];
+  const target = characters[targetIndex] ?? "";
+  const targetKey = `${script}::${target}`;
+  const targetStats = target ? writingStats[targetKey] : undefined;
+
+  function getNextIndex(current: number, length: number) {
+    if (length <= 1) {
+      return 0;
+    }
+
+    let next = current;
+    while (next === current) {
+      next = Math.floor(Math.random() * length);
+    }
+    return next;
+  }
+
+  function getCanvasContext(canvas: HTMLCanvasElement) {
+    const context = canvas.getContext("2d");
+    if (!context) {
+      return null;
+    }
+    return context;
+  }
+
+  function prepareCanvas(canvas: HTMLCanvasElement) {
+    setupWritingCanvas(canvas, size);
+  }
+
+  function clearCanvas() {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    prepareCanvas(canvas);
+    isDrawingRef.current = false;
+    lastPointRef.current = null;
+    setSimilarity(null);
+    setFeedback("");
+    setPassedCurrent(false);
+  }
+
+  function getCanvasPoint(event: React.PointerEvent<HTMLCanvasElement>) {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return null;
+    }
+
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
+  }
+
+  function drawLine(from: { x: number; y: number }, to: { x: number; y: number }) {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    const context = getCanvasContext(canvas);
+    if (!context) {
+      return;
+    }
+
+    context.beginPath();
+    context.moveTo(from.x, from.y);
+    context.lineTo(to.x, to.y);
+    context.stroke();
+  }
+
+  function onPointerDown(event: React.PointerEvent<HTMLCanvasElement>) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    const point = getCanvasPoint(event);
+    if (!point) {
+      return;
+    }
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    isDrawingRef.current = true;
+    lastPointRef.current = point;
+    setSimilarity(null);
+    setFeedback("");
+    setPassedCurrent(false);
+  }
+
+  function onPointerMove(event: React.PointerEvent<HTMLCanvasElement>) {
+    if (!isDrawingRef.current || !lastPointRef.current) {
+      return;
+    }
+
+    const point = getCanvasPoint(event);
+    if (!point) {
+      return;
+    }
+
+    drawLine(lastPointRef.current, point);
+    lastPointRef.current = point;
+  }
+
+  function endDrawing(event: React.PointerEvent<HTMLCanvasElement>) {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    isDrawingRef.current = false;
+    lastPointRef.current = null;
+  }
+
+  function buildTemplateCanvas(character: string, baseCanvas: HTMLCanvasElement) {
+    const templateCanvas = document.createElement("canvas");
+    templateCanvas.width = baseCanvas.width;
+    templateCanvas.height = baseCanvas.height;
+
+    const context = templateCanvas.getContext("2d");
+    if (!context) {
+      return null;
+    }
+
+    const dpr = baseCanvas.width / size;
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, size, size);
+    context.fillStyle = "#111111";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.font = "170px 'Noto Sans JP', 'Yu Gothic UI', 'Yu Gothic', sans-serif";
+    context.fillText(character, size / 2, size / 2 + 6);
+
+    return templateCanvas;
+  }
+
+  function getDarkMask(imageData: ImageData) {
+    const mask = new Uint8Array(imageData.width * imageData.height);
+
+    for (let index = 0; index < mask.length; index += 1) {
+      const pixelIndex = index * 4;
+      const darkness = imageData.data[pixelIndex] + imageData.data[pixelIndex + 1] + imageData.data[pixelIndex + 2];
+      mask[index] = darkness < 700 ? 1 : 0;
+    }
+
+    return mask;
+  }
+
+  function getMaskBounds(mask: Uint8Array, width: number, height: number) {
+    let minX = width;
+    let minY = height;
+    let maxX = -1;
+    let maxY = -1;
+
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        if (mask[y * width + x] === 0) {
+          continue;
+        }
+
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+      }
+    }
+
+    if (maxX < minX || maxY < minY) {
+      return null;
+    }
+
+    return {
+      minX,
+      minY,
+      maxX,
+      maxY,
+      width: maxX - minX + 1,
+      height: maxY - minY + 1,
+    };
+  }
+
+  function normalizeCanvasToMask(sourceCanvas: HTMLCanvasElement, comparisonSize = 72, padding = 8) {
+    const sourceContext = sourceCanvas.getContext("2d");
+    if (!sourceContext) {
+      return null;
+    }
+
+    const sourceImage = sourceContext.getImageData(0, 0, sourceCanvas.width, sourceCanvas.height);
+    const sourceMask = getDarkMask(sourceImage);
+    const bounds = getMaskBounds(sourceMask, sourceImage.width, sourceImage.height);
+
+    if (!bounds) {
+      return null;
+    }
+
+    const normalizedCanvas = document.createElement("canvas");
+    normalizedCanvas.width = comparisonSize;
+    normalizedCanvas.height = comparisonSize;
+    const normalizedContext = normalizedCanvas.getContext("2d");
+    if (!normalizedContext) {
+      return null;
+    }
+
+    normalizedContext.fillStyle = "#ffffff";
+    normalizedContext.fillRect(0, 0, comparisonSize, comparisonSize);
+
+    const availableSize = comparisonSize - padding * 2;
+    const scale = Math.min(availableSize / bounds.width, availableSize / bounds.height);
+    const targetWidth = bounds.width * scale;
+    const targetHeight = bounds.height * scale;
+    const offsetX = (comparisonSize - targetWidth) / 2;
+    const offsetY = (comparisonSize - targetHeight) / 2;
+
+    normalizedContext.imageSmoothingEnabled = true;
+    normalizedContext.drawImage(
+      sourceCanvas,
+      bounds.minX,
+      bounds.minY,
+      bounds.width,
+      bounds.height,
+      offsetX,
+      offsetY,
+      targetWidth,
+      targetHeight,
+    );
+
+    const normalizedImage = normalizedContext.getImageData(0, 0, comparisonSize, comparisonSize);
+    return {
+      mask: getDarkMask(normalizedImage),
+      width: comparisonSize,
+      height: comparisonSize,
+    };
+  }
+
+  function countMaskPixels(mask: Uint8Array) {
+    let count = 0;
+
+    for (const value of mask) {
+      count += value;
+    }
+
+    return count;
+  }
+
+  function countMaskMatches(
+    sourceMask: Uint8Array,
+    targetMask: Uint8Array,
+    width: number,
+    height: number,
+    tolerance: number,
+  ) {
+    let matches = 0;
+
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        if (sourceMask[y * width + x] === 0) {
+          continue;
+        }
+
+        let found = false;
+        for (let searchY = Math.max(0, y - tolerance); searchY <= Math.min(height - 1, y + tolerance) && !found; searchY += 1) {
+          for (let searchX = Math.max(0, x - tolerance); searchX <= Math.min(width - 1, x + tolerance); searchX += 1) {
+            if (targetMask[searchY * width + searchX] === 1) {
+              found = true;
+              break;
+            }
+          }
+        }
+
+        if (found) {
+          matches += 1;
+        }
+      }
+    }
+
+    return matches;
+  }
+
+  function countMaskIntersection(sourceMask: Uint8Array, targetMask: Uint8Array) {
+    let intersection = 0;
+
+    for (let index = 0; index < sourceMask.length; index += 1) {
+      if (sourceMask[index] === 1 && targetMask[index] === 1) {
+        intersection += 1;
+      }
+    }
+
+    return intersection;
+  }
+
+  function evaluateDrawing() {
+    const canvas = canvasRef.current;
+    if (!canvas || !target) {
+      return;
+    }
+
+    const userContext = getCanvasContext(canvas);
+    if (!userContext) {
+      return;
+    }
+
+    const templateCanvas = buildTemplateCanvas(target, canvas);
+    if (!templateCanvas) {
+      return;
+    }
+
+    const templateContext = templateCanvas.getContext("2d");
+    if (!templateContext) {
+      return;
+    }
+
+    const normalizedUser = normalizeCanvasToMask(canvas);
+    const normalizedTemplate = normalizeCanvasToMask(templateCanvas);
+
+    if (!normalizedUser || !normalizedTemplate) {
+      setSimilarity(0);
+      setFeedback(text.writingRetry);
+      onEvaluate(targetKey, 0, false);
+      return;
+    }
+
+    const userInk = countMaskPixels(normalizedUser.mask);
+    const templateInk = countMaskPixels(normalizedTemplate.mask);
+    const tolerantIntersection = countMaskMatches(
+      normalizedUser.mask,
+      normalizedTemplate.mask,
+      normalizedUser.width,
+      normalizedUser.height,
+      2,
+    );
+    const tolerantRecallIntersection = countMaskMatches(
+      normalizedTemplate.mask,
+      normalizedUser.mask,
+      normalizedUser.width,
+      normalizedUser.height,
+      2,
+    );
+    const strictIntersection = countMaskIntersection(normalizedUser.mask, normalizedTemplate.mask);
+
+    if (userInk < 80 || templateInk === 0) {
+      setSimilarity(0);
+      setFeedback(text.writingRetry);
+      onEvaluate(targetKey, 0, false);
+      return;
+    }
+
+    const precision = tolerantIntersection / userInk;
+    const recall = tolerantRecallIntersection / templateInk;
+    const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+    const ratio = userInk / templateInk;
+    const sizeFactor = ratio < 0.55 ? ratio / 0.55 : ratio > 1.8 ? 1.8 / ratio : 1;
+    const iou = strictIntersection / Math.max(userInk + templateInk - strictIntersection, 1);
+    const score = Math.max(0, Math.min(1, (f1 * 0.72 + iou * 0.28) * sizeFactor));
+    const isPass = score >= 0.5 && recall >= 0.44;
+
+    setSimilarity(score);
+    setFeedback(isPass ? text.writingPass : text.writingRetry);
+    onEvaluate(targetKey, score, isPass);
+
+    if (isPass && !passedCurrent) {
+      onPass();
+      setPassedCurrent(true);
+    }
+  }
+
+  function nextCharacter() {
+    const weakCandidates = characters
+      .map((character, index) => {
+        const stat = writingStats[`${script}::${character}`];
+        const accuracy = stat ? stat.passes / Math.max(stat.attempts, 1) : 0;
+
+        return {
+          character,
+          index,
+          attempts: stat?.attempts ?? 0,
+          accuracy,
+        };
+      })
+      .sort((left, right) => {
+        if (left.accuracy !== right.accuracy) {
+          return left.accuracy - right.accuracy;
+        }
+
+        if (right.attempts !== left.attempts) {
+          return right.attempts - left.attempts;
+        }
+
+        return left.index - right.index;
+      });
+
+    const focusPool = weakCandidates.slice(0, Math.max(3, Math.ceil(weakCandidates.length * 0.4)));
+    const alternativePool = focusPool.filter((entry) => entry.index !== targetIndex);
+
+    if (alternativePool.length > 0) {
+      const next = alternativePool[Math.floor(Math.random() * alternativePool.length)];
+      setTargetIndex(next.index);
+    } else {
+      setTargetIndex((current) => getNextIndex(current, characters.length));
+    }
+
+    clearCanvas();
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    prepareCanvas(canvas);
+  }, []);
+
+  if (characters.length === 0) {
+    return <EmptyDeckState title={text.noMatchingCards} message={text.noWritingMatches} />;
+  }
+
+  return (
+    <div>
+      <p className="mb-3 text-sm text-[var(--ink-soft)]">{text.writingInstruction}</p>
+      <div className="mb-3 grid gap-3 sm:grid-cols-[120px_minmax(0,1fr)]">
+        <div className="rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-3 py-4 text-center">
+          <p className="text-xs font-semibold tracking-[0.18em] text-[var(--brand)] uppercase">{text.writingTarget}</p>
+          <p className="mt-2 text-6xl leading-none font-semibold text-[var(--foreground)]">{target}</p>
+          {targetStats ? (
+            <p className="mt-3 text-xs text-[var(--ink-soft)]">
+              {Math.round((targetStats.passes / Math.max(targetStats.attempts, 1)) * 100)}% {text.writingAccuracy}
+            </p>
+          ) : null}
+        </div>
+        <div className="relative w-fit overflow-hidden rounded-2xl">
+          {guideVisible ? (
+            <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(21,115,71,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(21,115,71,0.12)_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[var(--brand)]/20" />
+              <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-[var(--brand)]/20" />
+              <div className="absolute inset-0 flex items-center justify-center text-[170px] font-semibold text-[var(--brand)]/12">
+                {target}
+              </div>
+            </div>
+          ) : null}
+          <canvas
+            ref={canvasRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endDrawing}
+            onPointerCancel={endDrawing}
+            className="relative z-20 touch-none rounded-2xl border-2 border-[var(--border-strong)] bg-white shadow-[0_20px_40px_-30px_rgba(0,0,0,0.75)]"
+          />
+        </div>
+      </div>
+
+      <p className="mb-3 text-xs text-[var(--ink-soft)]">{text.writingHint}</p>
+
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => setGuideVisible((current) => !current)}
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+        >
+          {text.writingGuide}: {guideVisible ? "On" : "Off"}
+        </button>
+        <button
+          type="button"
+          onClick={clearCanvas}
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+        >
+          {text.writingClear}
+        </button>
+        <button
+          type="button"
+          onClick={evaluateDrawing}
+          className="rounded-lg bg-[var(--interactive-bg)] px-3 py-1 text-sm font-semibold text-[var(--interactive-foreground)] transition hover:brightness-110"
+        >
+          {text.writingCheck}
+        </button>
+        <button
+          type="button"
+          onClick={nextCharacter}
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+        >
+          {text.writingNext}
+        </button>
+      </div>
+
+      {similarity !== null ? (
+        <div className="mt-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
+          <p className="font-semibold text-[var(--foreground)]">
+            {text.writingSimilarity}: {Math.round(similarity * 100)}%
+          </p>
+          <p className="mt-1">{feedback}</p>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -53,6 +53,7 @@ const SETTINGS_KEY = "learn-japan-settings-v1";
 const FAVORITES_KEY = "learn-japan-favorites-v1";
 const WEAK_WORDS_KEY = "learn-japan-weak-words-v1";
 const quizModes = ["meaning", "kana"] as const;
+const listeningDifficulties = ["easy", "medium", "hard"] as const;
 type PersistedState = {
   cardIndex: number;
   reviewed: number;
@@ -66,11 +67,13 @@ type PersistedSettings = {
   remindersEnabled: boolean;
   language: Language;
   themeMode: ThemeMode;
+  listeningDifficulty: ListeningDifficulty;
 };
 
 type StudyMode = (typeof studyModes)[number];
 type SortOption = (typeof sortOptions)[number];
 type QuizMode = (typeof quizModes)[number];
+type ListeningDifficulty = (typeof listeningDifficulties)[number];
 type Language = "en" | "id";
 type ThemeMode = "light" | "dark";
 
@@ -142,6 +145,19 @@ const quizModeLabels: Record<Language, Record<QuizMode, string>> = {
   },
 };
 
+const listeningDifficultyLabels: Record<Language, Record<ListeningDifficulty, string>> = {
+  en: {
+    easy: "Easy",
+    medium: "Medium",
+    hard: "Hard",
+  },
+  id: {
+    easy: "Mudah",
+    medium: "Sedang",
+    hard: "Sulit",
+  },
+};
+
 const ratingLabels: Record<Language, Record<(typeof ratings)[number], string>> = {
   en: {
     Again: "Again",
@@ -199,6 +215,12 @@ const uiCopy = {
     playAudio: "Play Audio",
     listeningInstruction:
       "Listen to the Japanese word, then choose the correct English meaning.",
+    listeningDifficulty: "Difficulty",
+    hardModeHint: "Hard mode: type the meaning instead of picking from options.",
+    typeYourAnswer: "Type your answer",
+    submitAnswer: "Submit",
+    listeningCombo: "Combo",
+    bestCombo: "Best Combo",
     audioPrompt: "Audio Prompt",
     audioHint: "Tap Play Audio to hear the word. You can replay it anytime.",
     listeningCorrect: "Correct. Good listening.",
@@ -302,6 +324,12 @@ const uiCopy = {
     playAudio: "Putar Audio",
     listeningInstruction:
       "Dengarkan kata bahasa Jepang, lalu pilih arti bahasa Inggris yang benar.",
+    listeningDifficulty: "Kesulitan",
+    hardModeHint: "Mode sulit: ketik arti jawaban tanpa pilihan ganda.",
+    typeYourAnswer: "Ketik jawaban Anda",
+    submitAnswer: "Kirim Jawaban",
+    listeningCombo: "Combo",
+    bestCombo: "Combo Terbaik",
     audioPrompt: "Prompt Audio",
     audioHint: "Ketuk Putar Audio untuk mendengar kata. Anda bisa memutarnya lagi kapan saja.",
     listeningCorrect: "Benar. Listening Anda bagus.",
@@ -413,7 +441,45 @@ function normalizeMeaningTokens(meaning: string) {
     .filter((token) => token.length > 0);
 }
 
-function buildListeningDistractors(cards: VocabularyCard[], activeCard: VocabularyCard, offset: number) {
+function normalizeListeningAnswer(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stripLeadingTo(value: string) {
+  return value.replace(/^to\s+/, "").trim();
+}
+
+function buildMeaningVariants(meaning: string) {
+  const parts = meaning
+    .split(/[\/,]|\bor\b/gi)
+    .map((part) => normalizeListeningAnswer(part))
+    .filter((part) => part.length > 0);
+
+  const variants = new Set<string>();
+  const normalizedMeaning = normalizeListeningAnswer(meaning);
+  if (normalizedMeaning) {
+    variants.add(normalizedMeaning);
+    variants.add(stripLeadingTo(normalizedMeaning));
+  }
+
+  for (const part of parts) {
+    variants.add(part);
+    variants.add(stripLeadingTo(part));
+  }
+
+  return variants;
+}
+
+function buildListeningDistractors(
+  cards: VocabularyCard[],
+  activeCard: VocabularyCard,
+  offset: number,
+  difficulty: ListeningDifficulty,
+) {
   const correctTokens = normalizeMeaningTokens(activeCard.meaning);
   const seenMeanings = new Set<string>();
   const rankedCandidates = cards
@@ -461,11 +527,16 @@ function buildListeningDistractors(cards: VocabularyCard[], activeCard: Vocabula
     return [];
   }
 
-  const topWindow = rankedCandidates.slice(0, Math.min(8, rankedCandidates.length));
+  const candidateWindow =
+    difficulty === "easy"
+      ? [...rankedCandidates].reverse().slice(0, Math.min(14, rankedCandidates.length))
+      : difficulty === "hard"
+        ? rankedCandidates.slice(0, Math.min(6, rankedCandidates.length))
+        : rankedCandidates.slice(0, Math.min(10, rankedCandidates.length));
 
   return Array.from(
-    { length: Math.min(3, topWindow.length) },
-    (_, index) => topWindow[(offset + index) % topWindow.length].meaning,
+    { length: Math.min(3, candidateWindow.length) },
+    (_, index) => candidateWindow[(offset + index) % candidateWindow.length].meaning,
   );
 }
 
@@ -489,6 +560,11 @@ export default function Home() {
   const [quizLocked, setQuizLocked] = useState(false);
   const [listeningChoice, setListeningChoice] = useState<string | null>(null);
   const [listeningLocked, setListeningLocked] = useState(false);
+  const [listeningDifficulty, setListeningDifficulty] =
+    useState<ListeningDifficulty>("medium");
+  const [listeningTextAnswer, setListeningTextAnswer] = useState("");
+  const [listeningCombo, setListeningCombo] = useState(0);
+  const [bestListeningCombo, setBestListeningCombo] = useState(0);
   const [grammarLevel, setGrammarLevel] = useState<GrammarLevel>("N5");
   const [grammarIndex, setGrammarIndex] = useState(0);
   const [grammarScore, setGrammarScore] = useState(0);
@@ -539,6 +615,13 @@ export default function Home() {
           }
           if (parsedSettings.themeMode === "light" || parsedSettings.themeMode === "dark") {
             setThemeMode(parsedSettings.themeMode);
+          }
+          if (
+            parsedSettings.listeningDifficulty === "easy" ||
+            parsedSettings.listeningDifficulty === "medium" ||
+            parsedSettings.listeningDifficulty === "hard"
+          ) {
+            setListeningDifficulty(parsedSettings.listeningDifficulty);
           }
         }
 
@@ -652,12 +735,17 @@ export default function Home() {
     }
 
     const correct = activeCard.meaning;
-    const distractors = buildListeningDistractors(filteredCards, activeCard, safeCardIndex);
+    const distractors = buildListeningDistractors(
+      filteredCards,
+      activeCard,
+      safeCardIndex,
+      listeningDifficulty,
+    );
 
     const ordered = [correct, ...distractors];
     const rotateBy = (safeCardIndex + 1) % ordered.length;
     return ordered.slice(rotateBy).concat(ordered.slice(0, rotateBy));
-  }, [activeCard, filteredCards, safeCardIndex]);
+  }, [activeCard, filteredCards, listeningDifficulty, safeCardIndex]);
 
   const filteredGrammarQuestions = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
@@ -765,9 +853,10 @@ export default function Home() {
       remindersEnabled,
       language,
       themeMode,
+      listeningDifficulty,
     };
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(payload));
-  }, [language, reminderHour, remindersEnabled, storageReady, themeMode]);
+  }, [language, listeningDifficulty, reminderHour, remindersEnabled, storageReady, themeMode]);
 
   useEffect(() => {
     if (!storageReady) {
@@ -816,6 +905,7 @@ export default function Home() {
     setQuizLocked(false);
     setListeningChoice(null);
     setListeningLocked(false);
+    setListeningTextAnswer("");
     setCardIndex((current) =>
       getRandomNextIndex(filteredCards.length, current % filteredCards.length),
     );
@@ -883,15 +973,42 @@ export default function Home() {
 
     setListeningLocked(true);
     setListeningChoice(option);
+    setListeningTextAnswer(option);
 
+    const pointsByDifficulty: Record<ListeningDifficulty, number> = {
+      easy: 1,
+      medium: 2,
+      hard: 3,
+    };
     if (option === activeCard.meaning) {
-      setListeningScore((score) => score + 1);
+      const nextCombo = listeningCombo + 1;
+      const comboBonus = Math.min(nextCombo - 1, 2);
+      setListeningCombo(nextCombo);
+      setBestListeningCombo((current) => Math.max(current, nextCombo));
+      setListeningScore((score) => score + pointsByDifficulty[listeningDifficulty] + comboBonus);
     } else if (activeCardId) {
+      setListeningCombo(0);
       setWeakWordCounts((current) => ({
         ...current,
         [activeCardId]: (current[activeCardId] ?? 0) + 1,
       }));
     }
+  }
+
+  function submitListeningTextAnswer() {
+    if (listeningLocked || !activeCard) {
+      return;
+    }
+
+    const normalizedInput = normalizeListeningAnswer(listeningTextAnswer);
+    if (!normalizedInput) {
+      setAppStatus(text.typeYourAnswer);
+      return;
+    }
+
+    const variants = buildMeaningVariants(activeCard.meaning);
+    const isCorrect = variants.has(normalizedInput) || variants.has(stripLeadingTo(normalizedInput));
+    chooseListeningAnswer(isCorrect ? activeCard.meaning : listeningTextAnswer);
   }
 
   function nextGrammarQuestion() {
@@ -936,6 +1053,9 @@ export default function Home() {
     setQuizLocked(false);
     setListeningChoice(null);
     setListeningLocked(false);
+    setListeningTextAnswer("");
+    setListeningCombo(0);
+    setBestListeningCombo(0);
     setGrammarIndex(0);
     setGrammarScore(0);
     setGrammarSolvedIds([]);
@@ -1401,6 +1521,22 @@ export default function Home() {
                 >
                   {text.playAudio}
                 </button>
+                <select
+                  value={listeningDifficulty}
+                  onChange={(event) => {
+                    setListeningDifficulty(event.target.value as ListeningDifficulty);
+                    setListeningChoice(null);
+                    setListeningLocked(false);
+                    setListeningTextAnswer("");
+                  }}
+                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                >
+                  {listeningDifficulties.map((difficulty) => (
+                    <option key={difficulty} value={difficulty}>
+                      {text.listeningDifficulty}: {listeningDifficultyLabels[language][difficulty]}
+                    </option>
+                  ))}
+                </select>
                 <button
                   type="button"
                   onClick={nextCard}
@@ -1422,35 +1558,66 @@ export default function Home() {
                   <p className="mt-2 text-sm text-[var(--ink-soft)]">
                     {text.audioHint}
                   </p>
+                  {listeningDifficulty === "hard" ? (
+                    <p className="mt-2 text-xs font-semibold tracking-[0.14em] text-[var(--brand)] uppercase">
+                      {text.hardModeHint}
+                    </p>
+                  ) : null}
                 </div>
 
-                <div className="grid gap-2">
-                  {listeningOptions.map((option, optionIndex) => {
-                    const selected = listeningChoice === option;
-                    const correct = option === activeCard.meaning;
-                    let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+                <div className="mb-3 grid grid-cols-2 gap-2">
+                  <ProgressChip label={text.listeningCombo} value={`${listeningCombo}`} />
+                  <ProgressChip label={text.bestCombo} value={`${bestListeningCombo}`} />
+                </div>
 
-                    if (listeningLocked) {
-                      if (selected && !correct) {
-                        selectedStyle = "border-rose-600 bg-rose-100";
-                      } else if (correct) {
-                        selectedStyle = "border-emerald-600 bg-emerald-100";
+                {listeningDifficulty === "hard" ? (
+                  <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
+                    <input
+                      type="text"
+                      value={listeningTextAnswer}
+                      onChange={(event) => setListeningTextAnswer(event.target.value)}
+                      placeholder={text.typeYourAnswer}
+                      disabled={listeningLocked}
+                      className="rounded-xl border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-2 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)] disabled:opacity-70"
+                    />
+                    <button
+                      type="button"
+                      onClick={submitListeningTextAnswer}
+                      disabled={listeningLocked}
+                      className="rounded-xl bg-[var(--interactive-bg)] px-4 py-2 text-sm font-semibold text-[var(--interactive-foreground)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {text.submitAnswer}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid gap-2">
+                    {listeningOptions.map((option, optionIndex) => {
+                      const selected = listeningChoice === option;
+                      const correct = option === activeCard.meaning;
+                      let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+
+                      if (listeningLocked) {
+                        if (selected && !correct) {
+                          selectedStyle = "border-rose-600 bg-rose-100";
+                        } else if (correct) {
+                          selectedStyle = "border-emerald-600 bg-emerald-100";
+                        }
                       }
-                    }
 
-                    return (
-                      <button
-                        key={`${option}-${optionIndex}`}
-                        type="button"
-                        onClick={() => chooseListeningAnswer(option)}
-                        disabled={listeningLocked}
-                        className={`rounded-xl border px-3 py-2 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
-                      >
-                        {option}
-                      </button>
-                    );
-                  })}
-                </div>
+                      return (
+                        <button
+                          key={`${option}-${optionIndex}`}
+                          type="button"
+                          onClick={() => chooseListeningAnswer(option)}
+                          disabled={listeningLocked}
+                          className={`rounded-xl border px-3 py-2 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
+                        >
+                          {option}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
                 {listeningLocked ? (
                   <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">

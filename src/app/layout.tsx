@@ -73,6 +73,9 @@ export const metadata: Metadata = {
       "Learn Japanese free with SRS cards, listening drills, and grammar puzzle practice.",
     images: ["/icon.svg"],
   },
+  verification: {
+    google: "5wyHjsfwHWuTcB1R3IHwX5xNmtKHeuoFE-f75ZIdFBM",
+  },
 };
 
 export default function RootLayout({

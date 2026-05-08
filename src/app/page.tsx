@@ -13,6 +13,9 @@ import {
   grammarQuestions,
   type GrammarQuestion,
 } from "@/data/grammar-questions";
+import {
+  jlptExamQuestions,
+} from "@/data/jlpt-exam-questions";
 
 const reviewCards: VocabularyCard[] = vocabularyCards;
 const categoryOptions = [
@@ -26,7 +29,7 @@ const categoryOptions = [
   "person",
   "expression",
 ] as const;
-const studyModes = ["review", "quiz", "listening", "grammar", "writing", "browse"] as const;
+const studyModes = ["review", "quiz", "listening", "grammar", "exam", "writing", "browse"] as const;
 const sortOptions = ["default", "kana", "meaning", "category"] as const;
 const browsePerPageOptions = [6, 12, 24] as const;
 
@@ -163,6 +166,7 @@ const modeLabels: Record<Language, Record<StudyMode, string>> = {
     quiz: "Quiz",
     listening: "Listening",
     grammar: "Grammar",
+    exam: "Exam JLPT",
     writing: "Writing",
     browse: "Browse",
   },
@@ -171,6 +175,7 @@ const modeLabels: Record<Language, Record<StudyMode, string>> = {
     quiz: "Kuis",
     listening: "Listening",
     grammar: "Grammar",
+    exam: "Ujian JLPT",
     writing: "Menulis",
     browse: "Jelajah",
   },
@@ -310,7 +315,7 @@ const uiCopy = {
     listening: "Listening",
     deck: "Deck",
     chooseLevel: "Choose level first",
-    chooseLevelHint: "Select a JLPT level before starting review, quiz, listening, grammar, writing, or browse mode.",
+    chooseLevelHint: "Select a JLPT level before starting review, quiz, listening, grammar, exam, writing, or browse mode.",
     level: "Level",
     favorites: "Favorites",
     weakHits: "Weak Hits",
@@ -353,6 +358,11 @@ const uiCopy = {
     correctAnswer: "Correct answer",
     japanese: "Japanese",
     grammarTitle: "Grammar Quiz",
+    examTitle: "JLPT Reading Exam",
+    examInstruction: "Read the sentence, focus on the underlined word, and choose the correct hiragana reading like a real JLPT reading question.",
+    examQuestionPrompt: "How do you read the underlined word?",
+    examReadingLabel: "Reading",
+    examCorrect: "Correct reading",
     buildFromEnglish: "Build the Japanese sentence from this English meaning:",
     writingTitle: "Writing Test",
     writingInstruction: "Draw the same character on the scratch pad, then check similarity.",
@@ -439,6 +449,7 @@ const uiCopy = {
     noQuizMatches: "No words match this search and category for quiz mode.",
     noListeningMatches: "No words match this search and category for listening mode.",
     noGrammarMatches: "No grammar questions match this JLPT level and search filter.",
+    noExamMatches: "No JLPT exam questions match this level and search filter.",
     noWritingMatches: "No writing characters available for this script.",
     noBrowseMatches: "No words match this search and category for browse mode.",
     browsePerPage: "Per page",
@@ -466,7 +477,7 @@ const uiCopy = {
     listening: "Listening",
     deck: "Deck",
     chooseLevel: "Pilih level dulu",
-    chooseLevelHint: "Pilih level JLPT sebelum mulai review, kuis, listening, grammar, menulis, atau jelajah.",
+    chooseLevelHint: "Pilih level JLPT sebelum mulai review, kuis, listening, grammar, ujian, menulis, atau jelajah.",
     level: "Level",
     favorites: "Favorit",
     weakHits: "Kesalahan",
@@ -509,6 +520,11 @@ const uiCopy = {
     correctAnswer: "Jawaban benar",
     japanese: "Bahasa Jepang",
     grammarTitle: "Kuis Grammar",
+    examTitle: "Ujian Baca JLPT",
+    examInstruction: "Baca kalimat, fokus pada kata yang digarisbawahi, lalu pilih bacaan hiragana yang benar seperti soal JLPT asli.",
+    examQuestionPrompt: "Bagaimana cara membaca kata yang digarisbawahi?",
+    examReadingLabel: "Bacaan",
+    examCorrect: "Bacaan yang benar",
     buildFromEnglish: "Susun kalimat Jepang dari arti bahasa Inggris ini:",
     writingTitle: "Tes Menulis",
     writingInstruction: "Gambar karakter yang sama di scratch pad, lalu cek kemiripannya.",
@@ -595,6 +611,7 @@ const uiCopy = {
     noQuizMatches: "Tidak ada kata yang cocok untuk mode kuis.",
     noListeningMatches: "Tidak ada kata yang cocok untuk mode listening.",
     noGrammarMatches: "Tidak ada soal grammar yang cocok untuk level JLPT dan filter ini.",
+    noExamMatches: "Tidak ada soal ujian JLPT yang cocok untuk level dan filter ini.",
     noWritingMatches: "Tidak ada karakter untuk latihan menulis pada skrip ini.",
     noBrowseMatches: "Tidak ada kata yang cocok untuk mode jelajah.",
     browsePerPage: "Per halaman",
@@ -609,10 +626,6 @@ const uiCopy = {
 
 function getCardId(card: VocabularyCard) {
   return `${card.kanji}__${card.kana}`;
-}
-
-function uniqueStrings(items: string[]) {
-  return Array.from(new Set(items));
 }
 
 function getPuzzleSolution(question: GrammarQuestion) {
@@ -751,6 +764,31 @@ function buildListeningDistractors(
     { length: Math.min(3, candidateWindow.length) },
     (_, index) => candidateWindow[(offset + index) % candidateWindow.length].meaning,
   );
+}
+
+function buildQuizDistractors(
+  cards: VocabularyCard[],
+  activeCard: VocabularyCard,
+  activeIndex: number,
+  quizMode: QuizMode,
+) {
+  const correct = quizMode === "meaning" ? activeCard.meaning : activeCard.kana;
+  const distractors: string[] = [];
+  const seen = new Set<string>([correct]);
+
+  for (let step = 1; step < cards.length && distractors.length < 3; step += 1) {
+    const candidateCard = cards[(activeIndex + step) % cards.length];
+    const candidateValue = quizMode === "meaning" ? candidateCard.meaning : candidateCard.kana;
+
+    if (seen.has(candidateValue)) {
+      continue;
+    }
+
+    seen.add(candidateValue);
+    distractors.push(candidateValue);
+  }
+
+  return distractors;
 }
 
 function setupWritingCanvas(canvas: HTMLCanvasElement, size: number) {
@@ -970,6 +1008,11 @@ export default function Home() {
   const [grammarIndex, setGrammarIndex] = useState(0);
   const [grammarScore, setGrammarScore] = useState(0);
   const [grammarSolvedIds, setGrammarSolvedIds] = useState<string[]>([]);
+  const [examIndex, setExamIndex] = useState(0);
+  const [examScore, setExamScore] = useState(0);
+  const [examChoice, setExamChoice] = useState<string | null>(null);
+  const [examLocked, setExamLocked] = useState(false);
+  const [examAnsweredIds, setExamAnsweredIds] = useState<string[]>([]);
   const [reminderHour, setReminderHour] = useState(20);
   const [remindersEnabled, setRemindersEnabled] = useState(false);
   const [notificationPermission, setNotificationPermission] = useState("default");
@@ -1149,11 +1192,7 @@ export default function Home() {
     }
 
     const correct = quizMode === "meaning" ? activeCard.meaning : activeCard.kana;
-    const distractors = uniqueStrings(
-      filteredCards
-      .map((card) => (quizMode === "meaning" ? card.meaning : card.kana))
-      .filter((meaning) => meaning !== correct)
-    ).slice(0, 3);
+    const distractors = buildQuizDistractors(filteredCards, activeCard, safeCardIndex, quizMode);
 
     const ordered = [correct, ...distractors];
     const rotateBy = safeCardIndex % ordered.length;
@@ -1205,6 +1244,40 @@ export default function Home() {
       return haystack.includes(normalizedQuery);
     });
   }, [searchQuery, studyLevel]);
+
+  const filteredExamQuestions = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+
+    const levelFiltered =
+      studyLevel === null
+        ? []
+        : studyLevel === "all"
+          ? jlptExamQuestions
+          : jlptExamQuestions.filter((question) => question.level === studyLevel);
+
+    if (!normalizedQuery) {
+      return levelFiltered;
+    }
+
+    return levelFiltered.filter((question) => {
+      const haystack = [
+        question.before,
+        question.target,
+        question.after,
+        question.reading,
+        question.translation,
+        question.explanation,
+        ...question.choices,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(normalizedQuery);
+    });
+  }, [searchQuery, studyLevel]);
+
+  const safeExamIndex = filteredExamQuestions.length > 0 ? examIndex % filteredExamQuestions.length : 0;
+  const activeExamQuestion = filteredExamQuestions[safeExamIndex] ?? null;
 
   const safeGrammarIndex =
     filteredGrammarQuestions.length > 0 ? grammarIndex % filteredGrammarQuestions.length : 0;
@@ -1535,7 +1608,7 @@ export default function Home() {
     );
   }
 
-  const XP_PER_ACTION = { review: 5, quiz: 10, listening: 8, grammar: 12, writing: 15 } as const;
+  const XP_PER_ACTION = { review: 5, quiz: 10, listening: 8, grammar: 12, exam: 12, writing: 15 } as const;
 
   function unlockAchievement(id: AchievementId, label: string, rewardXp = 20) {
     if (achievementsUnlocked.includes(id)) {
@@ -1661,6 +1734,28 @@ export default function Home() {
           [activeCardId]: (current[activeCardId] ?? 0) + 1,
         }));
       }
+    }
+  }
+
+  function chooseExamAnswer(option: string) {
+    if (examLocked || !activeExamQuestion) {
+      return;
+    }
+
+    setExamLocked(true);
+    setExamChoice(option);
+
+    if (option === activeExamQuestion.reading) {
+      if (!examAnsweredIds.includes(activeExamQuestion.id)) {
+        setExamAnsweredIds((current) => [...current, activeExamQuestion.id]);
+        setExamScore((score) => score + 1);
+        gainXp(XP_PER_ACTION.exam);
+      }
+      flashCard("correct");
+      playAudioFeedback("correct");
+    } else {
+      flashCard("wrong");
+      playAudioFeedback("wrong");
     }
   }
 
@@ -1793,6 +1888,22 @@ export default function Home() {
     );
   }
 
+  function nextExamQuestion() {
+    setExamChoice(null);
+    setExamLocked(false);
+
+    if (filteredExamQuestions.length === 0) {
+      return;
+    }
+
+    setExamIndex((current) =>
+      getRandomNextIndex(
+        filteredExamQuestions.length,
+        current % filteredExamQuestions.length,
+      ),
+    );
+  }
+
   function registerSolvedGrammarQuestion(questionId: string) {
     if (grammarSolvedIds.includes(questionId)) {
       return;
@@ -1839,13 +1950,18 @@ export default function Home() {
     setGrammarIndex(0);
     setGrammarScore(0);
     setGrammarSolvedIds([]);
+    setExamIndex(0);
+    setExamScore(0);
+    setExamChoice(null);
+    setExamLocked(false);
+    setExamAnsweredIds([]);
     setWritingStats({});
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(WRITING_STATS_KEY);
   }
 
   function runSurpriseSession() {
-    const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "writing", "browse"];
+    const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "exam", "writing", "browse"];
     const currentModeIndex = Math.max(0, candidateModes.indexOf(studyMode));
     const randomMode =
       candidateModes.length === 1
@@ -1855,6 +1971,8 @@ export default function Home() {
 
     if (randomMode === "grammar") {
       nextGrammarQuestion();
+    } else if (randomMode === "exam") {
+      nextExamQuestion();
     } else if (randomMode === "review" || randomMode === "quiz" || randomMode === "listening") {
       nextCard();
     }
@@ -2223,8 +2341,8 @@ export default function Home() {
             <Stat label={text.streak} value={`${streak} day${streak > 1 ? "s" : ""}`} />
             <Stat label={text.reviewed} value={`${reviewed}`} />
             <Stat
-              label={studyMode === "listening" ? text.listening : text.quiz}
-              value={studyMode === "listening" ? `${listeningScore}` : `${quizScore}`}
+              label={studyMode === "listening" ? text.listening : studyMode === "exam" ? modeLabels[language].exam : text.quiz}
+              value={studyMode === "listening" ? `${listeningScore}` : studyMode === "exam" ? `${examScore}` : `${quizScore}`}
             />
           </div>
           <div className="mt-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/70 px-4 py-3">
@@ -2241,12 +2359,12 @@ export default function Home() {
             <p className="mt-1 text-[11px] text-[var(--ink-soft)]">{nextLevelBase - xp} XP to next level</p>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
-            <Stat label={text.deck} value={`${filteredCards.length}`} />
+            <Stat label={text.deck} value={`${studyMode === "exam" ? filteredExamQuestions.length : filteredCards.length}`} />
             <Stat label={text.favorites} value={`${favoriteCount}`} />
             <Stat label={text.weakHits} value={`${weakWordTotal}`} />
             <Stat
-              label={studyMode === "grammar" ? text.grammar : text.mode}
-              value={studyMode === "grammar" ? `${grammarScore}` : modeLabels[language][studyMode]}
+              label={studyMode === "grammar" ? text.grammar : studyMode === "exam" ? modeLabels[language].exam : text.mode}
+              value={studyMode === "grammar" ? `${grammarScore}` : studyMode === "exam" ? `${safeExamIndex + 1}/${filteredExamQuestions.length || 0}` : modeLabels[language][studyMode]}
             />
           </div>
           <div className="mt-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/50 px-4 py-3">
@@ -2475,7 +2593,8 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => nextCard()}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                disabled={!quizLocked || !activeCard}
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.next}
               </button>
@@ -2578,7 +2697,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={nextListeningQuestion}
-                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                  disabled={!listeningLocked || (listeningQuestionType === "vocabulary" ? !activeCard : !activeListeningGrammarQuestion)}
+                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {text.next}
                 </button>
@@ -2765,7 +2885,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={nextGrammarQuestion}
-                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                  disabled={!activeGrammarQuestion || !grammarSolvedIds.includes(activeGrammarQuestion.id)}
+                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {text.next}
                 </button>
@@ -2795,6 +2916,88 @@ export default function Home() {
               </>
             ) : (
               <EmptyDeckState title={text.noMatchingCards} message={text.noGrammarMatches} />
+            )}
+          </article>
+        ) : null}
+
+        {studyLevel !== null && studyMode === "exam" ? (
+          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.examTitle}</h2>
+              <button
+                type="button"
+                onClick={nextExamQuestion}
+                disabled={!examLocked || !activeExamQuestion}
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {text.next}
+              </button>
+            </div>
+
+            <p className="mb-3 text-sm text-[var(--ink-soft)]">{text.examInstruction}</p>
+
+            {activeExamQuestion ? (
+              <>
+                <p className="mb-3 text-sm text-[var(--ink-soft)]">
+                  {text.score}: {examScore} - {text.question} {safeExamIndex + 1}/{filteredExamQuestions.length}
+                </p>
+                <div className="rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/60 px-4 py-5">
+                  <p className="text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">JLPT</p>
+                  <p className="mt-3 text-lg leading-relaxed text-[var(--foreground)] sm:text-xl">
+                    {activeExamQuestion.before}
+                    <span className="underline decoration-2 decoration-[var(--brand)] underline-offset-4">
+                      {activeExamQuestion.target}
+                    </span>
+                    {activeExamQuestion.after}
+                  </p>
+                  <p className="mt-3 text-sm font-semibold text-[var(--foreground)]">{text.examQuestionPrompt}</p>
+                  <p className="mt-1 text-xs text-[var(--ink-soft)]">{activeExamQuestion.translation}</p>
+                </div>
+
+                <div className="mt-4 grid gap-2">
+                  {activeExamQuestion.choices.map((option, optionIndex) => {
+                    const selected = examChoice === option;
+                    const correct = option === activeExamQuestion.reading;
+                    let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+
+                    if (examLocked) {
+                      if (selected && !correct) {
+                        selectedStyle = "border-rose-600 bg-rose-100";
+                      } else if (correct) {
+                        selectedStyle = "border-emerald-600 bg-emerald-100";
+                      }
+                    }
+
+                    return (
+                      <button
+                        key={`${option}-${optionIndex}`}
+                        type="button"
+                        onClick={() => chooseExamAnswer(option)}
+                        disabled={examLocked}
+                        className={`rounded-xl border px-3 py-3 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
+                      >
+                        <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-current/20 text-xs font-semibold">
+                          {String.fromCharCode(65 + optionIndex)}
+                        </span>
+                        {option}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {examLocked ? (
+                  <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
+                    <p className="font-semibold text-[var(--foreground)]">
+                      {examChoice === activeExamQuestion.reading
+                        ? text.listeningCorrect
+                        : `${text.examCorrect}: ${activeExamQuestion.reading}`}
+                    </p>
+                    <p className="mt-1">{text.examReadingLabel}: {activeExamQuestion.explanation}</p>
+                  </div>
+                ) : null}
+              </>
+            ) : (
+              <EmptyDeckState title={text.noMatchingCards} message={text.noExamMatches} />
             )}
           </article>
         ) : null}
@@ -3668,7 +3871,8 @@ function WritingPractice({
         <button
           type="button"
           onClick={nextCharacter}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+          disabled={similarity === null}
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {text.writingNext}
         </button>

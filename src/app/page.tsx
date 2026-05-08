@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   vocabularyCards,
@@ -965,6 +966,7 @@ function playAudioFeedback(type: "correct" | "wrong" | "levelup"): void {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [language, setLanguage] = useState<Language>("id");
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
   const [cardIndex, setCardIndex] = useState(0);
@@ -1961,7 +1963,7 @@ export default function Home() {
   }
 
   function runSurpriseSession() {
-    const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "exam", "writing", "browse"];
+    const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "writing", "browse"];
     const currentModeIndex = Math.max(0, candidateModes.indexOf(studyMode));
     const randomMode =
       candidateModes.length === 1
@@ -2415,6 +2417,12 @@ export default function Home() {
                   key={mode}
                   type="button"
                   onClick={() => {
+                    if (mode === "exam") {
+                      const levelQuery = studyLevel ? `?level=${studyLevel}` : "";
+                      router.push(`/exam${levelQuery}`);
+                      return;
+                    }
+
                     setStudyMode(mode);
                     if (studyLevel === null) {
                       setAppStatus(text.chooseLevelHint);

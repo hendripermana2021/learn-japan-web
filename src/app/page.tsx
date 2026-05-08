@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -55,6 +55,8 @@ const SETTINGS_KEY = "learn-japan-settings-v1";
 const FAVORITES_KEY = "learn-japan-favorites-v1";
 const WEAK_WORDS_KEY = "learn-japan-weak-words-v1";
 const WRITING_STATS_KEY = "learn-japan-writing-stats-v1";
+const ACHIEVEMENTS_KEY = "learn-japan-achievements-v1";
+const QUEST_REWARD_DAY_KEY = "learn-japan-quest-reward-day-v1";
 const quizModes = ["meaning", "kana"] as const;
 const listeningDifficulties = ["easy", "medium", "hard"] as const;
 const listeningQuestionTypes = ["vocabulary", "grammar"] as const;
@@ -90,7 +92,45 @@ type PersistedState = {
   listeningScore: number;
   writingScore: number;
   streak: number;
+  xp: number;
 };
+
+type XpBadge = { id: number; amount: number };
+type AchievementId = "xp100" | "streak7" | "grammar25" | "listener10";
+type AchievementTier = "none" | "bronze" | "silver" | "gold";
+type DailyQuestProfile = {
+  reviewTarget: number;
+  comboTarget: number;
+  grammarTarget: number;
+};
+
+const dailyQuestProfiles: DailyQuestProfile[] = [
+  { reviewTarget: 8, comboTarget: 3, grammarTarget: 3 },
+  { reviewTarget: 10, comboTarget: 4, grammarTarget: 2 },
+  { reviewTarget: 6, comboTarget: 5, grammarTarget: 4 },
+];
+
+function getQuestProfileForDate(dayKey: string): DailyQuestProfile {
+  const seed = dayKey.split("").reduce((total, char) => total + char.charCodeAt(0), 0);
+  return dailyQuestProfiles[seed % dailyQuestProfiles.length];
+}
+
+function getAchievementTier(value: number, bronze: number, silver: number, gold: number): AchievementTier {
+  if (value >= gold) {
+    return "gold";
+  }
+
+  if (value >= silver) {
+    return "silver";
+  }
+
+  if (value >= bronze) {
+    return "bronze";
+  }
+
+  return "none";
+}
+
 
 type PersistedSettings = {
   reminderHour: number;
@@ -349,6 +389,23 @@ const uiCopy = {
     challengeRemaining: "points left today",
     challengeComplete: "completed today",
     challengeGoal: "Daily goal",
+    dailyQuestsTitle: "Daily Quests",
+    questReview: "Review cards",
+    questCombo: "Reach combo",
+    questGrammar: "Solve grammar questions",
+    questReward: "Quest reward",
+    questRewardClaimed: "Claimed today",
+    questDone: "done",
+    achievementsTitle: "Achievements",
+    achievementUnlockedPrefix: "Achievement unlocked",
+    achievementXp100: "First 100 XP",
+    achievementStreak7: "7-Day Streak",
+    achievementGrammar25: "Grammar Adept",
+    achievementListener10: "Listening Momentum",
+    rarityBronze: "Bronze",
+    raritySilver: "Silver",
+    rarityGold: "Gold",
+    comboMultiplier: "Multiplier",
     noFavorites: "No favorite cards yet.",
     noWeakWords: "No weak words recorded yet.",
     misses: "misses",
@@ -485,6 +542,23 @@ const uiCopy = {
     challengeRemaining: "poin lagi hari ini",
     challengeComplete: "selesai hari ini",
     challengeGoal: "Target harian",
+    dailyQuestsTitle: "Quest Harian",
+    questReview: "Review kartu",
+    questCombo: "Capai combo",
+    questGrammar: "Selesaikan soal grammar",
+    questReward: "Hadiah quest",
+    questRewardClaimed: "Sudah diklaim hari ini",
+    questDone: "selesai",
+    achievementsTitle: "Pencapaian",
+    achievementUnlockedPrefix: "Pencapaian terbuka",
+    achievementXp100: "100 XP Pertama",
+    achievementStreak7: "Streak 7 Hari",
+    achievementGrammar25: "Ahli Grammar",
+    achievementListener10: "Momentum Listening",
+    rarityBronze: "Perunggu",
+    raritySilver: "Perak",
+    rarityGold: "Emas",
+    comboMultiplier: "Pengganda",
     noFavorites: "Belum ada kartu favorit.",
     noWeakWords: "Belum ada kata lemah tercatat.",
     misses: "salah",
@@ -759,6 +833,64 @@ function getCardEmoji(card: { kanji: string; kana: string }): string {
   return cardEmojiMap[card.kanji] ?? cardEmojiMap[card.kana] ?? "📝";
 }
 
+/* XP & Level */
+function getLevel(xp: number): number {
+  return Math.floor(Math.sqrt(xp / 50)) + 1;
+}
+
+function xpForLevel(level: number): number {
+  return 50 * (level - 1) ** 2;
+}
+
+function playAudioFeedback(type: "correct" | "wrong" | "levelup"): void {
+  if (typeof window === "undefined") return;
+  try {
+    const ctx = new AudioContext();
+    const masterGain = ctx.createGain();
+    masterGain.connect(ctx.destination);
+
+    if (type === "correct") {
+      [523, 659, 784].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.09;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.22, t + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
+        osc.start(t); osc.stop(t + 0.4);
+      });
+    } else if (type === "wrong") {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.connect(g); g.connect(masterGain);
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(200, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(130, ctx.currentTime + 0.28);
+      g.gain.setValueAtTime(0.14, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.32);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.35);
+    } else {
+      [523, 659, 784, 1047].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.connect(g); g.connect(masterGain);
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.12;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.28, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+        osc.start(t); osc.stop(t + 0.6);
+      });
+    }
+  } catch {
+    // AudioContext blocked or unavailable
+  }
+}
+
 export default function Home() {
   const [language, setLanguage] = useState<Language>("id");
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
@@ -779,6 +911,13 @@ export default function Home() {
   const [writingScript, setWritingScript] = useState<WritingScript>("hiragana");
   const [streak, setStreak] = useState(1);
   const [quizChoice, setQuizChoice] = useState<string | null>(null);
+  const [xp, setXp] = useState(0);
+  const [cardFlash, setCardFlash] = useState<"correct" | "wrong" | null>(null);
+  const [xpBadges, setXpBadges] = useState<XpBadge[]>([]);
+  const [levelUpMsg, setLevelUpMsg] = useState<number | null>(null);
+  const [achievementsUnlocked, setAchievementsUnlocked] = useState<AchievementId[]>([]);
+  const [questRewardDay, setQuestRewardDay] = useState("");
+  const xpBadgeKeyRef = useRef(0);
   const [quizLocked, setQuizLocked] = useState(false);
   const [listeningChoice, setListeningChoice] = useState<string | null>(null);
   const [listeningLocked, setListeningLocked] = useState(false);
@@ -831,6 +970,9 @@ export default function Home() {
           if (typeof parsedState.streak === "number") {
             setStreak(parsedState.streak);
           }
+          if (typeof parsedState.xp === "number") {
+            setXp(parsedState.xp);
+          }
         }
 
         const rawSettings = localStorage.getItem(SETTINGS_KEY);
@@ -870,6 +1012,16 @@ export default function Home() {
         const rawWritingStats = localStorage.getItem(WRITING_STATS_KEY);
         if (rawWritingStats) {
           setWritingStats(JSON.parse(rawWritingStats) as Record<string, WritingStat>);
+        }
+
+        const rawAchievements = localStorage.getItem(ACHIEVEMENTS_KEY);
+        if (rawAchievements) {
+          setAchievementsUnlocked(JSON.parse(rawAchievements) as AchievementId[]);
+        }
+
+        const rawQuestRewardDay = localStorage.getItem(QUEST_REWARD_DAY_KEY);
+        if (rawQuestRewardDay) {
+          setQuestRewardDay(rawQuestRewardDay);
         }
 
         if ("Notification" in window) {
@@ -1124,6 +1276,73 @@ export default function Home() {
   );
   const challengeRemaining = Math.max(0, dailyChallengeTarget - dailyChallengePoints);
   const topWeakCard = weakCards[0] ?? null;
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const level = getLevel(xp);
+  const currentLevelBase = xpForLevel(level);
+  const nextLevelBase = xpForLevel(level + 1);
+  const levelProgress = Math.min(
+    100,
+    Math.round(((xp - currentLevelBase) / Math.max(1, nextLevelBase - currentLevelBase)) * 100),
+  );
+  const cardFlashClass =
+    cardFlash === "correct"
+      ? "animate-card-pop"
+      : cardFlash === "wrong"
+        ? "animate-card-shake"
+        : "";
+  const comboMultiplier = 1 + Math.min(3, Math.floor(listeningCombo / 3)) * 0.25;
+  const questProfile = getQuestProfileForDate(todayKey);
+  const dailyQuestRewardXp =
+    20 + questProfile.reviewTarget + questProfile.comboTarget * 4 + questProfile.grammarTarget * 5;
+  const dailyQuests = [
+    {
+      id: "review" as const,
+      label: `${text.questReview} ${questProfile.reviewTarget}`,
+      progress: Math.min(reviewed, questProfile.reviewTarget),
+      target: questProfile.reviewTarget,
+    },
+    {
+      id: "combo" as const,
+      label: `${text.questCombo} x${questProfile.comboTarget}`,
+      progress: Math.min(bestListeningCombo, questProfile.comboTarget),
+      target: questProfile.comboTarget,
+    },
+    {
+      id: "grammar" as const,
+      label: `${text.questGrammar} ${questProfile.grammarTarget}`,
+      progress: Math.min(grammarScore, questProfile.grammarTarget),
+      target: questProfile.grammarTarget,
+    },
+  ];
+  const completedDailyQuestCount = dailyQuests.filter((quest) => quest.progress >= quest.target).length;
+  const allDailyQuestsDone = completedDailyQuestCount === dailyQuests.length;
+  const achievementCatalog = [
+    {
+      id: "xp100" as const,
+      label: text.achievementXp100,
+      tier: getAchievementTier(xp, 100, 300, 700),
+    },
+    {
+      id: "streak7" as const,
+      label: text.achievementStreak7,
+      tier: getAchievementTier(streak, 7, 14, 30),
+    },
+    {
+      id: "grammar25" as const,
+      label: text.achievementGrammar25,
+      tier: getAchievementTier(grammarScore, 25, 60, 120),
+    },
+    {
+      id: "listener10" as const,
+      label: text.achievementListener10,
+      tier: getAchievementTier(bestListeningCombo, 10, 20, 35),
+    },
+  ];
+  const tierLabels: Record<Exclude<AchievementTier, "none">, string> = {
+    bronze: text.rarityBronze,
+    silver: text.raritySilver,
+    gold: text.rarityGold,
+  };
 
   useEffect(() => {
     if (!storageReady) {
@@ -1137,9 +1356,13 @@ export default function Home() {
       listeningScore,
       writingScore,
       streak,
+      xp,
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [cardIndex, listeningScore, quizScore, reviewed, storageReady, streak, writingScore]);
+  }, [cardIndex, listeningScore, quizScore, reviewed, storageReady, streak, writingScore, xp]);
+
+
+
 
   useEffect(() => {
     if (!storageReady) {
@@ -1179,6 +1402,22 @@ export default function Home() {
 
     localStorage.setItem(WRITING_STATS_KEY, JSON.stringify(writingStats));
   }, [storageReady, writingStats]);
+
+  useEffect(() => {
+    if (!storageReady) {
+      return;
+    }
+
+    localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify(achievementsUnlocked));
+  }, [achievementsUnlocked, storageReady]);
+
+  useEffect(() => {
+    if (!storageReady) {
+      return;
+    }
+
+    localStorage.setItem(QUEST_REWARD_DAY_KEY, questRewardDay);
+  }, [questRewardDay, storageReady]);
 
   useEffect(() => {
     if (typeof window === "undefined" || !remindersEnabled) {
@@ -1249,10 +1488,77 @@ export default function Home() {
     );
   }
 
+  const XP_PER_ACTION = { review: 5, quiz: 10, listening: 8, grammar: 12, writing: 15 } as const;
+
+  function unlockAchievement(id: AchievementId, label: string, rewardXp = 20) {
+    if (achievementsUnlocked.includes(id)) {
+      return;
+    }
+
+    setAchievementsUnlocked((current) => (current.includes(id) ? current : [...current, id]));
+    if (rewardXp > 0) {
+      gainXp(rewardXp);
+      setAppStatus(`${text.achievementUnlockedPrefix}: ${label} (+${rewardXp} XP)`);
+      return;
+    }
+
+    setAppStatus(`${text.achievementUnlockedPrefix}: ${label}`);
+  }
+
+  function tryGrantDailyQuestReward(
+    nextReviewed: number,
+    nextBestCombo: number,
+    nextGrammarScore: number,
+  ) {
+    const allDone =
+      nextReviewed >= questProfile.reviewTarget &&
+      nextBestCombo >= questProfile.comboTarget &&
+      nextGrammarScore >= questProfile.grammarTarget;
+    if (!allDone || questRewardDay === todayKey) {
+      return;
+    }
+
+    const bonusXp = dailyQuestRewardXp;
+    gainXp(bonusXp);
+    setQuestRewardDay(todayKey);
+    setAppStatus(`${text.questReward}: +${bonusXp} XP`);
+  }
+
+  function gainXp(amount: number) {
+    const unlockXpAchievement =
+      xp < 100 && xp + amount >= 100 && !achievementsUnlocked.includes("xp100");
+
+    setXp((prev) => {
+      const next = prev + amount;
+      if (getLevel(next) > getLevel(prev)) {
+        const lvl = getLevel(next);
+        setLevelUpMsg(lvl);
+        playAudioFeedback("levelup");
+        setTimeout(() => setLevelUpMsg(null), 2600);
+      }
+      return next;
+    });
+    const id = ++xpBadgeKeyRef.current;
+    setXpBadges((prev) => [...prev, { id, amount }]);
+    setTimeout(() => setXpBadges((prev) => prev.filter((b) => b.id !== id)), 900);
+
+    if (unlockXpAchievement) {
+      unlockAchievement("xp100", text.achievementXp100, 0);
+    }
+  }
+
+  function flashCard(type: "correct" | "wrong") {
+    setCardFlash(type);
+    setTimeout(() => setCardFlash(null), 520);
+  }
+
   function rateCard(rating: string) {
     if (!activeCardId) {
       return;
     }
+
+    const nextReviewed = reviewed + 1;
+    const nextStreak = rating !== "Again" ? streak + 1 : 1;
 
     setReviewed((count) => count + 1);
     if (rating !== "Again") {
@@ -1263,6 +1569,19 @@ export default function Home() {
         ...current,
         [activeCardId]: (current[activeCardId] ?? 0) + 1,
       }));
+    }
+    if (rating !== "Again") {
+      gainXp(XP_PER_ACTION.review);
+      flashCard("correct");
+      playAudioFeedback("correct");
+    } else {
+      flashCard("wrong");
+      playAudioFeedback("wrong");
+    }
+
+    tryGrantDailyQuestReward(nextReviewed, bestListeningCombo, grammarScore);
+    if (nextStreak >= 7) {
+      unlockAchievement("streak7", text.achievementStreak7);
     }
 
     const nextSeen: Record<string, true> = {
@@ -1283,11 +1602,18 @@ export default function Home() {
     const correctAnswer = quizMode === "meaning" ? activeCard.meaning : activeCard.kana;
     if (option === correctAnswer) {
       setQuizScore((score) => score + 1);
-    } else if (activeCardId) {
-      setWeakWordCounts((current) => ({
-        ...current,
-        [activeCardId]: (current[activeCardId] ?? 0) + 1,
-      }));
+      gainXp(XP_PER_ACTION.quiz);
+      flashCard("correct");
+      playAudioFeedback("correct");
+    } else {
+      flashCard("wrong");
+      playAudioFeedback("wrong");
+      if (activeCardId) {
+        setWeakWordCounts((current) => ({
+          ...current,
+          [activeCardId]: (current[activeCardId] ?? 0) + 1,
+        }));
+      }
     }
   }
 
@@ -1343,19 +1669,32 @@ export default function Home() {
 
     if (option === correctOption) {
       const nextCombo = listeningCombo + 1;
+      const nextBestCombo = Math.max(bestListeningCombo, nextCombo);
       const comboBonus = Math.min(nextCombo - 1, 2);
       setListeningCombo(nextCombo);
       setBestListeningCombo((current) => Math.max(current, nextCombo));
       const basePoints = isVocabulary ? pointsByDifficulty[listeningDifficulty] : 2;
       setListeningScore((score) => score + basePoints + comboBonus);
+      const comboXp = Math.round((XP_PER_ACTION.listening + comboBonus) * comboMultiplier);
+      gainXp(comboXp);
+      flashCard("correct");
+      playAudioFeedback("correct");
+      tryGrantDailyQuestReward(reviewed, nextBestCombo, grammarScore);
+      if (nextBestCombo >= 10) {
+        unlockAchievement("listener10", text.achievementListener10);
+      }
     } else if (isVocabulary && activeCardId) {
       setListeningCombo(0);
+      flashCard("wrong");
+      playAudioFeedback("wrong");
       setWeakWordCounts((current) => ({
         ...current,
         [activeCardId]: (current[activeCardId] ?? 0) + 1,
       }));
     } else {
       setListeningCombo(0);
+      flashCard("wrong");
+      playAudioFeedback("wrong");
     }
   }
 
@@ -1412,8 +1751,16 @@ export default function Home() {
       return;
     }
 
+    const nextGrammarScore = grammarScore + 1;
     setGrammarSolvedIds((current) => [...current, questionId]);
     setGrammarScore((score) => score + 1);
+    gainXp(XP_PER_ACTION.grammar);
+    flashCard("correct");
+    playAudioFeedback("correct");
+    tryGrantDailyQuestReward(reviewed, bestListeningCombo, nextGrammarScore);
+    if (nextGrammarScore >= 25) {
+      unlockAchievement("grammar25", text.achievementGrammar25);
+    }
   }
 
   function toggleFavorite(card: VocabularyCard) {
@@ -1433,6 +1780,7 @@ export default function Home() {
     setListeningScore(0);
     setWritingScore(0);
     setStreak(1);
+    setXp(0);
     setQuizChoice(null);
     setQuizLocked(false);
     setListeningChoice(null);
@@ -1498,8 +1846,15 @@ export default function Home() {
   }
 
   function registerWritingSuccess() {
+    const nextStreak = streak + 1;
     setWritingScore((score) => score + 1);
     setStreak((value) => value + 1);
+    gainXp(XP_PER_ACTION.writing);
+    flashCard("correct");
+    playAudioFeedback("correct");
+    if (nextStreak >= 7) {
+      unlockAchievement("streak7", text.achievementStreak7);
+    }
   }
 
   function handleHeroPointerMove(event: React.MouseEvent<HTMLDivElement>) {
@@ -1562,7 +1917,24 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[2fr_1fr] lg:gap-8">
+    <main className="relative mx-auto flex w-full max-w-[1200px] flex-1 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[2fr_1fr] lg:gap-8">
+      {xpBadges.map((badge) => (
+        <div
+          key={badge.id}
+          className="pointer-events-none absolute top-5 left-1/2 z-30 -translate-x-1/2 rounded-full border border-emerald-300/50 bg-emerald-200/85 px-3 py-1 text-xs font-semibold text-emerald-900 backdrop-blur-sm animate-xp-float"
+        >
+          +{badge.amount} XP
+        </div>
+      ))}
+      {levelUpMsg !== null ? (
+        <div className="pointer-events-none fixed inset-0 z-50">
+          <div className="absolute top-1/2 left-1/2 w-[min(88vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-[var(--brand)]/40 bg-[var(--paper)]/92 p-6 text-center shadow-[0_24px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-md animate-level-up">
+            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">Level Up</p>
+            <p className="mt-2 text-4xl font-semibold text-[var(--foreground)]">Lv {levelUpMsg}</p>
+            <p className="mt-2 text-sm text-[var(--ink-soft)]">Great streak. Keep the momentum.</p>
+          </div>
+        </div>
+      ) : null}
       <section className="space-y-4 lg:space-y-7">
         <header className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -1586,7 +1958,7 @@ export default function Home() {
             {text.heroBody}
           </p>
           <div
-            className="apple-hero-parallax mt-5 grid gap-3 xl:grid-cols-[1.25fr_0.95fr]"
+            className="apple-hero-parallax mt-5 grid items-start gap-3 xl:grid-cols-[1.25fr_0.95fr]"
             style={{
               ["--hero-tilt-x" as string]: `${heroTilt.x}deg`,
               ["--hero-tilt-y" as string]: `${heroTilt.y}deg`,
@@ -1594,7 +1966,7 @@ export default function Home() {
             onMouseMove={handleHeroPointerMove}
             onMouseLeave={resetHeroTilt}
           >
-            <section className="apple-sheen apple-hero-layer hero-rise apple-float apple-subtle-card rounded-3xl bg-[var(--surface-panel-soft)] p-4 backdrop-blur-sm">
+            <section className="apple-sheen apple-hero-layer hero-rise apple-float apple-subtle-card self-start rounded-3xl bg-[var(--surface-panel-soft)] p-4 backdrop-blur-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
@@ -1634,7 +2006,7 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="apple-sheen apple-hero-layer hero-rise-delay apple-float apple-subtle-card rounded-3xl bg-[var(--surface-panel)] p-4 backdrop-blur-sm">
+            <section className="apple-sheen apple-hero-layer hero-rise-delay apple-float apple-subtle-card self-start rounded-3xl bg-[var(--surface-panel)] p-4 backdrop-blur-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
                 {text.challengeTitle}
               </p>
@@ -1667,6 +2039,79 @@ export default function Home() {
                 <ProgressChip label={text.listening} value={`${listeningScore}`} />
                 <ProgressChip label={text.grammar} value={`${grammarScore}`} />
                 <ProgressChip label={text.writingTitle} value={`${writingScore}`} />
+              </div>
+              <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                    {text.dailyQuestsTitle}
+                  </p>
+                  <p className="text-xs font-semibold text-[var(--foreground)]">
+                    {completedDailyQuestCount}/{dailyQuests.length}
+                  </p>
+                </div>
+                <div className="mt-3 space-y-2">
+                  {dailyQuests.map((quest) => {
+                    const done = quest.progress >= quest.target;
+                    const percent = Math.round((quest.progress / quest.target) * 100);
+
+                    return (
+                      <div key={quest.id} className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] px-3 py-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-xs font-medium text-[var(--foreground)]">{quest.label}</p>
+                          <p className="text-[11px] font-semibold text-[var(--ink-soft)]">
+                            {quest.progress}/{quest.target}
+                          </p>
+                        </div>
+                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[var(--surface-panel-strong)]">
+                          <div
+                            className="h-full rounded-full bg-[linear-gradient(90deg,var(--brand),var(--accent))] transition-all duration-500"
+                            style={{ width: `${percent}%` }}
+                          />
+                        </div>
+                        {done ? (
+                          <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-600">
+                            {text.questDone}
+                          </p>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="mt-2 text-[11px] text-[var(--ink-soft)]">
+                  {allDailyQuestsDone && questRewardDay === todayKey
+                    ? text.questRewardClaimed
+                    : `${text.questReward}: +${dailyQuestRewardXp} XP`}
+                </p>
+              </div>
+              <div className="mt-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                  {text.achievementsTitle}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {achievementCatalog.map((achievement) => {
+                    const unlocked = achievementsUnlocked.includes(achievement.id);
+                    const tier = achievement.tier;
+                    const tierLabel = tier === "none" ? null : tierLabels[tier];
+                    const rarityClass =
+                      tier === "gold"
+                        ? "border-amber-500/70 bg-amber-100 text-amber-900"
+                        : tier === "silver"
+                          ? "border-slate-400/70 bg-slate-100 text-slate-800"
+                          : tier === "bronze"
+                            ? "border-orange-400/70 bg-orange-100 text-orange-900"
+                            : "border-[var(--border-subtle)] bg-[var(--surface-panel)] text-[var(--ink-soft)]";
+
+                    return (
+                      <span
+                        key={achievement.id}
+                        className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${rarityClass} ${unlocked ? "ring-1 ring-emerald-400/35" : ""}`}
+                      >
+                        {achievement.label}
+                        {tierLabel ? ` • ${tierLabel}` : ""}
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
             </section>
           </div>
@@ -1724,6 +2169,19 @@ export default function Home() {
               label={studyMode === "listening" ? text.listening : text.quiz}
               value={studyMode === "listening" ? `${listeningScore}` : `${quizScore}`}
             />
+          </div>
+          <div className="mt-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/70 px-4 py-3">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">Level {level}</p>
+              <p className="text-sm font-semibold text-[var(--foreground)]">{xp} XP</p>
+            </div>
+            <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[var(--surface-panel-strong)]">
+              <div
+                className="h-full rounded-full bg-[linear-gradient(90deg,#f2994a,#f2c94c,#6fcf97)] transition-all duration-500"
+                style={{ width: `${levelProgress}%` }}
+              />
+            </div>
+            <p className="mt-1 text-[11px] text-[var(--ink-soft)]">{nextLevelBase - xp} XP to next level</p>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
             <Stat label={text.deck} value={`${filteredCards.length}`} />
@@ -1820,7 +2278,7 @@ export default function Home() {
         </header>
 
         {studyMode === "review" ? (
-          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.reviewTitle}</h2>
             <p className="text-sm text-[var(--ink-soft)]">
@@ -1890,7 +2348,7 @@ export default function Home() {
         ) : null}
 
         {studyMode === "quiz" ? (
-          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.quickQuiz}</h2>
             <div className="flex gap-2">
@@ -1967,7 +2425,7 @@ export default function Home() {
         ) : null}
 
         {studyMode === "listening" ? (
-          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.listeningTitle}</h2>
               <div className="flex gap-2">
@@ -2041,9 +2499,14 @@ export default function Home() {
                   ) : null}
                 </div>
 
-                <div className="mb-3 grid grid-cols-2 gap-2">
+                <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                   <ProgressChip label={text.listeningCombo} value={`${listeningCombo}`} />
                   <ProgressChip label={text.bestCombo} value={`${bestListeningCombo}`} />
+                  <ProgressChip
+                    label={text.comboMultiplier}
+                    value={`${comboMultiplier.toFixed(2)}x`}
+                    active={comboMultiplier > 1}
+                  />
                 </div>
 
                 {listeningDifficulty === "hard" ? (
@@ -2104,7 +2567,7 @@ export default function Home() {
                     </p>
                     <p className="mt-1">
                       {text.japanese}: {activeCard.kana}
-                      {activeCard.kanji ? ` • ${activeCard.kanji}` : ""}
+                      {activeCard.kanji ? ` - ${activeCard.kanji}` : ""}
                     </p>
                   </div>
                 ) : null}
@@ -2119,9 +2582,14 @@ export default function Home() {
                   <p className="mt-2 text-sm font-semibold text-[var(--foreground)]">{text.listeningMeaningQuestion}</p>
                   <p className="mt-1 text-xs text-[var(--ink-soft)]">{activeListeningGrammarQuestion.prompt}</p>
                 </div>
-                <div className="mb-3 grid grid-cols-2 gap-2">
+                <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                   <ProgressChip label={text.listeningCombo} value={`${listeningCombo}`} />
                   <ProgressChip label={text.bestCombo} value={`${bestListeningCombo}`} />
+                  <ProgressChip
+                    label={text.comboMultiplier}
+                    value={`${comboMultiplier.toFixed(2)}x`}
+                    active={comboMultiplier > 1}
+                  />
                 </div>
                 <div className="grid gap-2">
                   {listeningGrammarOptions.map((option, optionIndex) => {
@@ -2158,7 +2626,7 @@ export default function Home() {
                         : `${text.correctAnswer}: ${activeListeningGrammarQuestion.translation}`}
                     </p>
                     <p className="mt-1">
-                      {text.japanese}: {activeListeningGrammarQuestion.sentence} • {activeListeningGrammarQuestion.translation}
+                      {text.japanese}: {activeListeningGrammarQuestion.sentence} - {activeListeningGrammarQuestion.translation}
                     </p>
                   </div>
                 ) : null}
@@ -2199,7 +2667,7 @@ export default function Home() {
             </div>
 
             <p className="mb-3 text-sm text-[var(--ink-soft)]">
-              {text.score}: {grammarScore} • {text.question} {safeGrammarIndex + 1}/{filteredGrammarQuestions.length}
+              {text.score}: {grammarScore} - {text.question} {safeGrammarIndex + 1}/{filteredGrammarQuestions.length}
             </p>
 
             {activeGrammarQuestion ? (
@@ -2320,7 +2788,7 @@ export default function Home() {
                       <div>
                         <p className="text-3xl select-none" aria-hidden="true">{getCardEmoji(card)}</p>
                         <p className="text-2xl font-semibold text-[var(--foreground)]">{card.kanji}</p>
-                        <p className="text-sm text-[var(--ink-soft)]">{card.kana} • {card.romaji}</p>
+                        <p className="text-sm text-[var(--ink-soft)]">{card.kana} - {card.romaji}</p>
                       </div>
                       <span className="rounded-full bg-[var(--brand-soft)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
                         {categoryLabels[language][card.category]}
@@ -2416,7 +2884,7 @@ export default function Home() {
                 <ul className="mt-2 space-y-2">
                   {favoriteCards.map((card) => (
                     <li key={getCardId(card)} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
-                      {card.kanji} • {card.meaning}
+                      {card.kanji} - {card.meaning}
                     </li>
                   ))}
                 </ul>
@@ -2431,7 +2899,7 @@ export default function Home() {
                 <ul className="mt-2 space-y-2">
                   {weakCards.map((card) => (
                     <li key={getCardId(card)} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
-                      {card.kanji} • {card.meaning} • {text.misses} {weakWordCounts[getCardId(card)]}
+                      {card.kanji} - {card.meaning} - {text.misses} {weakWordCounts[getCardId(card)]}
                     </li>
                   ))}
                 </ul>
@@ -2457,7 +2925,7 @@ export default function Home() {
                           </span>
                         </div>
                         <p className="mt-1 text-xs text-[var(--ink-soft)]">
-                          {accuracy}% {text.writingAccuracy} • {stat.attempts} {text.writingAttempts}
+                          {accuracy}% {text.writingAccuracy} - {stat.attempts} {text.writingAttempts}
                         </p>
                       </li>
                     );
@@ -2514,9 +2982,19 @@ function QuickActionCard({
   );
 }
 
-function ProgressChip({ label, value }: { label: string; value: string }) {
+function ProgressChip({
+  label,
+  value,
+  active = false,
+}: {
+  label: string;
+  value: string;
+  active?: boolean;
+}) {
   return (
-    <div className="apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-left transition duration-300 hover:border-[var(--brand)]/25">
+    <div
+      className={`apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-left transition duration-300 hover:border-[var(--brand)]/25 ${active ? "combo-spark" : ""}`}
+    >
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
         {label}
       </p>

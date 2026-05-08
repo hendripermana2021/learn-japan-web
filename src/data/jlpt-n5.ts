@@ -10,6 +10,8 @@ export type VocabularyCategory =
   | "time"
   | "verb";
 
+export type VocabularyLevel = "N5" | "N4";
+
 export type VocabularyCard = {
   kana: string;
   kanji: string;
@@ -18,6 +20,7 @@ export type VocabularyCard = {
   example: string;
   translation: string;
   category: VocabularyCategory;
+  level?: VocabularyLevel;
 };
 
 export const jlptN5Cards = cards as VocabularyCard[];

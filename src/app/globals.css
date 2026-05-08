@@ -22,6 +22,10 @@
   --glass-shadow-strong: 0 26px 60px -36px rgba(12, 32, 22, 0.46);
   --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.82);
   --glass-outline: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  --motion-fast: 180ms;
+  --motion-base: 260ms;
+  --motion-slow: 420ms;
+  --motion-spring: cubic-bezier(0.22, 1, 0.36, 1);
   --font-body: "Aptos", "Segoe UI Variable Text", "Yu Gothic UI", "Hiragino Sans",
     "Meiryo", sans-serif;
   --font-heading: "Aptos Display", "Bahnschrift", "Segoe UI Variable Display",
@@ -157,15 +161,32 @@ textarea {
 
 button {
   transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    background-color 220ms ease,
-    border-color 220ms ease,
-    opacity 220ms ease;
+    transform var(--motion-fast) var(--motion-spring),
+    box-shadow var(--motion-fast) var(--motion-spring),
+    background-color var(--motion-fast) var(--motion-spring),
+    border-color var(--motion-fast) var(--motion-spring),
+    opacity var(--motion-fast) var(--motion-spring);
 }
 
 button:hover {
   box-shadow: var(--glass-shadow-strong);
+}
+
+button:active {
+  transform: translateY(0.5px) scale(0.985);
+  box-shadow:
+    0 8px 18px -14px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--brand) 48%, transparent),
+    0 12px 26px -18px color-mix(in srgb, var(--brand) 36%, transparent);
 }
 
 h1,
@@ -203,8 +224,24 @@ h3,
   }
 }
 
+@keyframes glass-sheen {
+  from {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.28;
+  }
+
+  to {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+}
+
 .hero-rise {
-  animation: rise-in 420ms ease-out both;
+  animation: rise-in var(--motion-slow) ease-out both;
 }
 
 .hero-rise-delay {
@@ -215,10 +252,117 @@ h3,
   animation: pulse-glow 3.2s ease-in-out infinite;
 }
 
+.apple-float {
+  transform: translateZ(0);
+  transition:
+    transform var(--motion-base) var(--motion-spring),
+    box-shadow var(--motion-base) var(--motion-spring),
+    border-color var(--motion-base) var(--motion-spring);
+}
+
+.apple-float:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glass-shadow-strong), var(--glass-highlight), var(--glass-outline);
+}
+
+.apple-hero-parallax {
+  transform-style: preserve-3d;
+  transform: perspective(1100px) rotateX(var(--hero-tilt-x, 0deg)) rotateY(var(--hero-tilt-y, 0deg));
+  transition: transform var(--motion-base) var(--motion-spring);
+}
+
+.apple-hero-layer {
+  transform: translateZ(0);
+  transition: transform var(--motion-slow) var(--motion-spring);
+}
+
+.apple-hero-parallax:hover .apple-hero-layer {
+  transform: translateZ(12px);
+}
+
+.apple-subtle-card {
+  border: 1px solid color-mix(in srgb, var(--border-subtle) 78%, #ffffff 22%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-panel-strong) 86%, #ffffff 14%),
+    var(--surface-panel)
+  );
+  box-shadow:
+    0 16px 36px -28px rgba(0, 0, 0, 0.52),
+    inset 0 1px 0 rgba(255, 255, 255, 0.66);
+}
+
+.apple-segment-shell {
+  padding: 0.28rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--surface-panel) 92%, transparent);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.apple-segment-pill {
+  border-radius: 9999px;
+  transition:
+    transform var(--motion-fast) var(--motion-spring),
+    box-shadow var(--motion-fast) var(--motion-spring),
+    background-color var(--motion-fast) var(--motion-spring),
+    color var(--motion-fast) var(--motion-spring);
+}
+
+.apple-segment-pill.active {
+  box-shadow:
+    0 14px 28px -20px rgba(21, 115, 71, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.apple-segment-pill:not(.active):hover {
+  transform: translateY(-1px);
+}
+
+.apple-sheen {
+  position: relative;
+}
+
+.apple-sheen::after {
+  content: "";
+  position: absolute;
+  inset: -30% auto -30% -42%;
+  width: 42%;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: translateX(-130%);
+  animation: glass-sheen 1300ms var(--motion-spring) 600ms 1 both;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .apple-hero-parallax,
+  .apple-hero-layer,
+  .apple-hero-parallax:hover .apple-hero-layer {
+    transform: none;
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-rise,
   .hero-rise-delay,
-  .challenge-glow {
+  .challenge-glow,
+  .apple-float {
+    animation: none;
+  }
+
+  .apple-float,
+  .apple-float:hover,
+  .apple-segment-pill,
+  .apple-segment-pill:not(.active):hover,
+  .apple-hero-parallax,
+  .apple-hero-layer,
+  .apple-hero-parallax:hover .apple-hero-layer,
+  button:active,
+  .apple-sheen::after {
+    transform: none;
     animation: none;
   }
 }

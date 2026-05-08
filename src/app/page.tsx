@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   jlptN5Cards,
@@ -28,6 +29,7 @@ const categoryOptions = [
 ] as const;
 const studyModes = ["review", "quiz", "listening", "grammar", "writing", "browse"] as const;
 const sortOptions = ["default", "kana", "meaning", "category"] as const;
+const browsePerPageOptions = [6, 12, 24] as const;
 
 const kanaTiles = [
   "あ",
@@ -328,6 +330,11 @@ const uiCopy = {
     noGrammarMatches: "No grammar questions match this JLPT level and search filter.",
     noWritingMatches: "No writing characters available for this script.",
     noBrowseMatches: "No words match this search and category for browse mode.",
+    browsePerPage: "Per page",
+    browsePage: "Page",
+    browsePrevious: "Previous",
+    browseNext: "Next",
+    browseSlideHint: "Swipe cards left/right on mobile.",
     favoritesCount: "favorites",
     weakHitsCount: "weak hits",
   },
@@ -455,6 +462,11 @@ const uiCopy = {
     noGrammarMatches: "Tidak ada soal grammar yang cocok untuk level JLPT dan filter ini.",
     noWritingMatches: "Tidak ada karakter untuk latihan menulis pada skrip ini.",
     noBrowseMatches: "Tidak ada kata yang cocok untuk mode jelajah.",
+    browsePerPage: "Per halaman",
+    browsePage: "Halaman",
+    browsePrevious: "Sebelumnya",
+    browseNext: "Berikutnya",
+    browseSlideHint: "Geser kartu kiri/kanan di mobile.",
     favoritesCount: "favorit",
     weakHitsCount: "kesalahan",
   },
@@ -640,6 +652,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("default");
   const [showMeaning, setShowMeaning] = useState(false);
+  const [reviewSeenIds, setReviewSeenIds] = useState<Record<string, true>>({});
   const [reviewed, setReviewed] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
   const [listeningScore, setListeningScore] = useState(0);
@@ -655,6 +668,8 @@ export default function Home() {
   const [listeningTextAnswer, setListeningTextAnswer] = useState("");
   const [listeningCombo, setListeningCombo] = useState(0);
   const [bestListeningCombo, setBestListeningCombo] = useState(0);
+  const [browsePage, setBrowsePage] = useState(1);
+  const [browsePerPage, setBrowsePerPage] = useState<number>(12);
   const [grammarLevel, setGrammarLevel] = useState<GrammarLevel>("N5");
   const [grammarIndex, setGrammarIndex] = useState(0);
   const [grammarScore, setGrammarScore] = useState(0);
@@ -667,6 +682,7 @@ export default function Home() {
   const [writingStats, setWritingStats] = useState<Record<string, WritingStat>>({});
   const [storageReady, setStorageReady] = useState(false);
   const [appStatus, setAppStatus] = useState<string>(uiCopy.id.localMode);
+  const [heroTilt, setHeroTilt] = useState({ x: 0, y: 0 });
   const text = uiCopy[language];
 
   useEffect(() => {
@@ -940,6 +956,14 @@ export default function Home() {
     [writingStats],
   );
 
+  const browseTotalPages = Math.max(1, Math.ceil(filteredCards.length / browsePerPage));
+  const safeBrowsePage = Math.min(Math.max(browsePage, 1), browseTotalPages);
+  const browseStartIndex = (safeBrowsePage - 1) * browsePerPage;
+  const browseVisibleCards = filteredCards.slice(
+    browseStartIndex,
+    browseStartIndex + browsePerPage,
+  );
+
   const dailyChallengeTarget = 16;
   const dailyChallengePoints = reviewed + quizScore + listeningScore + grammarScore + writingScore;
   const dailyChallengePercent = Math.min(
@@ -1025,7 +1049,7 @@ export default function Home() {
     }
   }, [reminderHour, remindersEnabled]);
 
-  function nextCard() {
+  function nextCard(overrideReviewSeen?: Record<string, true>) {
     if (filteredCards.length === 0) {
       return;
     }
@@ -1036,6 +1060,38 @@ export default function Home() {
     setListeningChoice(null);
     setListeningLocked(false);
     setListeningTextAnswer("");
+
+    if (studyMode === "review") {
+      const currentSeen = overrideReviewSeen ?? reviewSeenIds;
+      const unseenIndices = filteredCards
+        .map((card, index) => ({ index, id: getCardId(card) }))
+        .filter((entry) => !currentSeen[entry.id])
+        .map((entry) => entry.index);
+
+      const candidateIndices =
+        unseenIndices.length > 0
+          ? unseenIndices
+          : filteredCards.map((_, index) => index);
+
+      if (candidateIndices.length === 0) {
+        return;
+      }
+
+      const currentPoolIndex = Math.max(0, candidateIndices.indexOf(safeCardIndex));
+      const selectedPoolIndex =
+        candidateIndices.length === 1
+          ? 0
+          : getRandomNextIndex(candidateIndices.length, currentPoolIndex);
+      const nextIndex = candidateIndices[selectedPoolIndex];
+
+      if (unseenIndices.length === 0) {
+        setReviewSeenIds({});
+      }
+
+      setCardIndex(nextIndex);
+      return;
+    }
+
     setCardIndex((current) =>
       getRandomNextIndex(filteredCards.length, current % filteredCards.length),
     );
@@ -1056,7 +1112,13 @@ export default function Home() {
         [activeCardId]: (current[activeCardId] ?? 0) + 1,
       }));
     }
-    nextCard();
+
+    const nextSeen: Record<string, true> = {
+      ...reviewSeenIds,
+      [activeCardId]: true,
+    };
+    setReviewSeenIds(nextSeen);
+    nextCard(nextSeen);
   }
 
   function chooseAnswer(option: string) {
@@ -1187,6 +1249,7 @@ export default function Home() {
     setListeningTextAnswer("");
     setListeningCombo(0);
     setBestListeningCombo(0);
+    setReviewSeenIds({});
     setGrammarIndex(0);
     setGrammarScore(0);
     setGrammarSolvedIds([]);
@@ -1197,7 +1260,11 @@ export default function Home() {
 
   function runSurpriseSession() {
     const candidateModes: StudyMode[] = ["review", "quiz", "listening", "grammar", "writing", "browse"];
-    const randomMode = candidateModes[Math.floor(Math.random() * candidateModes.length)];
+    const currentModeIndex = Math.max(0, candidateModes.indexOf(studyMode));
+    const randomMode =
+      candidateModes.length === 1
+        ? candidateModes[0]
+        : candidateModes[getRandomNextIndex(candidateModes.length, currentModeIndex)];
     setStudyMode(randomMode);
 
     if (randomMode === "grammar") {
@@ -1242,6 +1309,21 @@ export default function Home() {
   function registerWritingSuccess() {
     setWritingScore((score) => score + 1);
     setStreak((value) => value + 1);
+  }
+
+  function handleHeroPointerMove(event: React.MouseEvent<HTMLDivElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const xPercent = (event.clientX - rect.left) / rect.width - 0.5;
+    const yPercent = (event.clientY - rect.top) / rect.height - 0.5;
+
+    setHeroTilt({
+      x: Number((-yPercent * 4.2).toFixed(2)),
+      y: Number((xPercent * 5.6).toFixed(2)),
+    });
+  }
+
+  function resetHeroTilt() {
+    setHeroTilt({ x: 0, y: 0 });
   }
 
   function registerWritingAttempt(characterKey: string, similarity: number, passed: boolean) {
@@ -1289,23 +1371,39 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[2fr_1fr] lg:gap-8">
-      <section className="space-y-4 lg:space-y-6">
-        <header className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+    <main className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[2fr_1fr] lg:gap-8">
+      <section className="space-y-4 lg:space-y-7">
+        <header className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <IvoSenseiLogo />
-            <p className="text-right text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">
-              {text.appName}
-            </p>
+            <div className="flex flex-col items-end gap-2">
+              <p className="text-right text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">
+                {text.appName}
+              </p>
+              <Link
+                href="/japanese-daily-grammar"
+                className="rounded-full border border-[var(--brand)]/30 bg-[var(--surface-panel)] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+              >
+                Daily Grammar Guide
+              </Link>
+            </div>
           </div>
-          <h1 className="mt-2 text-3xl leading-tight font-semibold text-[var(--foreground)] sm:text-4xl">
+          <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-[-0.02em] text-[var(--foreground)] sm:text-4xl">
             {text.heroTitle}
           </h1>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-[var(--ink-soft)] sm:text-base">
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-[var(--ink-soft)] sm:text-[15px]">
             {text.heroBody}
           </p>
-          <div className="mt-5 grid gap-3 xl:grid-cols-[1.25fr_0.95fr]">
-            <section className="hero-rise rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-4 shadow-[0_16px_36px_-28px_rgba(0,0,0,0.75)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_-28px_rgba(0,0,0,0.78)]">
+          <div
+            className="apple-hero-parallax mt-5 grid gap-3 xl:grid-cols-[1.25fr_0.95fr]"
+            style={{
+              ["--hero-tilt-x" as string]: `${heroTilt.x}deg`,
+              ["--hero-tilt-y" as string]: `${heroTilt.y}deg`,
+            }}
+            onMouseMove={handleHeroPointerMove}
+            onMouseLeave={resetHeroTilt}
+          >
+            <section className="apple-sheen apple-hero-layer hero-rise apple-float apple-subtle-card rounded-3xl bg-[var(--surface-panel-soft)] p-4 backdrop-blur-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
@@ -1345,7 +1443,7 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="hero-rise-delay rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-4 shadow-[0_16px_36px_-28px_rgba(0,0,0,0.75)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_-28px_rgba(0,0,0,0.78)]">
+            <section className="apple-sheen apple-hero-layer hero-rise-delay apple-float apple-subtle-card rounded-3xl bg-[var(--surface-panel)] p-4 backdrop-blur-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
                 {text.challengeTitle}
               </p>
@@ -1445,7 +1543,7 @@ export default function Home() {
               value={studyMode === "grammar" ? `${grammarScore}` : modeLabels[language][studyMode]}
             />
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="apple-segment-shell mt-4 flex flex-wrap gap-2">
             {studyModes.map((mode) => {
               const selected = studyMode === mode;
 
@@ -1454,7 +1552,7 @@ export default function Home() {
                   key={mode}
                   type="button"
                   onClick={() => setStudyMode(mode)}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "bg-[var(--brand)] text-[var(--brand-foreground)]" : "border border-[var(--brand)]/20 bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
+                  className={`apple-segment-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "active bg-[var(--brand)] text-[var(--brand-foreground)]" : "border border-[var(--brand)]/20 bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
                 >
                   {modeLabels[language][mode]}
                 </button>
@@ -1465,13 +1563,21 @@ export default function Home() {
             <input
               type="search"
               value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
+              onChange={(event) => {
+                setSearchQuery(event.target.value);
+                setReviewSeenIds({});
+                setBrowsePage(1);
+              }}
               placeholder={text.searchPlaceholder}
               className="rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-panel-tint)] px-4 py-3 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)]"
             />
             <select
               value={sortBy}
-              onChange={(event) => setSortBy(event.target.value as SortOption)}
+              onChange={(event) => {
+                setSortBy(event.target.value as SortOption);
+                setReviewSeenIds({});
+                setBrowsePage(1);
+              }}
               className="rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-panel-tint)] px-4 py-3 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)]"
             >
               {sortOptions.map((option) => (
@@ -1492,6 +1598,8 @@ export default function Home() {
                   onClick={() => {
                     setSelectedCategory(category);
                     setCardIndex(0);
+                    setReviewSeenIds({});
+                    setBrowsePage(1);
                     setShowMeaning(false);
                     setQuizChoice(null);
                     setQuizLocked(false);
@@ -1609,7 +1717,7 @@ export default function Home() {
               </select>
               <button
                 type="button"
-                onClick={nextCard}
+                onClick={() => nextCard()}
                 className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
               >
                 {text.next}
@@ -1693,7 +1801,7 @@ export default function Home() {
                 </select>
                 <button
                   type="button"
-                  onClick={nextCard}
+                  onClick={() => nextCard()}
                   className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
                 >
                   {text.next}
@@ -1881,17 +1989,64 @@ export default function Home() {
 
         {studyMode === "browse" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.browseTitle}</h2>
-              <p className="text-sm text-[var(--ink-soft)]">{text.topResults} {Math.min(filteredCards.length, 12)}</p>
+              <p className="text-sm text-[var(--ink-soft)]">
+                {text.showing} {filteredCards.length === 0 ? 0 : browseStartIndex + 1}-
+                {Math.min(browseStartIndex + browsePerPage, filteredCards.length)} {text.wordsIn} {text.deck.toLowerCase()}.
+              </p>
             </div>
 
+            <div className="mb-4 grid gap-2 sm:grid-cols-[auto_auto_1fr_auto_auto] sm:items-center">
+              <label htmlFor="browse-per-page" className="text-sm text-[var(--ink-soft)]">
+                {text.browsePerPage}
+              </label>
+              <select
+                id="browse-per-page"
+                value={browsePerPage}
+                onChange={(event) => {
+                  setBrowsePerPage(Number(event.target.value));
+                  setBrowsePage(1);
+                }}
+                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+              >
+                {browsePerPageOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+
+              <p className="text-sm text-[var(--ink-soft)] sm:text-center">
+                {text.browsePage} {safeBrowsePage}/{browseTotalPages}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setBrowsePage(Math.max(1, safeBrowsePage - 1))}
+                disabled={safeBrowsePage <= 1}
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {text.browsePrevious}
+              </button>
+              <button
+                type="button"
+                onClick={() => setBrowsePage(Math.min(browseTotalPages, safeBrowsePage + 1))}
+                disabled={safeBrowsePage >= browseTotalPages}
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {text.browseNext}
+              </button>
+            </div>
+
+            <p className="mb-3 text-xs text-[var(--ink-soft)]">{text.browseSlideHint}</p>
+
             {filteredCards.length > 0 ? (
-              <div className="grid gap-3">
-                {filteredCards.slice(0, 12).map((card) => (
+              <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 sm:grid sm:overflow-visible">
+                {browseVisibleCards.map((card) => (
                   <div
                     key={`${card.kanji}-${card.kana}`}
-                    className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-4"
+                    className="min-w-[82%] snap-start rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-4 sm:min-w-0"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -2081,7 +2236,7 @@ function QuickActionCard({
     <button
       type="button"
       onClick={onClick}
-      className="group rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] p-3 text-left transition duration-300 hover:-translate-y-1 hover:border-[var(--brand)]/30 hover:shadow-[0_18px_36px_-24px_rgba(0,0,0,0.85)]"
+      className="group apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] p-3 text-left transition duration-300 hover:border-[var(--brand)]/30"
     >
       <div className={`h-1.5 w-16 rounded-full ${accent} transition duration-300 group-hover:w-24`} />
       <p className="mt-3 text-sm font-semibold text-[var(--foreground)]">{title}</p>
@@ -2092,7 +2247,7 @@ function QuickActionCard({
 
 function ProgressChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-left transition duration-300 hover:-translate-y-0.5 hover:border-[var(--brand)]/25">
+    <div className="apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-left transition duration-300 hover:border-[var(--brand)]/25">
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
         {label}
       </p>
@@ -2103,7 +2258,7 @@ function ProgressChip({ label, value }: { label: string; value: string }) {
 
 function IvoSenseiLogo() {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] px-3 py-2 shadow-[0_12px_30px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm">
+    <div className="apple-float flex items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] px-3 py-2 shadow-[0_12px_30px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm">
       <Image
         src="/ivo-sensei-logo.svg"
         alt="Ivo Sensei"
@@ -2125,7 +2280,7 @@ function IvoSenseiLogo() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl bg-[var(--surface-panel-tint)] px-2 py-3">
+    <div className="apple-float rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-2 py-3">
       <p className="text-xs font-medium text-[var(--ink-soft)]">{label}</p>
       <p className="text-lg font-semibold text-[var(--foreground)]">{value}</p>
     </div>

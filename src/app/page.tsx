@@ -4,18 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  jlptN5Cards,
+  vocabularyCards,
   type VocabularyCard,
   type VocabularyCategory,
+  type VocabularyLevel,
 } from "@/data/jlpt-n5";
 import {
-  grammarLevels,
   grammarQuestions,
   type GrammarQuestion,
-  type GrammarLevel,
 } from "@/data/grammar-questions";
 
-const reviewCards: VocabularyCard[] = jlptN5Cards;
+const reviewCards: VocabularyCard[] = vocabularyCards;
 const categoryOptions = [
   "all",
   "verb",
@@ -154,6 +153,9 @@ type ListeningQuestionType = (typeof listeningQuestionTypes)[number];
 type WritingScript = (typeof writingScripts)[number];
 type Language = "en" | "id";
 type ThemeMode = "light" | "dark";
+type StudyLevel = VocabularyLevel | "all";
+
+const studyLevels = ["N5", "N4", "all"] as const;
 
 const modeLabels: Record<Language, Record<StudyMode, string>> = {
   en: {
@@ -171,6 +173,19 @@ const modeLabels: Record<Language, Record<StudyMode, string>> = {
     grammar: "Grammar",
     writing: "Menulis",
     browse: "Jelajah",
+  },
+};
+
+const studyLevelLabels: Record<Language, Record<StudyLevel, string>> = {
+  en: {
+    N5: "JLPT N5",
+    N4: "JLPT N4",
+    all: "All levels",
+  },
+  id: {
+    N5: "JLPT N5",
+    N4: "JLPT N4",
+    all: "Semua level",
   },
 };
 
@@ -294,6 +309,9 @@ const uiCopy = {
     quiz: "Quiz",
     listening: "Listening",
     deck: "Deck",
+    chooseLevel: "Choose level first",
+    chooseLevelHint: "Select a JLPT level before starting review, quiz, listening, grammar, writing, or browse mode.",
+    level: "Level",
     favorites: "Favorites",
     weakHits: "Weak Hits",
     grammar: "Grammar",
@@ -366,7 +384,7 @@ const uiCopy = {
     quizMode: "Quiz mode",
     listeningQuestions: "5 listening questions",
     shadowing: "1 short shadowing session",
-    reviewPlan: "15 JLPT N5 review cards",
+    reviewPlan: "15 review cards",
     grammarPlanPrefix: "8 grammar questions",
     progressByCategory: "Progress by Category",
     cards: "cards",
@@ -447,6 +465,9 @@ const uiCopy = {
     quiz: "Kuis",
     listening: "Listening",
     deck: "Deck",
+    chooseLevel: "Pilih level dulu",
+    chooseLevelHint: "Pilih level JLPT sebelum mulai review, kuis, listening, grammar, menulis, atau jelajah.",
+    level: "Level",
     favorites: "Favorit",
     weakHits: "Kesalahan",
     grammar: "Grammar",
@@ -519,7 +540,7 @@ const uiCopy = {
     quizMode: "Mode kuis",
     listeningQuestions: "5 soal listening",
     shadowing: "1 sesi shadowing singkat",
-    reviewPlan: "15 kartu review JLPT N5",
+    reviewPlan: "15 kartu review",
     grammarPlanPrefix: "8 soal grammar",
     progressByCategory: "Progres per Kategori",
     cards: "kartu",
@@ -793,7 +814,12 @@ const cardEmojiMap: Record<string, string> = {
   "練習": "🏋️", "趣味": "🎨", "休み": "🌴",
   "天気": "🌤️", "元気": "💪", "病気": "🤒",
   "予定": "📅", "習慣": "🔄", "道": "🛣️", "橋": "🌉",
-  "角": "🔲", "隣": "↔️",
+  "角": "🔲", "隣": "↔️", "経験": "🧠", "計画": "🗓️",
+  "目的": "🎯", "理由": "🧾", "文化": "🏯", "自然": "🌿",
+  "社会": "🏙️", "機会": "🎟️", "気持ち": "💗", "意見": "🗣️",
+  "方法": "🛠️", "夢": "💭", "約束": "🤝", "説明": "📘",
+  "将来": "🔮", "生活": "🏡", "関係": "🔗", "安心": "😌",
+  "熱": "🤒",
   // Animals
   "犬": "🐕", "猫": "🐈",
   // Verbs
@@ -808,18 +834,27 @@ const cardEmojiMap: Record<string, string> = {
   "消す": "💡", "始まる": "▶️", "終わる": "⏹️",
   "借りる": "📖", "返す": "🔙", "手伝う": "🤝",
   "教える": "👨‍🏫", "習う": "📚", "わかる": "💡", "分かる": "💡",
-  "思う": "💭", "忘れる": "🤔",
+  "思う": "💭", "忘れる": "🤔", "受ける": "📝", "集める": "🧺",
+  "選ぶ": "☑️", "送る": "📤", "驚く": "😲", "変える": "🔁",
+  "続ける": "🔄", "届ける": "📦", "慣れる": "👌", "並ぶ": "🧍",
+  "運ぶ": "📦", "助ける": "🆘", "間に合う": "⏱️", "間違える": "❌",
+  "守る": "🛡️", "困る": "😣",
   // Adjectives
   "大きい": "🐘", "小さい": "🐭", "長い": "📏", "高い": "💰",
   "安い": "💰", "新しい": "✨", "古い": "🏚️", "速い": "⚡", "早い": "⚡",
   "遅い": "🐢", "暑い": "🌡️", "寒い": "🥶", "冷たい": "🧊",
   "難しい": "😤", "楽しい": "😄", "好き": "❤️",
   "近い": "📍", "明るい": "☀️", "暗い": "🌑", "静か": "🤫",
-  "忙しい": "📊", "便利": "✅", "白": "⬜",
+  "忙しい": "📊", "便利": "✅", "白": "⬜", "危険": "⚠️",
+  "大切": "💎", "必要": "📌", "複雑": "🧩", "無駄": "🗑️",
+  "意外": "😯", "心配": "😟", "恥ずかしい": "🙈",
   // Adverbs / expressions
   "今": "⏰", "少し": "🤏", "時々": "🕐",
   "たくさん": "📦", "すぐ": "⚡", "よく": "🔄", "多分": "🤔",
-  "全然": "❌", "一番": "🥇", "真っ直ぐ": "➡️",
+  "全然": "❌", "一番": "🥇", "真っ直ぐ": "➡️", "確かに": "✅",
+  "特に": "⭐", "徐々に": "📈", "最近": "🕰️", "本当に": "💬",
+  "結局": "🔚", "全部": "📚", "すっかり": "💯", "確実に": "🎯",
+  "必ずしも": "↔️",
   // Direction
   "上": "⬆️", "下": "⬇️", "右": "➡️", "左": "⬅️",
   "北": "🧭", "南": "🧭", "東": "🧭", "西": "🧭",
@@ -931,7 +966,7 @@ export default function Home() {
   const [bestListeningCombo, setBestListeningCombo] = useState(0);
   const [browsePage, setBrowsePage] = useState(1);
   const [browsePerPage, setBrowsePerPage] = useState<number>(12);
-  const [grammarLevel, setGrammarLevel] = useState<GrammarLevel>("N5");
+  const [studyLevel, setStudyLevel] = useState<StudyLevel | null>(null);
   const [grammarIndex, setGrammarIndex] = useState(0);
   const [grammarScore, setGrammarScore] = useState(0);
   const [grammarSolvedIds, setGrammarSolvedIds] = useState<string[]>([]);
@@ -1046,10 +1081,17 @@ export default function Home() {
   const filteredCards = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
+    const levelFiltered =
+      studyLevel === null
+        ? []
+        : studyLevel === "all"
+          ? reviewCards
+          : reviewCards.filter((card) => card.level === studyLevel);
+
     const categoryFiltered =
       selectedCategory === "all"
-        ? reviewCards
-        : reviewCards.filter((card) => card.category === selectedCategory);
+        ? levelFiltered
+        : levelFiltered.filter((card) => card.category === selectedCategory);
 
     const searchFiltered = normalizedQuery
       ? categoryFiltered.filter((card) => {
@@ -1090,7 +1132,7 @@ export default function Home() {
     }
 
     return sorted;
-  }, [searchQuery, selectedCategory, sortBy]);
+  }, [searchQuery, selectedCategory, sortBy, studyLevel]);
 
   const safeCardIndex = filteredCards.length > 0 ? cardIndex % filteredCards.length : 0;
   const activeCard = filteredCards[safeCardIndex] ?? null;
@@ -1139,7 +1181,12 @@ export default function Home() {
   const filteredGrammarQuestions = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
-    const levelFiltered = grammarQuestions.filter((question) => question.level === grammarLevel);
+    const levelFiltered =
+      studyLevel === null
+        ? []
+        : studyLevel === "all"
+          ? grammarQuestions
+          : grammarQuestions.filter((question) => question.level === studyLevel);
     if (!normalizedQuery) {
       return levelFiltered;
     }
@@ -1157,7 +1204,7 @@ export default function Home() {
 
       return haystack.includes(normalizedQuery);
     });
-  }, [grammarLevel, searchQuery]);
+  }, [searchQuery, studyLevel]);
 
   const safeGrammarIndex =
     filteredGrammarQuestions.length > 0 ? grammarIndex % filteredGrammarQuestions.length : 0;
@@ -1820,6 +1867,11 @@ export default function Home() {
   }
 
   function runListeningBurst() {
+    if (studyLevel === null) {
+      setAppStatus(text.chooseLevelHint);
+      return;
+    }
+
     setStudyMode("listening");
     playListeningPrompt();
   }
@@ -1840,6 +1892,11 @@ export default function Home() {
   }
 
   function runGrammarSprint() {
+    if (studyLevel === null) {
+      setAppStatus(text.chooseLevelHint);
+      return;
+    }
+
     setStudyMode("grammar");
     nextGrammarQuestion();
     setAppStatus(text.grammarSprintHint);
@@ -2192,6 +2249,45 @@ export default function Home() {
               value={studyMode === "grammar" ? `${grammarScore}` : modeLabels[language][studyMode]}
             />
           </div>
+          <div className="mt-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/50 px-4 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.level}</p>
+                <p className="mt-1 text-sm text-[var(--ink-soft)]">{studyLevel === null ? text.chooseLevel : studyLevelLabels[language][studyLevel]}</p>
+              </div>
+              <p className="text-xs text-[var(--ink-soft)]">{text.chooseLevelHint}</p>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {studyLevels.map((levelOption) => {
+                const selected = studyLevel === levelOption;
+
+                return (
+                  <button
+                    key={levelOption}
+                    type="button"
+                    onClick={() => {
+                      setStudyLevel(levelOption);
+                      setCardIndex(0);
+                      setGrammarIndex(0);
+                      setListeningGrammarIndex(0);
+                      setReviewSeenIds({});
+                      setBrowsePage(1);
+                      setShowMeaning(false);
+                      setQuizChoice(null);
+                      setQuizLocked(false);
+                      setListeningChoice(null);
+                      setListeningLocked(false);
+                      setListeningTextAnswer("");
+                      setAppStatus(`${text.level}: ${studyLevelLabels[language][levelOption]}`);
+                    }}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "bg-[var(--interactive-bg)] text-[var(--interactive-foreground)]" : "border border-[var(--border-strong)] bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
+                  >
+                    {studyLevelLabels[language][levelOption]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <div className="apple-segment-shell mt-4 flex flex-wrap gap-2">
             {studyModes.map((mode) => {
               const selected = studyMode === mode;
@@ -2200,7 +2296,12 @@ export default function Home() {
                 <button
                   key={mode}
                   type="button"
-                  onClick={() => setStudyMode(mode)}
+                  onClick={() => {
+                    setStudyMode(mode);
+                    if (studyLevel === null) {
+                      setAppStatus(text.chooseLevelHint);
+                    }
+                  }}
                   className={`apple-segment-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "active bg-[var(--brand)] text-[var(--brand-foreground)]" : "border border-[var(--brand)]/20 bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
                 >
                   {modeLabels[language][mode]}
@@ -2263,7 +2364,7 @@ export default function Home() {
             })}
           </div>
           <p className="mt-2 text-xs text-[var(--ink-soft)]">
-            {text.showing} {filteredCards.length} {text.wordsIn} {categoryLabels[language][selectedCategory]}.
+            {text.showing} {filteredCards.length} {text.wordsIn} {categoryLabels[language][selectedCategory]}{studyLevel ? ` • ${studyLevelLabels[language][studyLevel]}` : ""}.
           </p>
           <div className="mt-4 flex flex-wrap justify-end gap-2">
             <button
@@ -2277,7 +2378,11 @@ export default function Home() {
           <p className="mt-2 text-xs text-[var(--ink-soft)]">{appStatus}</p>
         </header>
 
-        {studyMode === "review" ? (
+        {studyLevel === null ? (
+          <EmptyDeckState title={text.chooseLevel} message={text.chooseLevelHint} />
+        ) : null}
+
+        {studyLevel !== null && studyMode === "review" ? (
           <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.reviewTitle}</h2>
@@ -2347,7 +2452,7 @@ export default function Home() {
           </article>
         ) : null}
 
-        {studyMode === "quiz" ? (
+        {studyLevel !== null && studyMode === "quiz" ? (
           <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.quickQuiz}</h2>
@@ -2424,7 +2529,7 @@ export default function Home() {
           </article>
         ) : null}
 
-        {studyMode === "listening" ? (
+        {studyLevel !== null && studyMode === "listening" ? (
           <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.listeningTitle}</h2>
@@ -2637,22 +2742,23 @@ export default function Home() {
           </article>
         ) : null}
 
-        {studyMode === "grammar" ? (
+        {studyLevel !== null && studyMode === "grammar" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.grammarTitle}</h2>
               <div className="flex gap-2">
                 <select
-                  value={grammarLevel}
+                  value={studyLevel}
                   onChange={(event) => {
-                    setGrammarLevel(event.target.value as GrammarLevel);
+                    setStudyLevel(event.target.value as StudyLevel);
                     setGrammarIndex(0);
+                    setListeningGrammarIndex(0);
                   }}
                   className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
                 >
-                  {grammarLevels.map((level) => (
+                  {studyLevels.map((level) => (
                     <option key={level} value={level}>
-                      JLPT {level}
+                      {studyLevelLabels[language][level]}
                     </option>
                   ))}
                 </select>
@@ -2693,7 +2799,7 @@ export default function Home() {
           </article>
         ) : null}
 
-        {studyMode === "writing" ? (
+        {studyLevel !== null && studyMode === "writing" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-2">
               <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.writingTitle}</h2>
@@ -2723,7 +2829,7 @@ export default function Home() {
           </article>
         ) : null}
 
-        {studyMode === "browse" ? (
+        {studyLevel !== null && studyMode === "browse" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.browseTitle}</h2>
@@ -2842,8 +2948,8 @@ export default function Home() {
         <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.todayPlan}</h2>
           <ul className="mt-4 space-y-2 text-sm text-[var(--ink-soft)]">
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.reviewPlan}</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.grammarPlanPrefix} ({grammarLevel})</li>
+            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.reviewPlan} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
+            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.grammarPlanPrefix} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.focusCategory}: {categoryLabels[language][selectedCategory]}</li>
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.quizMode}: {quizModeLabels[language][quizMode]}</li>
             <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.listeningQuestions}</li>

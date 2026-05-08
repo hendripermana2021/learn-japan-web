@@ -1,4 +1,5 @@
-import cards from "./jlpt-n5.json";
+import n4Cards from "./jlpt-n4.json";
+import n5Cards from "./jlpt-n5.json";
 
 export type VocabularyCategory =
   | "adjective"
@@ -20,7 +21,20 @@ export type VocabularyCard = {
   example: string;
   translation: string;
   category: VocabularyCategory;
+  level: VocabularyLevel;
+};
+
+type RawVocabularyCard = Omit<VocabularyCard, "level"> & {
   level?: VocabularyLevel;
 };
 
-export const jlptN5Cards = cards as VocabularyCard[];
+function withLevel(cards: RawVocabularyCard[], fallbackLevel: VocabularyLevel): VocabularyCard[] {
+  return cards.map((card) => ({
+    ...card,
+    level: card.level ?? fallbackLevel,
+  }));
+}
+
+export const jlptN5Cards = withLevel(n5Cards as RawVocabularyCard[], "N5");
+export const jlptN4Cards = withLevel(n4Cards as RawVocabularyCard[], "N4");
+export const vocabularyCards = [...jlptN5Cards, ...jlptN4Cards];

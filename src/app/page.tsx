@@ -1179,7 +1179,29 @@ export default function Home() {
     return sorted;
   }, [searchQuery, selectedCategory, sortBy, studyLevel]);
 
-  const safeCardIndex = filteredCards.length > 0 ? cardIndex % filteredCards.length : 0;
+  const safeCardIndex = useMemo(() => {
+    if (filteredCards.length === 0) {
+      return 0;
+    }
+
+    const baseIndex = cardIndex % filteredCards.length;
+    if (studyMode !== "review") {
+      return baseIndex;
+    }
+
+    const currentCard = filteredCards[baseIndex];
+    if (!currentCard) {
+      return baseIndex;
+    }
+
+    const currentCardId = getCardId(currentCard);
+    if (!reviewSeenIds[currentCardId]) {
+      return baseIndex;
+    }
+
+    const unseenIndex = filteredCards.findIndex((card) => !reviewSeenIds[getCardId(card)]);
+    return unseenIndex >= 0 ? unseenIndex : baseIndex;
+  }, [cardIndex, filteredCards, reviewSeenIds, studyMode]);
   const activeCard = filteredCards[safeCardIndex] ?? null;
   const activeCardId = activeCard ? getCardId(activeCard) : null;
   const favoriteCount = favorites.length;

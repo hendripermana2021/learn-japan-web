@@ -2148,6 +2148,12 @@ export default function Home() {
               >
                 Daily Grammar Guide
               </Link>
+              <Link
+                href="/kanji"
+                className="rounded-full border border-[var(--brand)]/30 bg-[var(--surface-panel)] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+              >
+                Kanji Study Lab
+              </Link>
             </div>
           </div>
           <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-[-0.02em] text-[var(--foreground)] sm:text-4xl">

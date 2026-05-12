@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import UpdateNotice from "@/components/update-notice";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
 const siteName = "Learn Japanese Free - Ivo Sensei";
@@ -124,6 +125,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
         />
         {children}
+        <UpdateNotice />
       </body>
     </html>
   );

@@ -1753,7 +1753,7 @@ export const kanjiLibrary: KanjiEntry[] = [
       [{ x: 30, y: 20 }, { x: 30, y: 80 }],
     ],
   },
-  {
+  {                                                                                  
     kanji: "手",
     jlptLevel: "N5",
     meaning: "hand",

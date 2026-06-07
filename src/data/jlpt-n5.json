@@ -18,7 +18,7 @@
 { "kana": "いもうと", "kanji": "妹", "romaji": "imouto", "meaning": "younger sister", "example": "妹(いもうと)は高校(こうこう)生(せい)です。", "translation": "My younger sister is a high school student.", "category": "person" },
 { "kana": "うえ", "kanji": "上", "romaji": "ue", "meaning": "up, above", "example": "かばんは机(つくえ)の上(うえ)にあります。", "translation": "The bag is on top of the desk.", "category": "place" },
 { "kana": "うしろ", "kanji": "後ろ", "romaji": "ushiro", "meaning": "behind", "example": "学校(がっこう)の後(うし)ろに公園(こうえん)があります。", "translation": "There is a park behind the school.", "category": "place" },
-  { "kana": "うみ", "kanji": "海", "romaji": "umi", "meaning": "sea", "example": "夏(なつ)に海(うみ)へ行(い)きたい。", "translation": "I want to go to the sea in summer.", "category": "place" },
+{ "kana": "うみ", "kanji": "海", "romaji": "umi", "meaning": "sea", "example": "夏(なつ)に海(うみ)へ行(い)きたい。", "translation": "I want to go to the sea in summer.", "category": "place" },
 { "kana": "うち", "kanji": "うち", "romaji": "uchi", "meaning": "home, my house", "example": "今日(きょう)はうちで勉強(べんきょう)します。", "translation": "I will study at home today.", "category": "place" },
 { "kana": "えいが", "kanji": "映画", "romaji": "eiga", "meaning": "movie", "example": "映画(えいが)を見(み)るのが好(す)きです。", "translation": "I like watching movies.", "category": "noun" },
 { "kana": "えき", "kanji": "駅", "romaji": "eki", "meaning": "station", "example": "駅(えき)まで歩(ある)いて行(い)きます。", "translation": "I walk to the station.", "category": "place" },
@@ -38,7 +38,7 @@
 { "kana": "きく", "kanji": "聞く", "romaji": "kiku", "meaning": "to listen / ask", "example": "先生(せんせい)に質問(しつもん)を聞(き)く。", "translation": "I ask the teacher a question.", "category": "verb" },
 { "kana": "きた", "kanji": "北", "romaji": "kita", "meaning": "north", "example": "北海道(ほっかいどう)は日本(にほん)の北(きた)にあります。", "translation": "Hokkaido is in the north of Japan.", "category": "place" },
 { "kana": "きっぷ", "kanji": "切符", "romaji": "kippu", "meaning": "ticket", "example": "駅(えき)で切符(きっぷ)を買(か)いました。", "translation": "I bought a ticket at the station.", "category": "noun" },
-  { "kana": "きのう", "kanji": "昨日", "romaji": "kinou", "meaning": "yesterday", "example": "昨日(きのう)、図書館(としょかん)へ行(い)きました。", "translation": "I went to the library yesterday.", "category": "time" },
+{ "kana": "きのう", "kanji": "昨日", "romaji": "kinou", "meaning": "yesterday", "example": "昨日(きのう)、図書館(としょかん)へ行(い)きました。", "translation": "I went to the library yesterday.", "category": "time" },
 { "kana": "きょう", "kanji": "今日", "romaji": "kyou", "meaning": "today", "example": "今日(きょう)は日本語(にほんご)の勉強(べんきょう)をします。", "translation": "I will study Japanese today.", "category": "time" },
 { "kana": "くる", "kanji": "来る", "romaji": "kuru", "meaning": "to come", "example": "友達(ともだち)が家(いえ)に来(く)る。", "translation": "A friend comes to my house.", "category": "verb" },
 { "kana": "くつ", "kanji": "靴", "romaji": "kutsu", "meaning": "shoes", "example": "新(あたら)しい靴(くつ)をはいています。", "translation": "I am wearing new shoes.", "category": "noun" },
@@ -57,7 +57,7 @@
 { "kana": "した", "kanji": "下", "romaji": "shita", "meaning": "down, under", "example": "ねこは椅子(いす)の下(した)にいます。", "translation": "The cat is under the chair.", "category": "place" },
 { "kana": "しずか", "kanji": "静か", "romaji": "shizuka", "meaning": "quiet", "example": "この図書館(としょかん)はとても静(しず)かです。", "translation": "This library is very quiet.", "category": "adjective" },
 { "kana": "じてんしゃ", "kanji": "自転車", "romaji": "jitensha", "meaning": "bicycle", "example": "自転車(じてんしゃ)で学校(がっこう)へ行(い)きます。", "translation": "I go to school by bicycle.", "category": "noun" },
-  { "kana": "しろ", "kanji": "白", "romaji": "shiro", "meaning": "white", "example": "白(しろ)いシャツを着(き)ています。", "translation": "I am wearing a white shirt.", "category": "noun" },
+{ "kana": "しろ", "kanji": "白", "romaji": "shiro", "meaning": "white", "example": "白(しろ)いシャツを着(き)ています。", "translation": "I am wearing a white shirt.", "category": "noun" },
 { "kana": "すき", "kanji": "好き", "romaji": "suki", "meaning": "like", "example": "私(わたし)は猫(ねこ)が好(す)きです。", "translation": "I like cats.", "category": "expression" },
 { "kana": "すこし", "kanji": "少し", "romaji": "sukoshi", "meaning": "a little", "example": "日本語(にほんご)が少(すこ)しわかります。", "translation": "I understand a little Japanese.", "category": "adverb" },
 { "kana": "すむ", "kanji": "住む", "romaji": "sumu", "meaning": "to live", "example": "私(わたし)は大阪(おおさか)に住(す)んでいます。", "translation": "I live in Osaka.", "category": "verb" },
@@ -77,7 +77,7 @@
 { "kana": "てがみ", "kanji": "手紙", "romaji": "tegami", "meaning": "letter", "example": "祖母(そぼ)に手紙(てがみ)を書(か)きました。", "translation": "I wrote a letter to my grandmother.", "category": "noun" },
 { "kana": "てんき", "kanji": "天気", "romaji": "tenki", "meaning": "weather", "example": "明日(あした)の天気(てんき)はどうですか。", "translation": "How is tomorrow's weather?", "category": "noun" },
 { "kana": "でんき", "kanji": "電気", "romaji": "denki", "meaning": "electricity, light", "example": "部屋(へや)の電気(でんき)をつけてください。", "translation": "Please turn on the room light.", "category": "noun" },
-  { "kana": "でんしゃ", "kanji": "電車", "romaji": "densha", "meaning": "train", "example": "毎朝(まいあさ)、電車(でんしゃ)で会社(かいしゃ)へ行(い)きます。", "translation": "I go to the office by train every morning.", "category": "noun" },
+{ "kana": "でんしゃ", "kanji": "電車", "romaji": "densha", "meaning": "train", "example": "毎朝(まいあさ)、電車(でんしゃ)で会社(かいしゃ)へ行(い)きます。", "translation": "I go to the office by train every morning.", "category": "noun" },
 { "kana": "ときどき", "kanji": "時々", "romaji": "tokidoki", "meaning": "sometimes", "example": "時々(ときどき)、日本(にほん)の映画(えいが)を見(み)ます。", "translation": "I sometimes watch Japanese movies.", "category": "adverb" },
 { "kana": "ともだち", "kanji": "友達", "romaji": "tomodachi", "meaning": "friend", "example": "友達(ともだち)と日本語(にほんご)を練習(れんしゅう)します。", "translation": "I practice Japanese with friends.", "category": "person" },
 { "kana": "としょかん", "kanji": "図書館", "romaji": "toshokan", "meaning": "library", "example": "図書館(としょかん)で本(ほん)を借(か)ります。", "translation": "I borrow a book at the library.", "category": "place" },
@@ -97,7 +97,7 @@
 { "kana": "はる", "kanji": "春", "romaji": "haru", "meaning": "spring", "example": "春(はる)は桜(さくら)がきれいです。", "translation": "Cherry blossoms are beautiful in spring.", "category": "time" },
 { "kana": "ひと", "kanji": "人", "romaji": "hito", "meaning": "person", "example": "あの人(ひと)は私(わたし)の先生(せんせい)です。", "translation": "That person is my teacher.", "category": "person" },
 { "kana": "ひる", "kanji": "昼", "romaji": "hiru", "meaning": "noon", "example": "昼(ひる)にご飯(はん)を食(た)べます。", "translation": "I eat lunch at noon.", "category": "time" },
-  { "kana": "びょういん", "kanji": "病院", "romaji": "byouin", "meaning": "hospital", "example": "母(はは)は病院(びょういん)で働(はたら)いています。", "translation": "My mother works at a hospital.", "category": "place" },
+{ "kana": "びょういん", "kanji": "病院", "romaji": "byouin", "meaning": "hospital", "example": "母(はは)は病院(びょういん)で働(はたら)いています。", "translation": "My mother works at a hospital.", "category": "place" },
 { "kana": "ふるい", "kanji": "古い", "romaji": "furui", "meaning": "old", "example": "その店(みせ)はとても古(ふる)いです。", "translation": "That shop is very old.", "category": "adjective" },
 { "kana": "べんきょう", "kanji": "勉強", "romaji": "benkyou", "meaning": "study", "example": "毎晩(まいばん)、日本語(にほんご)を勉強(べんきょう)します。", "translation": "I study Japanese every night.", "category": "noun" },
 { "kana": "ほん", "kanji": "本", "romaji": "hon", "meaning": "book", "example": "この本(ほん)はとても面白(おもしろ)いです。", "translation": "This book is very interesting.", "category": "noun" },
@@ -117,7 +117,7 @@
 { "kana": "やま", "kanji": "山", "romaji": "yama", "meaning": "mountain", "example": "富士山(ふじさん)は有名(ゆうめい)な山(やま)です。", "translation": "Mount Fuji is a famous mountain.", "category": "place" },
 { "kana": "やすみ", "kanji": "休み", "romaji": "yasumi", "meaning": "rest, holiday", "example": "日曜日(にちようび)は休(やす)みです。", "translation": "Sunday is a holiday.", "category": "noun" },
 { "kana": "ゆうがた", "kanji": "夕方", "romaji": "yuugata", "meaning": "evening", "example": "夕方(ゆうがた)に散歩(さんぽ)します。", "translation": "I take a walk in the evening.", "category": "time" },
-  { "kana": "ゆき", "kanji": "雪", "romaji": "yuki", "meaning": "snow", "example": "冬(ふゆ)に雪(ゆき)が降(ふ)ります。", "translation": "It snows in winter.", "category": "noun" },
+{ "kana": "ゆき", "kanji": "雪", "romaji": "yuki", "meaning": "snow", "example": "冬(ふゆ)に雪(ゆき)が降(ふ)ります。", "translation": "It snows in winter.", "category": "noun" },
 { "kana": "よむ", "kanji": "読む", "romaji": "yomu", "meaning": "to read", "example": "新聞(しんぶん)を読(よ)みます。", "translation": "I read the newspaper.", "category": "verb" },
 { "kana": "よる", "kanji": "夜", "romaji": "yoru", "meaning": "night, evening", "example": "夜(よる)は家(いえ)で本(ほん)を読(よ)みます。", "translation": "I read books at home at night.", "category": "time" },
 { "kana": "らいげつ", "kanji": "来月", "romaji": "raigetsu", "meaning": "next month", "example": "来月(らいげつ)、日本(にほん)へ行(い)きます。", "translation": "I will go to Japan next month.", "category": "time" },
@@ -147,7 +147,7 @@
 { "kana": "あける", "kanji": "開ける", "romaji": "akeru", "meaning": "to open", "example": "ドアを開(あ)けます。", "translation": "I open the door.", "category": "verb" },
 { "kana": "すわる", "kanji": "座る", "romaji": "suwaru", "meaning": "to sit", "example": "ここに座(すわ)ってください。", "translation": "Please sit here.", "category": "verb" },
 { "kana": "もつ", "kanji": "持つ", "romaji": "motsu", "meaning": "to hold, to carry", "example": "重(おも)いかばんを持(も)っています。", "translation": "I am carrying a heavy bag.", "category": "verb" },
-  { "kana": "つかう", "kanji": "使う", "romaji": "tsukau", "meaning": "to use", "example": "毎日(まいにち)スマホを使(つか)います。", "translation": "I use my smartphone every day.", "category": "verb" },
+{ "kana": "つかう", "kanji": "使う", "romaji": "tsukau", "meaning": "to use", "example": "毎日(まいにち)スマホを使(つか)います。", "translation": "I use my smartphone every day.", "category": "verb" },
 { "kana": "あそぶ", "kanji": "遊ぶ", "romaji": "asobu", "meaning": "to play, to hang out", "example": "土曜日(どようび)に友達(ともだち)と遊(あそ)びます。", "translation": "I hang out with my friends on Saturday.", "category": "verb" },
 { "kana": "とる", "kanji": "取る", "romaji": "toru", "meaning": "to take", "example": "机(つくえ)の上(うえ)から本(ほん)を取(と)ります。", "translation": "I take the book from the desk.", "category": "verb" },
 { "kana": "あたま", "kanji": "頭", "romaji": "atama", "meaning": "head", "example": "今日(きょう)は少(すこ)し頭(あたま)が痛(いた)いです。", "translation": "My head hurts a little today.", "category": "noun" },
@@ -174,9 +174,8 @@
 { "kana": "つぎ", "kanji": "次", "romaji": "tsugi", "meaning": "next", "example": "次(つぎ)の駅(えき)で降(お)ります。", "translation": "I get off at the next station.", "category": "place" },
 { "kana": "むこう", "kanji": "向こう", "romaji": "mukou", "meaning": "over there", "example": "向(む)こうに山(やま)が見(み)えます。", "translation": "You can see mountains over there.", "category": "place" },
 { "kana": "はし", "kanji": "橋", "romaji": "hashi", "meaning": "bridge", "example": "この橋(はし)は古(ふる)いです。", "translation": "This bridge is old.", "category": "place" },
-{ "kana": "かど", "kanji": "角", "romaji": "kado", "meaning": "corner", "example": "次(つぎ)の角(かど)を右(みぎ)に曲(ま)がってください。", "translation": "Please turn right at the next corner.", "category": "place" },
 { "kana": "ビル", "kanji": "ビル", "romaji": "biru", "meaning": "building", "example": "あのビルは高(たか)いです。", "translation": "That building is tall.", "category": "place" },
-  { "kana": "かいしゃ", "kanji": "会社", "romaji": "kaisha", "meaning": "company", "example": "父(ちち)は会社(かいしゃ)で働(はたら)いています。", "translation": "My father works at a company.", "category": "place" },
+{ "kana": "かいしゃ", "kanji": "会社", "romaji": "kaisha", "meaning": "company", "example": "父(ちち)は会社(かいしゃ)で働(はたら)いています。", "translation": "My father works at a company.", "category": "place" },
 { "kana": "ぎんこう", "kanji": "銀行", "romaji": "ginkou", "meaning": "bank", "example": "銀行(ぎんこう)でお金(かね)をおろします。", "translation": "I withdraw money at the bank.", "category": "place" },
 { "kana": "ゆうびんきょく", "kanji": "郵便局", "romaji": "yuubinkyoku", "meaning": "post office", "example": "郵便局(ゆうびんきょく)で手紙(てがみ)を出(だ)します。", "translation": "I send a letter at the post office.", "category": "place" },
 { "kana": "けいさつ", "kanji": "警察", "romaji": "keisatsu", "meaning": "police", "example": "警察(けいさつ)に道(みち)を聞(き)きました。", "translation": "I asked the police for directions.", "category": "person" },
@@ -217,129 +216,79 @@
 { "kana": "いちにち", "kanji": "一日", "romaji": "ichinichi", "meaning": "one day (duration)", "example": "一日(いちにち)中(じゅう)勉強(べんきょう)しました。", "translation": "I studied all day.", "category": "time" },
 { "kana": "いつも", "kanji": "何時も", "romaji": "itsumo", "meaning": "always", "example": "いつも早(はや)く起(お)きます。", "translation": "I always wake up early.", "category": "adverb" },
 { "kana": "いろ", "kanji": "色", "romaji": "iro", "meaning": "color", "example": "この色(いろ)が好(す)きです。", "translation": "I like this color.", "category": "noun" },
-
 { "kana": "えん", "kanji": "円", "romaji": "en", "meaning": "yen", "example": "これは五百円(ごひゃくえん)です。", "translation": "This is 500 yen.", "category": "noun" },
 { "kana": "おおぜい", "kanji": "大勢", "romaji": "oozei", "meaning": "many people", "example": "公園(こうえん)に大勢(おおぜい)の人(ひと)がいます。", "translation": "There are many people in the park.", "category": "noun" },
 { "kana": "おなじ", "kanji": "同じ", "romaji": "onaji", "meaning": "same", "example": "同(おな)じ本(ほん)を持(も)っています。", "translation": "I have the same book.", "category": "adjective" },
 { "kana": "おもい", "kanji": "重い", "romaji": "omoi", "meaning": "heavy", "example": "このかばんは重(おも)いです。", "translation": "This bag is heavy.", "category": "adjective" },
 { "kana": "おもしろい", "kanji": "面白い", "romaji": "omoshiroi", "meaning": "interesting", "example": "この映画(えいが)は面白(おもしろ)いです。", "translation": "This movie is interesting.", "category": "adjective" },
-
 { "kana": "かいもの", "kanji": "買い物", "romaji": "kaimono", "meaning": "shopping", "example": "週末(しゅうまつ)に買(か)い物(もの)に行(い)きます。", "translation": "I go shopping on weekends.", "category": "noun" },
 { "kana": "かぎ", "kanji": "鍵", "romaji": "kagi", "meaning": "key", "example": "鍵(かぎ)を忘(わす)れました。", "translation": "I forgot my key.", "category": "noun" },
 { "kana": "かぜ", "kanji": "風", "romaji": "kaze", "meaning": "wind", "example": "風(かぜ)が強(つよ)いです。", "translation": "The wind is strong.", "category": "noun" },
 { "kana": "かた", "kanji": "方", "romaji": "kata", "meaning": "person (polite)", "example": "あの方(かた)は先生(せんせい)です。", "translation": "That person is a teacher.", "category": "person" },
 { "kana": "かど", "kanji": "角", "romaji": "kado", "meaning": "corner", "example": "次(つぎ)の角(かど)を左(ひだり)に曲(ま)がります。", "translation": "Turn left at the next corner.", "category": "place" },
-
 { "kana": "きいろ", "kanji": "黄色", "romaji": "kiiro", "meaning": "yellow", "example": "黄色(きいろ)の花(はな)がきれいです。", "translation": "The yellow flowers are beautiful.", "category": "noun" },
 { "kana": "きたない", "kanji": "汚い", "romaji": "kitanai", "meaning": "dirty", "example": "この部屋(へや)は汚(きたな)いです。", "translation": "This room is dirty.", "category": "adjective" },
 { "kana": "きる", "kanji": "着る", "romaji": "kiru", "meaning": "to wear (upper body)", "example": "コートを着(き)ます。", "translation": "I wear a coat.", "category": "verb" },
-{ "kana": "くすり", "kanji": "薬", "romaji": "kusuri", "meaning": "medicine", "example": "薬(くすり)を飲(の)みました。", "translation": "I took medicine.", "category": "noun" },
 { "kana": "くも", "kanji": "雲", "romaji": "kumo", "meaning": "cloud", "example": "空(そら)に雲(くも)があります。", "translation": "There are clouds in the sky.", "category": "noun" },
-
 { "kana": "けっこう", "kanji": "結構", "romaji": "kekkou", "meaning": "quite, fairly", "example": "この店(みせ)は結構(けっこう)安(やす)いです。", "translation": "This shop is fairly cheap.", "category": "adverb" },
 { "kana": "けんこう", "kanji": "健康", "romaji": "kenkou", "meaning": "health", "example": "健康(けんこう)が大切(たいせつ)です。", "translation": "Health is important.", "category": "noun" },
 { "kana": "こうちゃ", "kanji": "紅茶", "romaji": "koucha", "meaning": "black tea", "example": "朝(あさ)、紅茶(こうちゃ)を飲(の)みます。", "translation": "I drink black tea in the morning.", "category": "noun" },
 { "kana": "こころ", "kanji": "心", "romaji": "kokoro", "meaning": "heart, mind", "example": "心(こころ)が落(お)ち着(つ)きます。", "translation": "My mind becomes calm.", "category": "noun" },
-
 { "kana": "さいきん", "kanji": "最近", "romaji": "saikin", "meaning": "recently", "example": "最近(さいきん)、忙(いそが)しいです。", "translation": "I have been busy recently.", "category": "adverb" },
 { "kana": "さき", "kanji": "先", "romaji": "saki", "meaning": "ahead, previous", "example": "先(さき)に行(い)ってください。", "translation": "Please go ahead.", "category": "noun" },
 { "kana": "さむさ", "kanji": "寒さ", "romaji": "samusa", "meaning": "coldness", "example": "冬(ふゆ)の寒(さむ)さが苦手(にがて)です。", "translation": "I am not good with winter cold.", "category": "noun" },
-
 { "kana": "しかた", "kanji": "仕方", "romaji": "shikata", "meaning": "way, method", "example": "やり方(かた)の仕方(しかた)を教(おし)えてください。", "translation": "Please teach me how to do it.", "category": "noun" },
 { "kana": "しっぱい", "kanji": "失敗", "romaji": "shippai", "meaning": "failure", "example": "失敗(しっぱい)しました。", "translation": "I failed.", "category": "noun" },
 { "kana": "しゅっぱつ", "kanji": "出発", "romaji": "shuppatsu", "meaning": "departure", "example": "電車(でんしゃ)が出発(しゅっぱつ)します。", "translation": "The train departs.", "category": "noun" },
-
 { "kana": "じぶん", "kanji": "自分", "romaji": "jibun", "meaning": "oneself", "example": "自分(じぶん)でやります。", "translation": "I will do it myself.", "category": "pronoun" },
 { "kana": "じゅうぶん", "kanji": "十分", "romaji": "juubun", "meaning": "enough", "example": "時間(じかん)は十分(じゅうぶん)あります。", "translation": "There is enough time.", "category": "adverb" },
 { "kana": "あさごはん", "kanji": "朝ご飯", "romaji": "asagohan", "meaning": "breakfast", "example": "朝(あさ)ご飯(はん)を食(た)べました。", "translation": "I ate breakfast.", "category": "noun" },
-{ "kana": "あしあと", "kanji": "足跡", "romaji": "ashiato", "meaning": "footprint", "example": "雪(ゆき)の上(うえ)に足跡(あしあと)があります。", "translation": "There are footprints on the snow.", "category": "noun" },
 { "kana": "あぶない", "kanji": "危ない", "romaji": "abunai", "meaning": "dangerous", "example": "この道(みち)は危(あぶ)ないです。", "translation": "This road is dangerous.", "category": "adjective" },
 { "kana": "あまい", "kanji": "甘い", "romaji": "amai", "meaning": "sweet", "example": "このケーキは甘(あま)いです。", "translation": "This cake is sweet.", "category": "adjective" },
-{ "kana": "あまど", "kanji": "雨戸", "romaji": "amado", "meaning": "storm shutter", "example": "雨戸(あまど)を閉(し)めました。", "translation": "I closed the storm shutter.", "category": "noun" },
-
 { "kana": "いす", "kanji": "椅子", "romaji": "isu", "meaning": "chair", "example": "椅子(いす)に座(すわ)ってください。", "translation": "Please sit on the chair.", "category": "noun" },
 { "kana": "いたい", "kanji": "痛い", "romaji": "itai", "meaning": "painful", "example": "頭(あたま)が痛(いた)いです。", "translation": "My head hurts.", "category": "adjective" },
 { "kana": "いちど", "kanji": "一度", "romaji": "ichido", "meaning": "once", "example": "一度(いちど)、日本(にほん)へ行(い)きました。", "translation": "I went to Japan once.", "category": "adverb" },
 { "kana": "いっしょ", "kanji": "一緒", "romaji": "issho", "meaning": "together", "example": "友達(ともだち)と一緒(いっしょ)に行(い)きます。", "translation": "I go together with my friend.", "category": "adverb" },
-
 { "kana": "うまい", "kanji": "上手い", "romaji": "umai", "meaning": "skillful (casual)", "example": "彼(かれ)は歌(うた)が上手(うま)いです。", "translation": "He is good at singing.", "category": "adjective" },
 { "kana": "うれる", "kanji": "売れる", "romaji": "ureru", "meaning": "to sell (intransitive)", "example": "この商品(しょうひん)はよく売(う)れます。", "translation": "This product sells well.", "category": "verb" },
 { "kana": "うれしい", "kanji": "嬉しい", "romaji": "ureshii", "meaning": "happy, glad", "example": "プレゼントをもらって嬉(うれ)しいです。", "translation": "I am happy to receive a present.", "category": "adjective" },
-
-{ "kana": "えらい", "kanji": "偉い", "romaji": "erai", "meaning": "great, admirable", "example": "彼(かれ)はとても偉(えら)い人(ひと)です。", "translation": "He is a great person.", "category": "adjective" },
-
 { "kana": "おおい", "kanji": "多い", "romaji": "ooi", "meaning": "many", "example": "この町(まち)は人(ひと)が多(おお)いです。", "translation": "There are many people in this town.", "category": "adjective" },
 { "kana": "おく", "kanji": "置く", "romaji": "oku", "meaning": "to put, place", "example": "本(ほん)を机(つくえ)に置(お)きます。", "translation": "I put the book on the desk.", "category": "verb" },
 { "kana": "おこる", "kanji": "怒る", "romaji": "okoru", "meaning": "to get angry", "example": "先生(せんせい)が怒(おこ)りました。", "translation": "The teacher got angry.", "category": "verb" },
 { "kana": "おちる", "kanji": "落ちる", "romaji": "ochiru", "meaning": "to fall", "example": "りんごが落(お)ちました。", "translation": "The apple fell.", "category": "verb" },
-
 { "kana": "かたい", "kanji": "固い", "romaji": "katai", "meaning": "hard (solid)", "example": "このパンは固(かた)いです。", "translation": "This bread is hard.", "category": "adjective" },
 { "kana": "かならず", "kanji": "必ず", "romaji": "kanarazu", "meaning": "always, certainly", "example": "毎日(まいにち)、必(かなら)ず勉強(べんきょう)します。", "translation": "I always study every day.", "category": "adverb" },
 { "kana": "がんばる", "kanji": "頑張る", "romaji": "ganbaru", "meaning": "to do one's best", "example": "試験(しけん)のために頑張(がんば)ります。", "translation": "I will do my best for the exam.", "category": "verb" },
-
 { "kana": "きぶん", "kanji": "気分", "romaji": "kibun", "meaning": "feeling, mood", "example": "今日は気分(きぶん)がいいです。", "translation": "I feel good today.", "category": "noun" },
-{ "kana": "きまぐれ", "kanji": "気まぐれ", "romaji": "kimagure", "meaning": "whim", "example": "彼(かれ)は気(き)まぐれです。", "translation": "He is whimsical.", "category": "noun" },
-
 { "kana": "くび", "kanji": "首", "romaji": "kubi", "meaning": "neck", "example": "首(くび)が痛(いた)いです。", "translation": "My neck hurts.", "category": "noun" },
-{ "kana": "くやしい", "kanji": "悔しい", "romaji": "kuyashii", "meaning": "frustrating", "example": "負(ま)けて悔(くや)しいです。", "translation": "I am frustrated because I lost.", "category": "adjective" },
-
-{ "kana": "けが", "kanji": "怪我", "romaji": "kega", "meaning": "injury", "example": "足(あし)に怪我(けが)をしました。", "translation": "I injured my leg.", "category": "noun" },
 { "kana": "けむり", "kanji": "煙", "romaji": "kemuri", "meaning": "smoke", "example": "煙(けむり)が出(で)ています。", "translation": "Smoke is coming out.", "category": "noun" },
-
 { "kana": "こわい", "kanji": "怖い", "romaji": "kowai", "meaning": "scary", "example": "この映画(えいが)は怖(こわ)いです。", "translation": "This movie is scary.", "category": "adjective" },
 { "kana": "こわれる", "kanji": "壊れる", "romaji": "kowareru", "meaning": "to break (intransitive)", "example": "テレビが壊(こわ)れました。", "translation": "The TV broke.", "category": "verb" },
-
-{ "kana": "さびしい", "kanji": "寂しい", "romaji": "sabishii", "meaning": "lonely", "example": "一人(ひとり)で寂(さび)しいです。", "translation": "I feel lonely alone.", "category": "adjective" },
 { "kana": "さわる", "kanji": "触る", "romaji": "sawaru", "meaning": "to touch", "example": "それに触(さわ)らないでください。", "translation": "Please do not touch that.", "category": "verb" },
-
-{ "kana": "しめす", "kanji": "示す", "romaji": "shimesu", "meaning": "to show, indicate", "example": "地図(ちず)で場所(ばしょ)を示(しめ)します。", "translation": "I show the place on the map.", "category": "verb" },
 { "kana": "しんぱい", "kanji": "心配", "romaji": "shinpai", "meaning": "worry", "example": "心配(しんぱい)しないでください。", "translation": "Please don't worry.", "category": "noun" },
-{ "kana": "あつまる", "kanji": "集まる", "romaji": "atsumaru", "meaning": "to gather", "example": "公園(こうえん)に人(ひと)が集(あつ)まります。", "translation": "People gather in the park.", "category": "verb" },
 { "kana": "あんしん", "kanji": "安心", "romaji": "anshin", "meaning": "relief, peace of mind", "example": "無事(ぶじ)で安心(あんしん)しました。", "translation": "I felt relieved that you are safe.", "category": "noun" },
 { "kana": "あんない", "kanji": "案内", "romaji": "annai", "meaning": "guidance, to guide", "example": "駅(えき)まで案内(あんない)します。", "translation": "I will guide you to the station.", "category": "noun" },
-
 { "kana": "いう", "kanji": "言う", "romaji": "iu", "meaning": "to say", "example": "先生(せんせい)が大切(たいせつ)なことを言(い)いました。", "translation": "The teacher said something important.", "category": "verb" },
 { "kana": "いわう", "kanji": "祝う", "romaji": "iwau", "meaning": "to celebrate", "example": "誕生日(たんじょうび)を祝(いわ)います。", "translation": "I celebrate a birthday.", "category": "verb" },
 { "kana": "いらっしゃい", "kanji": "いらっしゃい", "romaji": "irasshai", "meaning": "welcome (shop greeting)", "example": "いらっしゃいませ！", "translation": "Welcome!", "category": "expression" },
-
 { "kana": "うける", "kanji": "受ける", "romaji": "ukeru", "meaning": "to receive, take (exam)", "example": "試験(しけん)を受(う)けます。", "translation": "I take an exam.", "category": "verb" },
 { "kana": "うつす", "kanji": "写す", "romaji": "utsusu", "meaning": "to copy, photograph", "example": "ノートに書(か)いて写(うつ)します。", "translation": "I copy it into my notebook.", "category": "verb" },
 { "kana": "うつる", "kanji": "写る", "romaji": "utsuru", "meaning": "to be photographed", "example": "写真(しゃしん)に写(うつ)っています。", "translation": "It appears in the photo.", "category": "verb" },
-
 { "kana": "えらぶ", "kanji": "選ぶ", "romaji": "erabu", "meaning": "to choose", "example": "好き(す)なものを選(えら)んでください。", "translation": "Please choose what you like.", "category": "verb" },
 { "kana": "おいわい", "kanji": "お祝い", "romaji": "oiwai", "meaning": "celebration, gift", "example": "お祝(いわ)いをあげます。", "translation": "I give a celebration gift.", "category": "noun" },
 { "kana": "おくれる", "kanji": "遅れる", "romaji": "okureru", "meaning": "to be late", "example": "電車(でんしゃ)が遅(おく)れました。", "translation": "The train was late.", "category": "verb" },
 { "kana": "おこす", "kanji": "起こす", "romaji": "okosu", "meaning": "to wake someone up", "example": "朝(あさ)、弟(おとうと)を起(お)こします。", "translation": "I wake my younger brother in the morning.", "category": "verb" },
-
 { "kana": "かざる", "kanji": "飾る", "romaji": "kazaru", "meaning": "to decorate", "example": "部屋(へや)に花(はな)を飾(かざ)ります。", "translation": "I decorate the room with flowers.", "category": "verb" },
-{ "kana": "かむ", "kanji": "噛む", "romaji": "kamu", "meaning": "to bite, chew", "example": "よく噛(か)んで食(た)べてください。", "translation": "Please chew well before eating.", "category": "verb" },
 { "kana": "かわく", "kanji": "乾く", "romaji": "kawaku", "meaning": "to dry", "example": "服(ふく)が乾(かわ)きました。", "translation": "The clothes dried.", "category": "verb" },
-
-{ "kana": "きこえる", "kanji": "聞こえる", "romaji": "kikoeru", "meaning": "to be heard", "example": "音(おと)が聞(き)こえます。", "translation": "I can hear a sound.", "category": "verb" },
 { "kana": "きづく", "kanji": "気づく", "romaji": "kizuku", "meaning": "to notice", "example": "間違(まちが)いに気(き)づきました。", "translation": "I noticed the mistake.", "category": "verb" },
-
 { "kana": "くばる", "kanji": "配る", "romaji": "kubaru", "meaning": "to distribute", "example": "紙(かみ)を配(くば)ります。", "translation": "I hand out papers.", "category": "verb" },
-{ "kana": "くりかえす", "kanji": "繰り返す", "romaji": "kurikaesu", "meaning": "to repeat", "example": "同(おな)じことを繰(く)り返(かえ)します。", "translation": "I repeat the same thing.", "category": "verb" },
-
-{ "kana": "けす", "kanji": "消す", "romaji": "kesu", "meaning": "to turn off, erase", "example": "電気(でんき)を消(け)してください。", "translation": "Please turn off the light.", "category": "verb" },
-{ "kana": "ける", "kanji": "蹴る", "romaji": "keru", "meaning": "to kick", "example": "ボールを蹴(け)ります。", "translation": "I kick the ball.", "category": "verb" },
-
-{ "kana": "こえる", "kanji": "越える", "romaji": "koeru", "meaning": "to cross", "example": "山(やま)を越(こ)えます。", "translation": "I cross the mountain.", "category": "verb" },
 { "kana": "こする", "kanji": "擦る", "romaji": "kosuru", "meaning": "to rub", "example": "目(め)をこすらないでください。", "translation": "Please don't rub your eyes.", "category": "verb" },
-
 { "kana": "さけぶ", "kanji": "叫ぶ", "romaji": "sakebu", "meaning": "to shout", "example": "大(おお)きな声(こえ)で叫(さけ)びました。", "translation": "I shouted loudly.", "category": "verb" },
-{ "kana": "ささえる", "kanji": "支える", "romaji": "sasaeru", "meaning": "to support", "example": "家族(かぞく)を支(ささ)えます。", "translation": "I support my family.", "category": "verb" },
-
-{ "kana": "しらせる", "kanji": "知らせる", "romaji": "shiraseru", "meaning": "to inform", "example": "結果(けっか)を知(し)らせます。", "translation": "I inform the result.", "category": "verb" },
-{ "kana": "しんじる", "kanji": "信じる", "romaji": "shinjiru", "meaning": "to believe", "example": "友達(ともだち)を信(しん)じます。", "translation": "I believe my friend.", "category": "verb" },
-
 { "kana": "すごす", "kanji": "過ごす", "romaji": "sugosu", "meaning": "to spend (time)", "example": "家(いえ)で時間(じかん)を過(す)ごします。", "translation": "I spend time at home.", "category": "verb" },
 { "kana": "すすめる", "kanji": "進める", "romaji": "susumeru", "meaning": "to advance, proceed", "example": "仕事(しごと)を進(すす)めます。", "translation": "I proceed with the work.", "category": "verb" },
 { "kana": "あげる", "kanji": "上げる", "romaji": "ageru", "meaning": "to give (to others)", "example": "友達(ともだち)にプレゼントを上(あ)げました。", "translation": "I gave a present to my friend.", "category": "verb" },
 { "kana": "あびる", "kanji": "浴びる", "romaji": "abiru", "meaning": "to bathe, to shower", "example": "朝(あさ)、シャワーを浴(あ)びます。", "translation": "I take a shower in the morning.", "category": "verb" },
-{ "kana": "いじめる", "kanji": "苛める", "romaji": "ijimeru", "meaning": "to bully", "example": "弱(よわ)い人(ひと)を苛(いじ)めてはいけません。", "translation": "You must not bully weak people.", "category": "verb" },
 { "kana": "うる", "kanji": "売る", "romaji": "uru", "meaning": "to sell", "example": "店(みせ)で野菜(やさい)を売(う)っています。", "translation": "They sell vegetables at the shop.", "category": "verb" },
-{ "kana": "えらぶ", "kanji": "選ぶ", "romaji": "erabu", "meaning": "to choose", "example": "好(す)きな色(いろ)を選(えら)んでください。", "translation": "Please choose your favorite color.", "category": "verb" },
 { "kana": "おくる", "kanji": "送る", "romaji": "okuru", "meaning": "to send", "example": "メールを送(おく)りました。", "translation": "I sent an email.", "category": "verb" },
 { "kana": "おりる", "kanji": "降りる", "romaji": "oriru", "meaning": "to get off", "example": "次(つぎ)の駅(えき)で降(お)ります。", "translation": "I get off at the next station.", "category": "verb" },
 { "kana": "かぶる", "kanji": "被る", "romaji": "kaburu", "meaning": "to wear (on head)", "example": "帽子(ぼうし)を被(かぶ)ります。", "translation": "I wear a hat.", "category": "verb" },
@@ -354,12 +303,9 @@
 { "kana": "すてる", "kanji": "捨てる", "romaji": "suteru", "meaning": "to throw away", "example": "ゴミを捨(す)ててください。", "translation": "Please throw away the trash.", "category": "verb" },
 { "kana": "すべる", "kanji": "滑る", "romaji": "suberu", "meaning": "to slip", "example": "道(みち)で滑(すべ)りました。", "translation": "I slipped on the road.", "category": "verb" },
 { "kana": "そだてる", "kanji": "育てる", "romaji": "sodateru", "meaning": "to raise, to grow", "example": "花(はな)を育(そだ)てています。", "translation": "I am growing flowers.", "category": "verb" },
-{ "kana": "たおれる", "kanji": "倒れる", "romaji": "taoreru", "meaning": "to fall down", "example": "木(き)が倒(たお)れました。", "translation": "The tree fell down.", "category": "verb" },
 { "kana": "たしか", "kanji": "確か", "romaji": "tashika", "meaning": "certain, sure", "example": "確(たし)かに見(み)ました。", "translation": "I certainly saw it.", "category": "adverb" },
-{ "kana": "たずねる", "kanji": "訪ねる", "romaji": "tazuneru", "meaning": "to visit", "example": "友達(ともだち)の家(いえ)を訪(たず)ねました。", "translation": "I visited my friend's house.", "category": "verb" },
 { "kana": "つづく", "kanji": "続く", "romaji": "tsuzuku", "meaning": "to continue", "example": "雨(あめ)が続(つづ)いています。", "translation": "The rain continues.", "category": "verb" },
 { "kana": "つもり", "kanji": "つもり", "romaji": "tsumori", "meaning": "intention", "example": "明日(あした)、行(い)くつもりです。", "translation": "I intend to go tomorrow.", "category": "expression" },
-{ "kana": "ていねい", "kanji": "丁寧", "romaji": "teinei", "meaning": "polite", "example": "丁寧(ていねい)に話(はな)してください。", "translation": "Please speak politely.", "category": "adjective" },
 { "kana": "とどく", "kanji": "届く", "romaji": "todoku", "meaning": "to arrive (package)", "example": "荷物(にもつ)が届(とど)きました。", "translation": "The package arrived.", "category": "verb" },
 { "kana": "とめる", "kanji": "止める", "romaji": "tomeru", "meaning": "to stop", "example": "車(くるま)を止(と)めてください。", "translation": "Please stop the car.", "category": "verb" },
 { "kana": "なくなる", "kanji": "無くなる", "romaji": "nakunaru", "meaning": "to be lost", "example": "財布(さいふ)が無(な)くなりました。", "translation": "My wallet is gone.", "category": "verb" },
@@ -370,67 +316,31 @@
 { "kana": "あずける", "kanji": "預ける", "romaji": "azukeru", "meaning": "to deposit, to leave with", "example": "荷物(にもつ)を友達(ともだち)に預(あず)けます。", "translation": "I leave my luggage with my friend.", "category": "verb" },
 { "kana": "あつまる", "kanji": "集まる", "romaji": "atsumaru", "meaning": "to gather", "example": "人(ひと)が公園(こうえん)に集(あつ)まりました。", "translation": "People gathered in the park.", "category": "verb" },
 { "kana": "あつめる", "kanji": "集める", "romaji": "atsumeru", "meaning": "to collect", "example": "切手(きって)を集(あつ)めています。", "translation": "I collect stamps.", "category": "verb" },
-{ "kana": "あふれる", "kanji": "溢れる", "romaji": "afureru", "meaning": "to overflow", "example": "水(みず)が溢(あふ)れています。", "translation": "Water is overflowing.", "category": "verb" },
 { "kana": "あやまる", "kanji": "謝る", "romaji": "ayamaru", "meaning": "to apologize", "example": "友達(ともだち)に謝(あやま)りました。", "translation": "I apologized to my friend.", "category": "verb" },
-
 { "kana": "いそぐ", "kanji": "急ぐ", "romaji": "isogu", "meaning": "to hurry", "example": "学校(がっこう)へ急(いそ)ぎます。", "translation": "I hurry to school.", "category": "verb" },
 { "kana": "いたむ", "kanji": "痛む", "romaji": "itamu", "meaning": "to hurt", "example": "頭(あたま)が痛(いた)みます。", "translation": "My head hurts.", "category": "verb" },
-{ "kana": "いばる", "kanji": "威張る", "romaji": "ibaru", "meaning": "to boast", "example": "彼(かれ)はよく威張(いば)ります。", "translation": "He often boasts.", "category": "verb" },
 { "kana": "いや", "kanji": "嫌", "romaji": "iya", "meaning": "dislike, unpleasant", "example": "それは嫌(いや)です。", "translation": "I don’t like that.", "category": "adjective" },
-
 { "kana": "うかぶ", "kanji": "浮かぶ", "romaji": "ukabu", "meaning": "to float", "example": "水(みず)にボールが浮(う)かびます。", "translation": "The ball floats on water.", "category": "verb" },
 { "kana": "うごかす", "kanji": "動かす", "romaji": "ugokasu", "meaning": "to move (something)", "example": "机(つくえ)を動(うご)かします。", "translation": "I move the desk.", "category": "verb" },
 { "kana": "うまれる", "kanji": "生まれる", "romaji": "umareru", "meaning": "to be born", "example": "日本(にほん)で生(う)まれました。", "translation": "I was born in Japan.", "category": "verb" },
-{ "kana": "うめる", "kanji": "埋める", "romaji": "umeru", "meaning": "to fill, to bury", "example": "穴(あな)を埋(う)めます。", "translation": "I fill the hole.", "category": "verb" },
-
 { "kana": "えがお", "kanji": "笑顔", "romaji": "egao", "meaning": "smile", "example": "彼女(かのじょ)は笑顔(えがお)がいいです。", "translation": "She has a nice smile.", "category": "noun" },
-{ "kana": "えらい", "kanji": "偉い", "romaji": "erai", "meaning": "great, admirable", "example": "彼(かれ)は偉(えら)い人(ひと)です。", "translation": "He is a great person.", "category": "adjective" },
-
-{ "kana": "おう", "kanji": "追う", "romaji": "ou", "meaning": "to chase", "example": "犬(いぬ)が猫(ねこ)を追(お)っています。", "translation": "The dog is chasing the cat.", "category": "verb" },
-{ "kana": "おさえる", "kanji": "押さえる", "romaji": "osaeru", "meaning": "to press, hold down", "example": "ボタンを押(お)さえてください。", "translation": "Please press the button.", "category": "verb" },
-{ "kana": "おちる", "kanji": "落ちる", "romaji": "ochiru", "meaning": "to fall", "example": "りんごが落(お)ちました。", "translation": "The apple fell.", "category": "verb" },
 { "kana": "おどる", "kanji": "踊る", "romaji": "odoru", "meaning": "to dance", "example": "音楽(おんがく)で踊(おど)ります。", "translation": "I dance to music.", "category": "verb" },
-
 { "kana": "かかる", "kanji": "掛かる", "romaji": "kakaru", "meaning": "to take (time/money)", "example": "時間(じかん)がかかります。", "translation": "It takes time.", "category": "verb" },
 { "kana": "かたづける", "kanji": "片付ける", "romaji": "katazukeru", "meaning": "to tidy up", "example": "部屋(へや)を片付(かたづ)けます。", "translation": "I tidy my room.", "category": "verb" },
-{ "kana": "かぶせる", "kanji": "被せる", "romaji": "kabuseru", "meaning": "to cover", "example": "ふたを被(かぶ)せます。", "translation": "I cover it with a lid.", "category": "verb" },
-{ "kana": "かむ", "kanji": "噛む", "romaji": "kamu", "meaning": "to bite", "example": "犬(いぬ)に噛(か)まれました。", "translation": "I was bitten by a dog.", "category": "verb" },
-
 { "kana": "きえる", "kanji": "消える", "romaji": "kieru", "meaning": "to disappear", "example": "電気(でんき)が消(き)えました。", "translation": "The light went out.", "category": "verb" },
 { "kana": "きこえる", "kanji": "聞こえる", "romaji": "kikoeru", "meaning": "to be heard", "example": "音(おと)が聞(き)こえます。", "translation": "I can hear a sound.", "category": "verb" },
-{ "kana": "きづく", "kanji": "気づく", "romaji": "kizuku", "meaning": "to notice", "example": "間違(まちが)いに気(き)づきました。", "translation": "I noticed the mistake.", "category": "verb" },
-
-{ "kana": "くばる", "kanji": "配る", "romaji": "kubaru", "meaning": "to distribute", "example": "紙(かみ)を配(くば)ります。", "translation": "I distribute papers.", "category": "verb" },
-{ "kana": "くりかえす", "kanji": "繰り返す", "romaji": "kurikaesu", "meaning": "to repeat", "example": "同(おな)じことを繰(く)り返(かえ)します。", "translation": "I repeat the same thing.", "category": "verb" },
-
-{ "kana": "けす", "kanji": "消す", "romaji": "kesu", "meaning": "to erase, turn off", "example": "電気(でんき)を消(け)します。", "translation": "I turn off the light.", "category": "verb" },
-
 { "kana": "こえる", "kanji": "越える", "romaji": "koeru", "meaning": "to cross", "example": "山(やま)を越(こ)えます。", "translation": "I cross the mountain.", "category": "verb" },
 { "kana": "こぼれる", "kanji": "零れる", "romaji": "koboreru", "meaning": "to spill", "example": "水(みず)がこぼれました。", "translation": "Water spilled.", "category": "verb" },
-
-{ "kana": "ささえる", "kanji": "支える", "romaji": "sasaeru", "meaning": "to support", "example": "家族(かぞく)を支(ささ)えます。", "translation": "I support my family.", "category": "verb" },
 { "kana": "さめる", "kanji": "冷める", "romaji": "sameru", "meaning": "to cool down", "example": "スープが冷(さ)めました。", "translation": "The soup cooled down.", "category": "verb" },
-
 { "kana": "しらべる", "kanji": "調べる", "romaji": "shiraberu", "meaning": "to investigate", "example": "意味(いみ)を調(しら)べます。", "translation": "I check the meaning.", "category": "verb" },
-{ "kana": "しんじる", "kanji": "信じる", "romaji": "shinjiru", "meaning": "to believe", "example": "彼(かれ)を信(しん)じます。", "translation": "I believe him.", "category": "verb" },
-
 { "kana": "すぎる", "kanji": "過ぎる", "romaji": "sugiru", "meaning": "to pass", "example": "時間(じかん)が過(す)ぎました。", "translation": "Time passed.", "category": "verb" },
 { "kana": "すく", "kanji": "空く", "romaji": "suku", "meaning": "to become empty", "example": "席(せき)が空(す)いています。", "translation": "The seat is empty.", "category": "verb" },
-
-{ "kana": "そろう", "kanji": "揃う", "romaji": "sorou", "meaning": "to be complete", "example": "材料(ざいりょう)が揃(そろ)いました。", "translation": "All materials are ready.", "category": "verb" },
-
-{ "kana": "たおす", "kanji": "倒す", "romaji": "taosu", "meaning": "to knock down", "example": "木(き)を倒(たお)しました。", "translation": "I knocked down the tree.", "category": "verb" },
 { "kana": "たつ", "kanji": "経つ", "romaji": "tatsu", "meaning": "to pass (time)", "example": "一年(いちねん)が経(た)ちました。", "translation": "A year has passed.", "category": "verb" },
-
 { "kana": "ちがう", "kanji": "違う", "romaji": "chigau", "meaning": "to differ", "example": "答(こた)えが違(ちが)います。", "translation": "The answer is different.", "category": "verb" },
-
 { "kana": "つかれる", "kanji": "疲れる", "romaji": "tsukareru", "meaning": "to get tired", "example": "仕事(しごと)で疲(つか)れました。", "translation": "I got tired from work.", "category": "verb" },
 { "kana": "つける", "kanji": "付ける", "romaji": "tsukeru", "meaning": "to attach", "example": "名前(なまえ)を付(つ)けます。", "translation": "I attach a name.", "category": "verb" },
-
 { "kana": "とける", "kanji": "溶ける", "romaji": "tokeru", "meaning": "to melt", "example": "氷(こおり)が溶(と)けました。", "translation": "The ice melted.", "category": "verb" },
-
 { "kana": "なげる", "kanji": "投げる", "romaji": "nageru", "meaning": "to throw", "example": "ボールを投(な)げます。", "translation": "I throw a ball.", "category": "verb" },
-
 { "kana": "ぬれる", "kanji": "濡れる", "romaji": "nureru", "meaning": "to get wet", "example": "雨(あめ)で服(ふく)が濡(ぬ)れました。", "translation": "My clothes got wet in the rain.", "category": "verb" },
 { "kana": "あか", "kanji": "赤", "romaji": "aka", "meaning": "red", "example": "赤(あか)いペンを使(つか)います。", "translation": "I use a red pen.", "category": "noun" },
 { "kana": "あお", "kanji": "青", "romaji": "ao", "meaning": "blue", "example": "空(そら)が青(あお)いです。", "translation": "The sky is blue.", "category": "noun" },
@@ -521,7 +431,6 @@
 { "kana": "おじいさん", "kanji": "お祖父さん", "romaji": "ojiisan", "meaning": "grandfather", "example": "お祖父(じい)さんと散歩(さんぽ)します。", "translation": "I take a walk with my grandfather.", "category": "person" },
 { "kana": "おりがみ", "kanji": "折り紙", "romaji": "origami", "meaning": "origami", "example": "子供(こども)と折(お)り紙(がみ)をします。", "translation": "I do origami with children.", "category": "noun" },
 { "kana": "おそく", "kanji": "遅く", "romaji": "osoku", "meaning": "late (adverb)", "example": "昨日(きのう)は遅(おそ)く帰(かえ)りました。", "translation": "I returned home late yesterday.", "category": "adverb" },
-{ "kana": "およそ", "kanji": "凡そ", "romaji": "oyoso", "meaning": "about, roughly", "example": "駅(えき)までおよそ十分(じゅっぷん)です。", "translation": "It's about 10 minutes to the station.", "category": "adverb" },
 { "kana": "おさら", "kanji": "お皿", "romaji": "osara", "meaning": "plate", "example": "お皿(さら)をテーブルに置(お)きます。", "translation": "I put the plate on the table.", "category": "noun" },
 { "kana": "いち", "kanji": "一", "romaji": "ichi", "meaning": "one", "example": "りんごを一(ひと)つ食(た)べます。", "translation": "I eat one apple.", "category": "noun" },
 { "kana": "に", "kanji": "二", "romaji": "ni", "meaning": "two", "example": "二(ふた)つください。", "translation": "Please give me two.", "category": "noun" },
@@ -542,6 +451,23 @@
 { "kana": "いっぷん", "kanji": "一分", "romaji": "ippun", "meaning": "one minute", "example": "あと一分(いっぷん)待(ま)ってください。", "translation": "Please wait one more minute.", "category": "time" },
 { "kana": "にふん", "kanji": "二分", "romaji": "nifun", "meaning": "two minutes", "example": "二分(にふん)で終(お)わります。", "translation": "It will finish in two minutes.", "category": "time" },
 { "kana": "さんぷん", "kanji": "三分", "romaji": "sanpun", "meaning": "three minutes", "example": "三分(さんぷん)だけ休(やす)みます。", "translation": "I rest for only three minutes.", "category": "time" },
-{ "kana": "よんぷん", "kanji": "四分", "romaji": "yonpun", "meaning": "four minutes", "example": "駅(えき)まで四分(よんぷん)です。", "translation": "It is four minutes to the station.", "category": "time" }
-
+{ "kana": "よんぷん", "kanji": "四分", "romaji": "yonpun", "meaning": "four minutes", "example": "駅(えき)まで四分(よんぷん)です。", "translation": "It is four minutes to the station.", "category": "time" },
+{ "kana":"はれ","kanji":"晴れ","romaji":"hare","meaning":"sunny weather","example":"今日は晴(は)れです。","translation":"It is sunny today.","category":"weather"},
+{ "kana":"たんじょうび","kanji":"誕生日","romaji":"tanjoubi","meaning":"birthday","example":"今日(きょう)は私(わたし)の誕生日(たんじょうび)です。","translation":"Today is my birthday.","category":"noun"},
+{ "kana":"そら","kanji":"空","romaji":"sora","meaning":"sky","example":"空(そら)が青(あお)いです。","translation":"The sky is blue.","category":"noun"},
+{ "kana":"せまい","kanji":"狭い","romaji":"semai","meaning":"narrow, small","example":"この部屋(へや)は狭(せま)いです。","translation":"This room is narrow.","category":"adjective"},
+{ "kana":"こたえる","kanji":"答える","romaji":"kotaeru","meaning":"to answer","example":"先生(せんせい)の質問(しつもん)に答(こた)えます。","translation":"I answer the teacher's question.","category":"verb"},
+{ "kana":"けっこん","kanji":"結婚","romaji":"kekkon","meaning":"marriage","example":"兄(あに)は来年(らいねん)結婚(けっこん)します。","translation":"My older brother will get married next year.","category":"noun"},
+{ "kana":"ぎゅうにゅう","kanji":"牛乳","romaji":"gyuunyuu","meaning":"milk","example":"毎朝(まいあさ)牛乳(ぎゅうにゅう)を飲(の)みます。","translation":"I drink milk every morning.","category":"noun"},
+{ "kana":"うるさい","kanji":"うるさい","romaji":"urusai","meaning":"noisy","example":"この部屋(へや)はうるさいです。","translation":"This room is noisy.","category":"adjective"},
+{ "kana":"おす","kanji":"押す","romaji":"osu","meaning":"to push","example":"このボタンを押(お)してください。","translation":"Please press this button.","category":"verb"},
+{"kana":"くれる","kanji":"くれる","romaji":"kureru","meaning":"to give (to me)","example":"友達(ともだち)が本(ほん)をくれました。","translation":"My friend gave me a book.","category":"verb"},
+{ "kana": "あかい", "kanji": "赤い", "romaji": "akai", "meaning": "red", "example": "赤(あか)い車(くるま)があります。", "translation": "There is a red car.", "category": "adjective" },
+{ "kana": "あおい", "kanji": "青い", "romaji": "aoi", "meaning": "blue", "example": "空(そら)は青(あお)いです。", "translation": "The sky is blue.", "category": "adjective" },
+{ "kana": "きいろい", "kanji": "黄色い", "romaji": "kiiroi", "meaning": "yellow", "example": "黄色(きいろ)い花(はな)が咲(さ)いています。", "translation": "Yellow flowers are blooming.", "category": "adjective" },
+{ "kana": "しろい", "kanji": "白い", "romaji": "shiroi", "meaning": "white", "example": "白(しろ)い雪(ゆき)が降(ふ)っています。", "translation": "White snow is falling.", "category": "adjective" },
+{ "kana": "くろい", "kanji": "黒い", "romaji": "kuroi", "meaning": "black", "example": "黒(くろ)い猫(ねこ)がいます。", "translation": "There is a black cat.", "category": "adjective" },
+{ "kana": "からい",  "kanji": "辛い",  "romaji": "karai",  "meaning": "spicy",  "example": "このカレーは辛(から)いです。",  "translation": "This curry is spicy.",  "category": "adjective" },
+{ "kana": "すっぱい",  "kanji": "酸っぱい",  "romaji": "suppai",  "meaning": "sour",  "example": "このレモンは酸(す)っぱいです。",  "translation": "This lemon is sour.",  "category": "adjective" },
+{ "kana": "むらさき",  "kanji": "紫",  "romaji": "murasaki",  "meaning": "purple",  "example": "紫(むらさき)の花(はな)が咲(さ)いています。",  "translation": "Purple flowers are blooming.",  "category": "adjective" }
 ]

@@ -249,6 +249,7 @@ function buildExamQuestionSet(level: ExamLevel, preset: ExamPreset) {
   return orderedMixed.slice(0, Math.min(questionCount, orderedMixed.length));
 }
 
+
 function formatDate(timestamp: number, language: Language) {
   return new Intl.DateTimeFormat(language === "id" ? "id-ID" : "en-US", {
     year: "numeric",
@@ -350,6 +351,9 @@ export default function ExamPage() {
   const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   const text = examCopy[language];
+  const activeQuestion = questions[currentIndex] ?? null;
+  const totalQuestions = questions.length;
+  const totalDurationSeconds = getSessionDuration(totalQuestions, preset, level);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -383,13 +387,10 @@ export default function ExamPage() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  const activeQuestion = questions[currentIndex] ?? null;
   const audioSupported =
     typeof window !== "undefined" &&
     "speechSynthesis" in window &&
     "SpeechSynthesisUtterance" in window;
-  const totalQuestions = questions.length;
-  const totalDurationSeconds = getSessionDuration(totalQuestions, preset, level);
   const sectionProgress = useMemo(() => {
     const totals: Record<JlptExamSection, number> = {
       vocab: 0,

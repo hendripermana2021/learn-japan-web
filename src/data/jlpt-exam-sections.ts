@@ -21,7 +21,7 @@ export type JlptSectionQuestion = {
   audioGroupId?: string;
 };
 
-const jlptSectionQuestionBank: JlptSectionQuestion[] = [
+export const jlptSectionQuestions: JlptSectionQuestion[] = [
     {
     id: "reading-n5-1",
     level: "N5",

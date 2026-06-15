@@ -814,99 +814,6 @@ function setupWritingCanvas(canvas: HTMLCanvasElement, size: number) {
   context.lineWidth = 10;
 }
 
-const cardEmojiMap: Record<string, string> = {
-  // Nouns – nature
-  "山": "⛰️", "海": "🌊", "川": "🌊", "木": "🌲", "花": "🌸", "空": "🌤️",
-  "雨": "🌧️", "雪": "❄️", "風": "💨", "月": "🌙", "太陽": "☀️",
-  // Nouns – places
-  "家": "🏠", "学校": "🏫", "病院": "🏥", "銀行": "🏦", "郵便局": "📮",
-  "駅": "🚉", "店": "🏪", "公園": "🌳", "図書館": "📚", "会社": "🏢",
-  "レストラン": "🍽️", "喫茶店": "☕", "教室": "🏫",
-  // Nouns – transport
-  "電車": "🚃", "車": "🚗", "自転車": "🚲", "飛行機": "✈️",
-  // Nouns – food/drink
-  "ご飯": "🍚", "魚": "🐟", "肉": "🥩", "お茶": "🍵", "水": "💧",
-  "飲み物": "🧃", "料理": "🍳",
-  // Nouns – objects
-  "本": "📕", "新聞": "📰", "雑誌": "📖", "手紙": "✉️", "地図": "🗺️",
-  "机": "🪑", "窓": "🪟", "箱": "📦", "靴": "👟", "切符": "🎫",
-  "薬": "💊", "鍵": "🗝️", "写真": "📷", "傘": "☂️",
-  // Nouns – technology
-  "電話": "📞", "電気": "💡", "冷蔵庫": "🧊",
-  // Nouns – time
-  "朝": "🌅", "昼": "☀️", "夜": "🌙", "夕方": "🌆",
-  "今日": "📅", "明日": "📅", "昨日": "📆", "今朝": "🌄",
-  "来週": "📅", "来月": "📆", "来年": "🗓️", "毎日": "🗓️",
-  "午前": "🌅", "午後": "🌤️", "春": "🌸", "夏": "🌺", "秋": "🍂", "冬": "❄️",
-  // Nouns – people
-  "人": "👤", "男": "👨", "女": "👩", "子供": "👶", "大人": "🧑",
-  "友達": "👫", "家族": "👨‍👩‍👧‍👦", "お母さん": "👩", "お父さん": "👨",
-  "兄": "👦", "姉": "👧", "弟": "👦", "妹": "👧",
-  "先生": "👨‍🏫", "学生": "🎓", "医者": "👨‍⚕️", "看護師": "👩‍⚕️",
-  "警察": "👮", "運転手": "🚗",
-  // Nouns – body
-  "頭": "🧠", "目": "👁️", "耳": "👂", "口": "👄", "手": "✋", "足": "🦵",
-  // Nouns – abstract/misc
-  "名前": "🏷️", "問題": "❓", "答え": "✅", "意味": "💬",
-  "仕事": "💼", "音楽": "🎵", "映画": "🎬", "旅行": "✈️",
-  "勉強": "📖", "宿題": "📝", "試験": "📝", "授業": "🏫",
-  "練習": "🏋️", "趣味": "🎨", "休み": "🌴",
-  "天気": "🌤️", "元気": "💪", "病気": "🤒",
-  "予定": "📅", "習慣": "🔄", "道": "🛣️", "橋": "🌉",
-  "角": "🔲", "隣": "↔️", "経験": "🧠", "計画": "🗓️",
-  "目的": "🎯", "理由": "🧾", "文化": "🏯", "自然": "🌿",
-  "社会": "🏙️", "機会": "🎟️", "気持ち": "💗", "意見": "🗣️",
-  "方法": "🛠️", "夢": "💭", "約束": "🤝", "説明": "📘",
-  "将来": "🔮", "生活": "🏡", "関係": "🔗", "安心": "😌",
-  "熱": "🤒",
-  // Animals
-  "犬": "🐕", "猫": "🐈",
-  // Verbs
-  "食べる": "🍽️", "飲む": "🥤", "見る": "👀", "聞く": "👂",
-  "話す": "💬", "読む": "📖", "書く": "✏️", "行く": "🚶‍♂️",
-  "来る": "👋", "帰る": "🏠", "買う": "🛒", "使う": "🔧",
-  "作る": "🛠️", "洗う": "🧼", "歩く": "🚶", "走る": "🏃",
-  "泳ぐ": "🏊", "遊ぶ": "🎮", "休む": "😴", "働く": "💼",
-  "住む": "🏠", "会う": "🤝", "立つ": "🧍", "座る": "💺",
-  "持つ": "🤲", "取る": "✋", "渡す": "🤲", "見せる": "👁️",
-  "入る": "🚪", "出る": "🚪", "開ける": "🔓", "閉める": "🔒",
-  "消す": "💡", "始まる": "▶️", "終わる": "⏹️",
-  "借りる": "📖", "返す": "🔙", "手伝う": "🤝",
-  "教える": "👨‍🏫", "習う": "📚", "わかる": "💡", "分かる": "💡",
-  "思う": "💭", "忘れる": "🤔", "受ける": "📝", "集める": "🧺",
-  "選ぶ": "☑️", "送る": "📤", "驚く": "😲", "変える": "🔁",
-  "続ける": "🔄", "届ける": "📦", "慣れる": "👌", "並ぶ": "🧍",
-  "運ぶ": "📦", "助ける": "🆘", "間に合う": "⏱️", "間違える": "❌",
-  "守る": "🛡️", "困る": "😣",
-  // Adjectives
-  "大きい": "🐘", "小さい": "🐭", "長い": "📏", "高い": "💰",
-  "安い": "💰", "新しい": "✨", "古い": "🏚️", "速い": "⚡", "早い": "⚡",
-  "遅い": "🐢", "暑い": "🌡️", "寒い": "🥶", "冷たい": "🧊",
-  "難しい": "😤", "楽しい": "😄", "好き": "❤️",
-  "近い": "📍", "明るい": "☀️", "暗い": "🌑", "静か": "🤫",
-  "忙しい": "📊", "便利": "✅", "白": "⬜", "危険": "⚠️",
-  "大切": "💎", "必要": "📌", "複雑": "🧩", "無駄": "🗑️",
-  "意外": "😯", "心配": "😟", "恥ずかしい": "🙈",
-  // Adverbs / expressions
-  "今": "⏰", "少し": "🤏", "時々": "🕐",
-  "たくさん": "📦", "すぐ": "⚡", "よく": "🔄", "多分": "🤔",
-  "全然": "❌", "一番": "🥇", "真っ直ぐ": "➡️", "確かに": "✅",
-  "特に": "⭐", "徐々に": "📈", "最近": "🕰️", "本当に": "💬",
-  "結局": "🔚", "全部": "📚", "すっかり": "💯", "確実に": "🎯",
-  "必ずしも": "↔️",
-  // Direction
-  "上": "⬆️", "下": "⬇️", "右": "➡️", "左": "⬅️",
-  "北": "🧭", "南": "🧭", "東": "🧭", "西": "🧭",
-  "前": "↩️", "後ろ": "🔙", "外": "🌿", "中": "🎯",
-  "ここ": "📍", "そこ": "👉", "あそこ": "👉", "向こう": "👉",
-  // Pronouns / particles
-  "私": "🙋", "暇": "😌",
-};
-
-function getCardEmoji(card: { kanji: string; kana: string }): string {
-  return cardEmojiMap[card.kanji] ?? cardEmojiMap[card.kana] ?? "📝";
-}
-
 /* XP & Level */
 function getLevel(xp: number): number {
   return Math.floor(Math.sqrt(xp / 50)) + 1;
@@ -2569,7 +2476,7 @@ export default function Home() {
                   </span>
                 </div>
                 <p className="mt-3 text-6xl select-none" aria-hidden="true">
-                  {getCardEmoji(activeCard)}
+                  {activeCard.emoji}
                 </p>
                 <p className="mt-2 text-4xl leading-tight font-semibold text-[var(--foreground)]">
                   {activeCard.kanji}
@@ -2578,11 +2485,11 @@ export default function Home() {
 
                 {showMeaning ? (
                   <div className="mt-4 space-y-2 border-t border-[var(--brand)]/15 pt-4">
-                    <p className="text-lg font-medium text-[var(--foreground)]">
+                    <p className="text-xl font-medium text-[var(--foreground)]">
                       {activeCard.meaning} ({activeCard.romaji})
                     </p>
-                    <p className="text-sm text-[var(--ink-soft)]">{activeCard.example}</p>
-                    <p className="text-sm text-[var(--ink-soft)]">{activeCard.translation}</p>
+                    <p className="text-xl text-[var(--ink-soft)]">{activeCard.example}</p>
+                    <p className="text-xl text-[var(--ink-soft)]">{activeCard.translation}</p>
                   </div>
                 ) : null}
               </button>
@@ -2641,7 +2548,7 @@ export default function Home() {
               <p className="mb-3 text-sm text-[var(--ink-soft)]">
                 {quizMode === "meaning" ? text.whatMeaning : text.whichKana}
               </p>
-              <p className="mb-1 text-5xl select-none" aria-hidden="true">{getCardEmoji(activeCard)}</p>
+              <p className="mb-1 text-5xl select-none" aria-hidden="true">{activeCard.emoji}</p>
               <p className="mb-1 text-3xl font-semibold text-[var(--foreground)]">{activeCard.kanji}</p>
               <p className="mb-4 text-sm text-[var(--ink-soft)]">
                 {quizMode === "meaning" ? activeCard.kana : activeCard.meaning}
@@ -2746,7 +2653,7 @@ export default function Home() {
                   {text.listeningInstruction}
                 </p>
                 <div className="mb-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-4 py-5 text-center">
-                  <p className="text-4xl select-none" aria-hidden="true">{getCardEmoji(activeCard)}</p>
+                  <p className="text-4xl select-none" aria-hidden="true">{activeCard.emoji}</p>
                   <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">
                     {text.audioPrompt}
                   </p>

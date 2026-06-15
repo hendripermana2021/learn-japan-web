@@ -18,8 +18,8 @@ export type VocabularyCard = {
   kanji: string;
   romaji: string;
   meaning: string;
-  example: string;
-  translation: string;
+  example: string[];
+  emoji: string;
   category: VocabularyCategory;
   level: VocabularyLevel;
 };

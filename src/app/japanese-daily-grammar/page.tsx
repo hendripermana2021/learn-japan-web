@@ -99,20 +99,20 @@ const quickDailyPatterns = [
 
 export default function JapaneseDailyGrammarPage() {
   return (
-    <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-5 px-4 py-6 sm:px-6 sm:py-8">
-      <header className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
-        <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">Learn Japan Free - Ivo Sensei</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] text-[var(--foreground)] sm:text-4xl">
+    <main className="mx-auto flex w-full max-w-275 flex-1 flex-col gap-5 px-4 py-6 sm:px-6 sm:py-8">
+      <header className="apple-float rounded-3xl border border-(--border-subtle) bg-[var(--paper)] p-5 sm:p-6">
+        <p className="text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">Learn Japan Free - Ivo Sensei</p>
+        <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] text-foreground sm:text-4xl">
           Japanese Daily Grammar Guide
         </h1>
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--ink-soft)] sm:text-base">
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-(--ink-soft) sm:text-base">
           A practical guide to the most used Japanese grammar forms in daily life. Focus on when to use each form,
           not only how to conjugate it.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link
             href="/"
-            className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-panel)] px-3 py-1 text-sm font-semibold text-[var(--foreground)]"
+            className="rounded-full border border-(--border-strong) bg-(--surface-panel) px-3 py-1 text-sm font-semibold text-foreground"
           >
             Back to Practice App
           </Link>
@@ -120,13 +120,13 @@ export default function JapaneseDailyGrammarPage() {
       </header>
 
       <section className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-[var(--foreground)]">Quick Daily Patterns</h2>
+        <h2 className="text-xl font-semibold text-foreground">Quick Daily Patterns</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {quickDailyPatterns.map((item) => (
-            <article key={item.pattern} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-3">
-              <p className="text-base font-semibold text-[var(--foreground)]">{item.pattern}</p>
-              <p className="mt-1 text-sm text-[var(--ink-soft)]">{item.meaning}</p>
-              <p className="mt-2 text-sm text-[var(--foreground)]">{item.example}</p>
+            <article key={item.pattern} className="rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-3">
+              <p className="text-base font-semibold text-foreground">{item.pattern}</p>
+              <p className="mt-1 text-sm text-(--ink-soft)">{item.meaning}</p>
+              <p className="mt-2 text-sm text-foreground">{item.example}</p>
             </article>
           ))}
         </div>
@@ -136,29 +136,29 @@ export default function JapaneseDailyGrammarPage() {
         {grammarCards.map((card) => (
           <article key={card.name} className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
-              <h2 className="text-2xl font-semibold tracking-[-0.01em] text-[var(--foreground)]">{card.name}</h2>
-              <span className="rounded-full border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-3 py-1 text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">
+              <h2 className="text-2xl font-semibold tracking-[-0.01em] text-foreground">{card.name}</h2>
+              <span className="rounded-full border border-(--brand)/20 bg-(--brand-soft) px-3 py-1 text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">
                 Daily Use
               </span>
             </div>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{card.useCase}</p>
+            <p className="mt-2 text-sm leading-relaxed text-(--ink-soft)">{card.useCase}</p>
 
-            <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-3">
-              <p className="text-xs font-semibold tracking-[0.16em] text-[var(--ink-soft)] uppercase">Pattern</p>
-              <p className="mt-1 text-sm font-medium text-[var(--foreground)]">{card.pattern}</p>
+            <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-3">
+              <p className="text-xs font-semibold tracking-[0.16em] text-(--ink-soft) uppercase">Pattern</p>
+              <p className="mt-1 text-sm font-medium text-foreground">{card.pattern}</p>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {card.examples.map((example) => (
-                <div key={example.jp} className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-3">
-                  <p className="text-lg font-semibold text-[var(--foreground)]">{example.jp}</p>
-                  <p className="mt-1 text-sm text-[var(--ink-soft)]">{example.romaji}</p>
-                  <p className="mt-2 text-sm text-[var(--foreground)]">{example.en}</p>
+                <div key={example.jp} className="rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-3">
+                  <p className="text-lg font-semibold text-foreground">{example.jp}</p>
+                  <p className="mt-1 text-sm text-(--ink-soft)">{example.romaji}</p>
+                  <p className="mt-2 text-sm text-foreground">{example.en}</p>
                 </div>
               ))}
             </div>
 
-            <p className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-3 py-2 text-sm text-[var(--ink-soft)]">
+            <p className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-3 py-2 text-sm text-(--ink-soft)">
               Tip: {card.tip}
             </p>
           </article>
@@ -166,8 +166,8 @@ export default function JapaneseDailyGrammarPage() {
       </section>
 
       <section className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
-        <h2 className="text-xl font-semibold text-[var(--foreground)]">How to Practice Daily</h2>
-        <ol className="mt-4 grid gap-2 text-sm text-[var(--ink-soft)]">
+        <h2 className="text-xl font-semibold text-foreground">How to Practice Daily</h2>
+        <ol className="mt-4 grid gap-2 text-sm text-(--ink-soft)">
           <li>1. Start with masu form for polite speaking safety.</li>
           <li>2. Train te-form every day because it unlocks many real conversations.</li>
           <li>3. Add plain + nai + ta forms for casual speaking and understanding content.</li>

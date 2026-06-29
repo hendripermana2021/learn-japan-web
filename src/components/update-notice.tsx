@@ -98,16 +98,16 @@ export default function UpdateNotice() {
                 <span className="rounded-full border border-[var(--brand)]/30 bg-[var(--paper)]/65 px-2 py-1">
                   {text.versionLabel} {UPDATE_VERSION}
                 </span>
-                <span className="rounded-full border border-[var(--brand)]/20 bg-[var(--paper)]/65 px-2 py-1 text-[var(--ink-soft)]">
+                <span className="rounded-full border border-(--brand)/20 bg-[var(--paper)]/65 px-2 py-1 text-(--ink-soft)">
                   {text.dateLabel}: {text.releaseDate}
                 </span>
               </div>
               <p className="mt-3 text-sm font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.title}</p>
-              <p className="mt-2 text-sm text-[var(--ink-soft)]">{text.subtitle}</p>
+              <p className="mt-2 text-sm text-(--ink-soft)">{text.subtitle}</p>
             </div>
 
             <div className="px-5 pb-5 pt-4">
-              <ul className="space-y-2 text-sm text-[var(--foreground)]">
+              <ul className="space-y-2 text-sm text-foreground">
               {text.items.map((item) => (
                 <li key={item} className="flex items-start gap-2 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-3 py-2.5">
                   <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--brand)]" aria-hidden>

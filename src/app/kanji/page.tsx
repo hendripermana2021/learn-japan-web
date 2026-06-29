@@ -809,12 +809,12 @@ export default function KanjiPage() {
       <header className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-semibold tracking-[-0.02em] text-[var(--foreground)]">{text.title}</h1>
-            <p className="mt-2 text-sm text-[var(--ink-soft)]">{text.subtitle}</p>
+            <h1 className="text-3xl font-semibold tracking-[-0.02em] text-foreground">{text.title}</h1>
+            <p className="mt-2 text-sm text-(--ink-soft)">{text.subtitle}</p>
           </div>
           <Link
             href="/"
-            className="rounded-full border border-[var(--brand)]/30 bg-[var(--surface-panel)] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+            className="rounded-full border border-[var(--brand)]/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
           >
             {text.backHome}
           </Link>
@@ -825,27 +825,27 @@ export default function KanjiPage() {
         <aside className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">{text.pickKanji}</h2>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">{text.level}</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">{text.level}</span>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => updateLevelFilter("all")}
-              className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${levelFilter === "all" ? "border-[var(--brand)] bg-[var(--brand-soft)] text-[var(--brand)]" : "border-[var(--border-subtle)] text-[var(--ink-soft)]"}`}
+              className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${levelFilter === "all" ? "border-[var(--brand)] bg-(--brand-soft) text-[var(--brand)]" : "border-[var(--border-subtle)] text-(--ink-soft)"}`}
             >
               {text.allLevels}
             </button>
             <button
               type="button"
               onClick={() => updateLevelFilter("N5")}
-              className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${levelFilter === "N5" ? "border-[var(--brand)] bg-[var(--brand-soft)] text-[var(--brand)]" : "border-[var(--border-subtle)] text-[var(--ink-soft)]"}`}
+              className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${levelFilter === "N5" ? "border-[var(--brand)] bg-(--brand-soft) text-[var(--brand)]" : "border-[var(--border-subtle)] text-(--ink-soft)"}`}
             >
               {text.n5}
             </button>
             <button
               type="button"
               onClick={() => updateLevelFilter("N4")}
-              className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${levelFilter === "N4" ? "border-[var(--brand)] bg-[var(--brand-soft)] text-[var(--brand)]" : "border-[var(--border-subtle)] text-[var(--ink-soft)]"}`}
+              className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${levelFilter === "N4" ? "border-[var(--brand)] bg-(--brand-soft) text-[var(--brand)]" : "border-[var(--border-subtle)] text-(--ink-soft)"}`}
             >
               {text.n4}
             </button>
@@ -858,7 +858,7 @@ export default function KanjiPage() {
                   key={item.kanji}
                   type="button"
                   onClick={() => pickKanji(index)}
-                  className={`rounded-xl border px-3 py-2 text-2xl font-semibold transition ${selected ? "border-[var(--brand)] bg-[var(--brand-soft)] text-[var(--brand)]" : "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] text-[var(--foreground)]"}`}
+                  className={`rounded-xl border px-3 py-2 text-2xl font-semibold transition ${selected ? "border-[var(--brand)] bg-(--brand-soft) text-[var(--brand)]" : "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] text-foreground"}`}
                 >
                   {item.kanji}
                 </button>
@@ -870,21 +870,21 @@ export default function KanjiPage() {
         <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p className="text-6xl font-semibold text-[var(--foreground)]">{entry.kanji}</p>
-              <p className="mt-2 text-sm text-[var(--ink-soft)]">{text.meaning}: {entry.meaning}</p>
+              <p className="text-6xl font-semibold text-foreground">{entry.kanji}</p>
+              <p className="mt-2 text-sm text-(--ink-soft)">{text.meaning}: {entry.meaning}</p>
             </div>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => pickKanji((safeIndex - 1 + filteredKanji.length) % filteredKanji.length)}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
               >
                 {text.previousKanji}
               </button>
               <button
                 type="button"
                 onClick={() => pickKanji((safeIndex + 1) % filteredKanji.length)}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
               >
                 {text.nextKanji}
               </button>
@@ -894,22 +894,22 @@ export default function KanjiPage() {
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.kunyomi}</p>
-              <p className="mt-2 text-sm text-[var(--foreground)]">{entry.kunyomi.join(" / ")}</p>
+              <p className="mt-2 text-sm text-foreground">{entry.kunyomi.join(" / ")}</p>
             </div>
             <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-4 py-3">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.onyomi}</p>
-              <p className="mt-2 text-sm text-[var(--foreground)]">{entry.onyomi.join(" / ")}</p>
+              <p className="mt-2 text-sm text-foreground">{entry.onyomi.join(" / ")}</p>
             </div>
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
             <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-4 py-4">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.words}</p>
-              <ul className="mt-3 space-y-2 text-sm text-[var(--foreground)]">
+              <ul className="mt-3 space-y-2 text-sm text-foreground">
                 {entry.words.map((word) => (
-                  <li key={`${entry.kanji}-${word.word}`} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
+                  <li key={`${entry.kanji}-${word.word}`} className="rounded-xl bg-(--surface-panel) px-3 py-2">
                     <p className="font-semibold">{word.word} ({word.reading})</p>
-                    <p className="text-[var(--ink-soft)]">{word.meaning}</p>
+                    <p className="text-(--ink-soft)">{word.meaning}</p>
                   </li>
                 ))}
               </ul>
@@ -917,11 +917,11 @@ export default function KanjiPage() {
 
             <section className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-4 py-4">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.examples}</p>
-              <ul className="mt-3 space-y-2 text-sm text-[var(--foreground)]">
+              <ul className="mt-3 space-y-2 text-sm text-foreground">
                 {entry.examples.map((example) => (
-                  <li key={`${entry.kanji}-${example.japanese}`} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
+                  <li key={`${entry.kanji}-${example.japanese}`} className="rounded-xl bg-(--surface-panel) px-3 py-2">
                     <p className="font-medium">{example.japanese}</p>
-                    <p className="text-[var(--ink-soft)]">{example.translation}</p>
+                    <p className="text-(--ink-soft)">{example.translation}</p>
                   </li>
                 ))}
               </ul>
@@ -930,12 +930,12 @@ export default function KanjiPage() {
 
           <section className="mt-5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.writingTitle}</p>
-            <p className="mt-2 text-sm text-[var(--ink-soft)]">{text.writingHint}</p>
+            <p className="mt-2 text-sm text-(--ink-soft)">{text.writingHint}</p>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-[120px_minmax(0,1fr)]">
-              <div className="rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-3 py-4 text-center">
+              <div className="rounded-2xl border border-(--brand)/20 bg-(--brand-soft) px-3 py-4 text-center">
                 <p className="text-xs font-semibold tracking-[0.18em] text-[var(--brand)] uppercase">{text.target}</p>
-                <p className="mt-2 text-6xl font-semibold text-[var(--foreground)]">{entry.kanji}</p>
+                <p className="mt-2 text-6xl font-semibold text-foreground">{entry.kanji}</p>
               </div>
 
               <div className="relative w-fit overflow-hidden rounded-2xl">
@@ -948,7 +948,7 @@ export default function KanjiPage() {
                 <button
                   type="button"
                   onClick={() => setGuideVisible((current) => !current)}
-                  className="absolute right-2 top-2 z-40 rounded-md border border-[var(--foreground)]/20 bg-white/90 px-2 py-1 text-[11px] font-semibold text-[var(--foreground)] shadow-sm"
+                  className="absolute right-2 top-2 z-40 rounded-md border border-[var(--foreground)]/20 bg-white/90 px-2 py-1 text-[11px] font-semibold text-foreground shadow-sm"
                 >
                   {text.guide}: {guideVisible ? text.on : text.off}
                 </button>
@@ -971,7 +971,7 @@ export default function KanjiPage() {
                 disabled={!canUndo}
                 aria-label={text.undo}
                 title={text.undo}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-45"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-45"
               >
                 ↶
               </button>
@@ -981,14 +981,14 @@ export default function KanjiPage() {
                 disabled={!canRedo}
                 aria-label={text.redo}
                 title={text.redo}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-45"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-45"
               >
                 ↷
               </button>
               <button
                 type="button"
                 onClick={clearDrawing}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
               >
                 {text.clear}
               </button>
@@ -1002,8 +1002,8 @@ export default function KanjiPage() {
             </div>
 
             {similarity !== null ? (
-              <div className="mt-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
-                <p className="font-semibold text-[var(--foreground)]">{text.similarity}: {Math.round(similarity * 100)}%</p>
+              <div className="mt-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+                <p className="font-semibold text-foreground">{text.similarity}: {Math.round(similarity * 100)}%</p>
                 <p className="mt-1">{feedback}</p>
               </div>
             ) : null}

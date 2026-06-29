@@ -2036,8 +2036,8 @@ export default function Home() {
         <div className="pointer-events-none fixed inset-0 z-50">
           <div className="absolute top-1/2 left-1/2 w-[min(88vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-[var(--brand)]/40 bg-[var(--paper)]/92 p-6 text-center shadow-[0_24px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-md animate-level-up">
             <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">Level Up</p>
-            <p className="mt-2 text-4xl font-semibold text-[var(--foreground)]">Lv {levelUpMsg}</p>
-            <p className="mt-2 text-sm text-[var(--ink-soft)]">Great streak. Keep the momentum.</p>
+            <p className="mt-2 text-4xl font-semibold text-foreground">Lv {levelUpMsg}</p>
+            <p className="mt-2 text-sm text-(--ink-soft)">Great streak. Keep the momentum.</p>
           </div>
         </div>
       ) : null}
@@ -2051,22 +2051,22 @@ export default function Home() {
               </p>
               <Link
                 href="/japanese-daily-grammar"
-                className="rounded-full border border-[var(--brand)]/30 bg-[var(--surface-panel)] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+                className="rounded-full border border-[var(--brand)]/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
               >
                 Daily Grammar Guide
               </Link>
               <Link
                 href="/kanji"
-                className="rounded-full border border-[var(--brand)]/30 bg-[var(--surface-panel)] px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+                className="rounded-full border border-[var(--brand)]/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
               >
                 Kanji Study Lab
               </Link>
             </div>
           </div>
-          <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-[-0.02em] text-[var(--foreground)] sm:text-4xl">
+          <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-[-0.02em] text-foreground sm:text-4xl">
             {text.heroTitle}
           </h1>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-[var(--ink-soft)] sm:text-[15px]">
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-(--ink-soft) sm:text-[15px]">
             {text.heroBody}
           </p>
           <div
@@ -2084,9 +2084,9 @@ export default function Home() {
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
                     {text.quickActions}
                   </p>
-                  <p className="mt-1 max-w-md text-sm text-[var(--ink-soft)]">{text.quickActionsHint}</p>
+                  <p className="mt-1 max-w-md text-sm text-(--ink-soft)">{text.quickActionsHint}</p>
                 </div>
-                <span className="rounded-full border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
+                <span className="rounded-full border border-(--brand)/20 bg-(--brand-soft) px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
                   {modeLabels[language][studyMode]}
                 </span>
               </div>
@@ -2118,23 +2118,23 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="apple-sheen apple-hero-layer hero-rise-delay apple-float apple-subtle-card self-start rounded-3xl bg-[var(--surface-panel)] p-4 backdrop-blur-sm">
+            <section className="apple-sheen apple-hero-layer hero-rise-delay apple-float apple-subtle-card self-start rounded-3xl bg-(--surface-panel) p-4 backdrop-blur-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
                 {text.challengeTitle}
               </p>
-              <p className="mt-1 text-sm text-[var(--ink-soft)]">{text.challengeHint}</p>
+              <p className="mt-1 text-sm text-(--ink-soft)">{text.challengeHint}</p>
               <div className="mt-4 flex items-end justify-between gap-3">
                 <div>
-                  <p className="text-3xl font-semibold text-[var(--foreground)]">{dailyChallengePoints}</p>
-                  <p className="text-xs font-medium text-[var(--ink-soft)]">
+                  <p className="text-3xl font-semibold text-foreground">{dailyChallengePoints}</p>
+                  <p className="text-xs font-medium text-(--ink-soft)">
                     {text.challengeGoal}: {dailyChallengeTarget}
                   </p>
                 </div>
                 <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-right">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                     {dailyChallengePercent}%
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-[var(--foreground)]">
+                  <p className="mt-1 text-sm font-semibold text-foreground">
                     {challengeRemaining === 0 ? text.challengeDone : `${challengeRemaining} ${text.challengeRemaining}`}
                   </p>
                 </div>
@@ -2154,10 +2154,10 @@ export default function Home() {
               </div>
               <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-3">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                     {text.dailyQuestsTitle}
                   </p>
-                  <p className="text-xs font-semibold text-[var(--foreground)]">
+                  <p className="text-xs font-semibold text-foreground">
                     {completedDailyQuestCount}/{dailyQuests.length}
                   </p>
                 </div>
@@ -2167,10 +2167,10 @@ export default function Home() {
                     const percent = Math.round((quest.progress / quest.target) * 100);
 
                     return (
-                      <div key={quest.id} className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] px-3 py-2">
+                      <div key={quest.id} className="rounded-xl border border-[var(--border-subtle)] bg-(--surface-panel) px-3 py-2">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="text-xs font-medium text-[var(--foreground)]">{quest.label}</p>
-                          <p className="text-[11px] font-semibold text-[var(--ink-soft)]">
+                          <p className="text-xs font-medium text-foreground">{quest.label}</p>
+                          <p className="text-[11px] font-semibold text-(--ink-soft)">
                             {quest.progress}/{quest.target}
                           </p>
                         </div>
@@ -2189,14 +2189,14 @@ export default function Home() {
                     );
                   })}
                 </div>
-                <p className="mt-2 text-[11px] text-[var(--ink-soft)]">
+                <p className="mt-2 text-[11px] text-(--ink-soft)">
                   {allDailyQuestsDone && questRewardDay === todayKey
                     ? text.questRewardClaimed
                     : `${text.questReward}: +${dailyQuestRewardXp} XP`}
                 </p>
               </div>
               <div className="mt-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                   {text.achievementsTitle}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
@@ -2211,7 +2211,7 @@ export default function Home() {
                           ? "border-slate-400/70 bg-slate-100 text-slate-800"
                           : tier === "bronze"
                             ? "border-orange-400/70 bg-orange-100 text-orange-900"
-                            : "border-[var(--border-subtle)] bg-[var(--surface-panel)] text-[var(--ink-soft)]";
+                            : "border-[var(--border-subtle)] bg-(--surface-panel) text-(--ink-soft)";
 
                     return (
                       <span
@@ -2228,8 +2228,8 @@ export default function Home() {
             </section>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-[var(--foreground)]/10 bg-[var(--surface-strong)] px-4 py-3 text-sm text-[var(--foreground)] shadow-[0_10px_30px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+            <div className="rounded-2xl border border-[var(--foreground)]/10 bg-[var(--surface-strong)] px-4 py-3 text-sm text-foreground shadow-[0_10px_30px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                 {text.language}
               </span>
               <div className="grid grid-cols-2 gap-2">
@@ -2244,7 +2244,7 @@ export default function Home() {
                         setLanguage(option);
                         setAppStatus(uiCopy[option].localMode);
                       }}
-                      className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${selected ? "bg-[var(--brand)] text-[var(--brand-foreground)] shadow-[0_16px_28px_-20px_rgba(21,115,71,0.9)]" : "border border-[var(--border-subtle)] bg-[var(--surface-panel)] text-[var(--foreground)] hover:border-[var(--brand)]/30"}`}
+                      className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${selected ? "bg-[var(--brand)] text-[var(--brand-foreground)] shadow-[0_16px_28px_-20px_rgba(21,115,71,0.9)]" : "border border-[var(--border-subtle)] bg-(--surface-panel) text-foreground hover:border-[var(--brand)]/30"}`}
                     >
                       {option === "id" ? text.indonesian : text.english}
                     </button>
@@ -2252,8 +2252,8 @@ export default function Home() {
                 })}
               </div>
             </div>
-            <div className="rounded-2xl border border-[var(--foreground)]/10 bg-[var(--surface-strong)] px-4 py-3 text-sm text-[var(--foreground)] shadow-[0_10px_30px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+            <div className="rounded-2xl border border-(--foreground)/10 bg-(--surface-strong) px-4 py-3 text-sm text-foreground shadow-[0_10px_30px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                 {text.theme}
               </span>
               <div className="grid grid-cols-2 gap-2">
@@ -2265,7 +2265,7 @@ export default function Home() {
                       key={option}
                       type="button"
                       onClick={() => setThemeMode(option)}
-                      className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${selected ? "bg-[var(--interactive-bg)] text-[var(--interactive-foreground)] shadow-[0_16px_28px_-20px_rgba(0,0,0,0.7)]" : "border border-[var(--border-subtle)] bg-[var(--surface-panel)] text-[var(--foreground)] hover:border-[var(--brand)]/30"}`}
+                      className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${selected ? "bg-(--interactive-bg) text-(--interactive-foreground) shadow-[0_16px_28px_-20px_rgba(0,0,0,0.7)]" : "border border-(--border-subtle) bg-(--surface-panel) text-foreground hover:border-(--brand)/30"}`}
                     >
                       {option === "light" ? text.light : text.dark}
                     </button>
@@ -2282,18 +2282,18 @@ export default function Home() {
               value={studyMode === "listening" ? `${listeningScore}` : studyMode === "exam" ? `${examScore}` : `${quizScore}`}
             />
           </div>
-          <div className="mt-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/70 px-4 py-3">
+          <div className="mt-4 rounded-2xl border border-(--brand)/20 bg-(--brand-soft)/70 px-4 py-3">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">Level {level}</p>
-              <p className="text-sm font-semibold text-[var(--foreground)]">{xp} XP</p>
+              <p className="text-xs font-semibold tracking-[0.16em] text-(--brand) uppercase">Level {level}</p>
+              <p className="text-sm font-semibold text-foreground">{xp} XP</p>
             </div>
-            <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[var(--surface-panel-strong)]">
+            <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-(--surface-panel-strong)">
               <div
                 className="h-full rounded-full bg-[linear-gradient(90deg,#f2994a,#f2c94c,#6fcf97)] transition-all duration-500"
                 style={{ width: `${levelProgress}%` }}
               />
             </div>
-            <p className="mt-1 text-[11px] text-[var(--ink-soft)]">{nextLevelBase - xp} XP to next level</p>
+            <p className="mt-1 text-[11px] text-(--ink-soft)">{nextLevelBase - xp} XP to next level</p>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
             <Stat label={text.deck} value={`${studyMode === "exam" ? filteredExamQuestions.length : filteredCards.length}`} />
@@ -2304,13 +2304,13 @@ export default function Home() {
               value={studyMode === "grammar" ? `${grammarScore}` : studyMode === "exam" ? `${safeExamIndex + 1}/${filteredExamQuestions.length || 0}` : modeLabels[language][studyMode]}
             />
           </div>
-          <div className="mt-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/50 px-4 py-3">
+          <div className="mt-4 rounded-2xl border border-(--brand)/20 bg-(--brand-soft)/50 px-4 py-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">{text.level}</p>
-                <p className="mt-1 text-sm text-[var(--ink-soft)]">{studyLevel === null ? text.chooseLevel : studyLevelLabels[language][studyLevel]}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--brand)">{text.level}</p>
+                <p className="mt-1 text-sm text-(--ink-soft)">{studyLevel === null ? text.chooseLevel : studyLevelLabels[language][studyLevel]}</p>
               </div>
-              <p className="text-xs text-[var(--ink-soft)]">{text.chooseLevelHint}</p>
+              <p className="text-xs text-(--ink-soft)">{text.chooseLevelHint}</p>
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {studyLevels.map((levelOption) => {
@@ -2335,7 +2335,7 @@ export default function Home() {
                       setListeningTextAnswer("");
                       setAppStatus(`${text.level}: ${studyLevelLabels[language][levelOption]}`);
                     }}
-                    className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "bg-[var(--interactive-bg)] text-[var(--interactive-foreground)]" : "border border-[var(--border-strong)] bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "bg-(--interactive-bg) text-(--interactive-foreground)" : "border border-(--border-strong) bg-(--surface-panel) text-foreground"}`}
                   >
                     {studyLevelLabels[language][levelOption]}
                   </button>
@@ -2363,7 +2363,7 @@ export default function Home() {
                       setAppStatus(text.chooseLevelHint);
                     }
                   }}
-                  className={`apple-segment-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "active bg-[var(--brand)] text-[var(--brand-foreground)]" : "border border-[var(--brand)]/20 bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
+                  className={`apple-segment-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "active bg-(--brand) text-(--brand-foreground)" : "border border-(--brand)/20 bg-(--surface-panel) text-foreground"}`}
                 >
                   {modeLabels[language][mode]}
                 </button>
@@ -2380,7 +2380,7 @@ export default function Home() {
                 setBrowsePage(1);
               }}
               placeholder={text.searchPlaceholder}
-              className="rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-panel-tint)] px-4 py-3 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)]"
+              className="rounded-2xl border border-(--border-strong) bg-(--surface-panel-tint) px-4 py-3 text-sm text-foreground outline-none transition focus:border-(--brand)"
             />
             <select
               value={sortBy}
@@ -2389,7 +2389,7 @@ export default function Home() {
                 setReviewSeenIds({});
                 setBrowsePage(1);
               }}
-              className="rounded-2xl border border-[var(--border-strong)] bg-[var(--surface-panel-tint)] px-4 py-3 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)]"
+              className="rounded-2xl border border-(--border-strong) bg-(--surface-panel-tint) px-4 py-3 text-sm text-foreground outline-none transition focus:border-(--brand)"
             >
               {sortOptions.map((option) => (
                 <option key={option} value={option}>
@@ -2417,26 +2417,26 @@ export default function Home() {
                     setListeningChoice(null);
                     setListeningLocked(false);
                   }}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "bg-[var(--interactive-bg)] text-[var(--interactive-foreground)]" : "border border-[var(--border-strong)] bg-[var(--surface-panel)] text-[var(--foreground)]"}`}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] transition ${selected ? "bg-(--interactive-bg) text-(--interactive-foreground)" : "border border-(--border-strong) bg-(--surface-panel) text-foreground"}`}
                 >
                   {categoryLabels[language][category]}
                 </button>
               );
             })}
           </div>
-          <p className="mt-2 text-xs text-[var(--ink-soft)]">
+          <p className="mt-2 text-xs text-(--ink-soft)">
             {text.showing} {filteredCards.length} {text.wordsIn} {categoryLabels[language][selectedCategory]}{studyLevel ? ` • ${studyLevelLabels[language][studyLevel]}` : ""}.
           </p>
           <div className="mt-4 flex flex-wrap justify-end gap-2">
             <button
               type="button"
               onClick={resetProgress}
-              className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-xs font-semibold text-[var(--foreground)]"
+              className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-xs font-semibold text-foreground"
             >
               {text.resetProgress}
             </button>
           </div>
-          <p className="mt-2 text-xs text-[var(--ink-soft)]">{appStatus}</p>
+          <p className="mt-2 text-xs text-(--ink-soft)">{appStatus}</p>
         </header>
 
         {studyLevel === null ? (
@@ -2444,10 +2444,10 @@ export default function Home() {
         ) : null}
 
         {studyLevel !== null && studyMode === "review" ? (
-          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
+          <article className={`rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.reviewTitle}</h2>
-            <p className="text-sm text-[var(--ink-soft)]">
+            <h2 className="text-xl font-semibold text-foreground">{text.reviewTitle}</h2>
+            <p className="text-xl text-(--ink-soft)">
               {text.card} {safeCardIndex + 1}/{filteredCards.length}
             </p>
           </div>
@@ -2457,42 +2457,37 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => toggleFavorite(activeCard)}
-                  className="rounded-full border border-[var(--border-strong)] bg-[var(--surface-panel)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--foreground)]"
+                  className="rounded-full border border-(--border-strong) bg-(--surface-panel) px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-foreground"
                 >
                   {favorites.includes(getCardId(activeCard)) ? text.unfavorite : text.favorite}
                 </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setShowMeaning((show) => !show)}
-                className="w-full rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-4 py-6 text-left transition-transform hover:scale-[1.01]"
+              <div
+                className="w-full rounded-2xl border border-(--brand)/20 bg-(--brand-soft) px-4 py-6 text-left transition-transform hover:scale-[1.01]"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">
+                  <p className="text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">
                     {text.tapToReveal} {showMeaning ? text.hide : text.reveal}
                   </p>
-                  <span className="rounded-full bg-[var(--surface-panel)] px-2 py-1 text-[10px] font-semibold tracking-[0.18em] text-[var(--brand)] uppercase">
+                  <span className="rounded-full bg-(--surface-panel) px-2 py-1 text-[10px] font-semibold tracking-[0.18em] text-(--brand) uppercase">
                     {categoryLabels[language][activeCard.category]}
                   </span>
                 </div>
                 <p className="mt-3 text-6xl select-none" aria-hidden="true">
                   {activeCard.emoji}
                 </p>
-                <p className="mt-2 text-4xl leading-tight font-semibold text-[var(--foreground)]">
+                <p className="mt-2 text-4xl leading-tight font-semibold text-foreground">
                   {activeCard.kanji}
                 </p>
-                <p className="mt-1 text-lg text-[var(--ink-soft)]">{activeCard.kana}</p>
+                <p className="mt-1 text-3xl text-(--ink-soft)">{activeCard.kana}</p>
 
-                {showMeaning ? (
-                  <div className="mt-4 space-y-2 border-t border-[var(--brand)]/15 pt-4">
-                    <p className="text-xl font-medium text-[var(--foreground)]">
+                  <div className="mt-4 space-y-2 border-t border-(--brand)/15 pt-4">
+                    <p className="text-xl font-medium text-foreground">
                       {activeCard.meaning} ({activeCard.romaji})
                     </p>
-                    <p className="text-xl text-[var(--ink-soft)]">{activeCard.example}</p>
-                    <p className="text-xl text-[var(--ink-soft)]">{activeCard.translation}</p>
+                    <p className="text-xl text-(--ink-soft)">{activeCard.example}</p>
                   </div>
-                ) : null}
-              </button>
+              </div>
 
               <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {ratings.map((rating) => (
@@ -2500,7 +2495,7 @@ export default function Home() {
                     key={rating}
                     type="button"
                     onClick={() => rateCard(rating)}
-                    className="rounded-xl bg-[var(--interactive-bg)] px-3 py-2 text-sm font-semibold text-[var(--interactive-foreground)] transition hover:brightness-110"
+                    className="rounded-xl bg-(--interactive-bg) px-3 py-2 text-sm font-semibold text-(--interactive-foreground) transition hover:brightness-110"
                   >
                     {ratingLabels[language][rating]}
                   </button>
@@ -2514,9 +2509,9 @@ export default function Home() {
         ) : null}
 
         {studyLevel !== null && studyMode === "quiz" ? (
-          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
+          <article className={`rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.quickQuiz}</h2>
+            <h2 className="text-xl font-semibold text-foreground">{text.quickQuiz}</h2>
             <div className="flex gap-2">
               <select
                 value={quizMode}
@@ -2525,7 +2520,7 @@ export default function Home() {
                   setQuizChoice(null);
                   setQuizLocked(false);
                 }}
-                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-1 text-sm text-foreground"
               >
                 {quizModes.map((mode) => (
                   <option key={mode} value={mode}>
@@ -2537,7 +2532,7 @@ export default function Home() {
                 type="button"
                 onClick={() => nextCard()}
                 disabled={!quizLocked || !activeCard}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.next}
               </button>
@@ -2545,12 +2540,12 @@ export default function Home() {
           </div>
           {activeCard ? (
             <>
-              <p className="mb-3 text-sm text-[var(--ink-soft)]">
+              <p className="mb-3 text-sm text-(--ink-soft)">
                 {quizMode === "meaning" ? text.whatMeaning : text.whichKana}
               </p>
               <p className="mb-1 text-5xl select-none" aria-hidden="true">{activeCard.emoji}</p>
-              <p className="mb-1 text-3xl font-semibold text-[var(--foreground)]">{activeCard.kanji}</p>
-              <p className="mb-4 text-sm text-[var(--ink-soft)]">
+              <p className="mb-1 text-3xl font-semibold text-foreground">{activeCard.kanji}</p>
+              <p className="mb-4 text-sm text-(--ink-soft)">
                 {quizMode === "meaning" ? activeCard.kana : activeCard.meaning}
               </p>
 
@@ -2575,7 +2570,7 @@ export default function Home() {
                       type="button"
                       onClick={() => chooseAnswer(option)}
                       disabled={quizLocked}
-                      className={`rounded-xl border px-3 py-2 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
+                      className={`rounded-xl border px-3 py-2 text-left text-sm text-foreground transition hover:border-(--brand) ${selectedStyle}`}
                     >
                       {option}
                     </button>
@@ -2587,14 +2582,14 @@ export default function Home() {
             <EmptyDeckState title={text.noMatchingCards} message={text.noQuizMatches} />
           )}
 
-          <p className="mt-3 text-xs text-[var(--ink-soft)]">{text.progressSaved}</p>
+          <p className="mt-3 text-xs text-(--ink-soft)">{text.progressSaved}</p>
           </article>
         ) : null}
 
         {studyLevel !== null && studyMode === "listening" ? (
-          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
+          <article className={`rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.listeningTitle}</h2>
+              <h2 className="text-xl font-semibold text-foreground">{text.listeningTitle}</h2>
               <div className="flex gap-2">
                 <select
                   value={listeningQuestionType}
@@ -2604,7 +2599,7 @@ export default function Home() {
                     setListeningLocked(false);
                     setListeningTextAnswer("");
                   }}
-                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                  className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-1 text-sm text-foreground"
                 >
                   {listeningQuestionTypes.map((type) => (
                     <option key={type} value={type}>
@@ -2615,7 +2610,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={playListeningPrompt}
-                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+                  className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground"
                 >
                   {text.playAudio}
                 </button>
@@ -2628,7 +2623,7 @@ export default function Home() {
                       setListeningLocked(false);
                       setListeningTextAnswer("");
                     }}
-                    className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                    className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-1 text-sm text-foreground"
                   >
                     {listeningDifficulties.map((difficulty) => (
                       <option key={difficulty} value={difficulty}>
@@ -2641,7 +2636,7 @@ export default function Home() {
                   type="button"
                   onClick={nextListeningQuestion}
                   disabled={!listeningLocked || (listeningQuestionType === "vocabulary" ? !activeCard : !activeListeningGrammarQuestion)}
-                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {text.next}
                 </button>
@@ -2649,19 +2644,19 @@ export default function Home() {
             </div>
             {listeningQuestionType === "vocabulary" ? activeCard ? (
               <>
-                <p className="mb-3 text-sm text-[var(--ink-soft)]">
+                <p className="mb-3 text-sm text-(--ink-soft)">
                   {text.listeningInstruction}
                 </p>
-                <div className="mb-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-4 py-5 text-center">
+                <div className="mb-4 rounded-2xl border border-(--brand)/20 bg-(--brand-soft) px-4 py-5 text-center">
                   <p className="text-4xl select-none" aria-hidden="true">{activeCard.emoji}</p>
-                  <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">
+                  <p className="text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">
                     {text.audioPrompt}
                   </p>
-                  <p className="mt-2 text-sm text-[var(--ink-soft)]">
+                  <p className="mt-2 text-sm text-(--ink-soft)">
                     {text.audioHint}
                   </p>
                   {listeningDifficulty === "hard" ? (
-                    <p className="mt-2 text-xs font-semibold tracking-[0.14em] text-[var(--brand)] uppercase">
+                    <p className="mt-2 text-xs font-semibold tracking-[0.14em] text-(--brand) uppercase">
                       {text.hardModeHint}
                     </p>
                   ) : null}
@@ -2685,13 +2680,13 @@ export default function Home() {
                       onChange={(event) => setListeningTextAnswer(event.target.value)}
                       placeholder={text.typeYourAnswer}
                       disabled={listeningLocked}
-                      className="rounded-xl border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-2 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--brand)] disabled:opacity-70"
+                      className="rounded-xl border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-2 text-sm text-foreground outline-none transition focus:border-(--brand) disabled:opacity-70"
                     />
                     <button
                       type="button"
                       onClick={submitListeningTextAnswer}
                       disabled={listeningLocked}
-                      className="rounded-xl bg-[var(--interactive-bg)] px-4 py-2 text-sm font-semibold text-[var(--interactive-foreground)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="rounded-xl bg-(--interactive-bg) px-4 py-2 text-sm font-semibold text-(--interactive-foreground) transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {text.submitAnswer}
                     </button>
@@ -2717,7 +2712,7 @@ export default function Home() {
                           type="button"
                           onClick={() => chooseListeningAnswer(option)}
                           disabled={listeningLocked}
-                          className={`rounded-xl border px-3 py-2 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
+                          className={`rounded-xl border px-3 py-2 text-left text-sm text-foreground transition hover:border-(--brand) ${selectedStyle}`}
                         >
                           {option}
                         </button>
@@ -2727,8 +2722,8 @@ export default function Home() {
                 )}
 
                 {listeningLocked ? (
-                  <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
-                    <p className="font-semibold text-[var(--foreground)]">
+                  <div className="mt-4 rounded-xl border border-(--border-subtle) bg-(--surface-panel-tint) px-3 py-3 text-sm text-(--ink-soft)">
+                    <p className="font-semibold text-foreground">
                       {listeningChoice === activeCard.meaning
                         ? text.listeningCorrect
                         : `${text.correctAnswer}: ${activeCard.meaning}`}
@@ -2744,11 +2739,11 @@ export default function Home() {
               <EmptyDeckState title={text.noMatchingCards} message={text.noListeningMatches} />
             ) : activeListeningGrammarQuestion ? (
               <>
-                <p className="mb-3 text-sm text-[var(--ink-soft)]">{text.listeningInstructionGrammar}</p>
-                <div className="mb-4 rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-4 py-5 text-center">
-                  <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">{text.audioPrompt}</p>
-                  <p className="mt-2 text-sm font-semibold text-[var(--foreground)]">{text.listeningMeaningQuestion}</p>
-                  <p className="mt-1 text-xs text-[var(--ink-soft)]">{activeListeningGrammarQuestion.prompt}</p>
+                <p className="mb-3 text-sm text-(--ink-soft)">{text.listeningInstructionGrammar}</p>
+                <div className="mb-4 rounded-2xl border border-(--brand)/20 bg-(--brand-soft) px-4 py-5 text-center">
+                  <p className="text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">{text.audioPrompt}</p>
+                  <p className="mt-2 text-sm font-semibold text-foreground">{text.listeningMeaningQuestion}</p>
+                  <p className="mt-1 text-xs text-(--ink-soft)">{activeListeningGrammarQuestion.prompt}</p>
                 </div>
                 <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                   <ProgressChip label={text.listeningCombo} value={`${listeningCombo}`} />
@@ -2779,7 +2774,7 @@ export default function Home() {
                         type="button"
                         onClick={() => chooseListeningAnswer(option)}
                         disabled={listeningLocked}
-                        className={`rounded-xl border px-3 py-2 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
+                        className={`rounded-xl border px-3 py-2 text-left text-sm text-foreground transition hover:border-(--brand) ${selectedStyle}`}
                       >
                         {option}
                       </button>
@@ -2787,8 +2782,8 @@ export default function Home() {
                   })}
                 </div>
                 {listeningLocked ? (
-                  <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
-                    <p className="font-semibold text-[var(--foreground)]">
+                  <div className="mt-4 rounded-xl border border-(--border-subtle) bg-(--surface-panel-tint) px-3 py-3 text-sm text-(--ink-soft)">
+                    <p className="font-semibold text-foreground">
                       {listeningChoice === activeListeningGrammarQuestion.translation
                         ? text.listeningCorrect
                         : `${text.correctAnswer}: ${activeListeningGrammarQuestion.translation}`}
@@ -2808,7 +2803,7 @@ export default function Home() {
         {studyLevel !== null && studyMode === "grammar" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.grammarTitle}</h2>
+              <h2 className="text-xl font-semibold text-foreground">{text.grammarTitle}</h2>
               <div className="flex gap-2">
                 <select
                   value={studyLevel}
@@ -2817,7 +2812,7 @@ export default function Home() {
                     setGrammarIndex(0);
                     setListeningGrammarIndex(0);
                   }}
-                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-foreground"
                 >
                   {studyLevels.map((level) => (
                     <option key={level} value={level}>
@@ -2829,14 +2824,14 @@ export default function Home() {
                   type="button"
                   onClick={nextGrammarQuestion}
                   disabled={!activeGrammarQuestion || !grammarSolvedIds.includes(activeGrammarQuestion.id)}
-                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {text.next}
                 </button>
               </div>
             </div>
 
-            <p className="mb-3 text-sm text-[var(--ink-soft)]">
+            <p className="mb-3 text-sm text-(--ink-soft)">
               {text.score}: {grammarScore} - {text.question} {safeGrammarIndex + 1}/{filteredGrammarQuestions.length}
             </p>
 
@@ -2845,8 +2840,8 @@ export default function Home() {
                 <p className="text-sm font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">
                   {activeGrammarQuestion.prompt}
                 </p>
-                <p className="mt-3 text-base text-[var(--ink-soft)]">{text.buildFromEnglish}</p>
-                <p className="mt-1 text-2xl font-semibold text-[var(--foreground)]">
+                <p className="mt-3 text-base text-(--ink-soft)">{text.buildFromEnglish}</p>
+                <p className="mt-1 text-2xl font-semibold text-foreground">
                   {activeGrammarQuestion.translation}
                 </p>
                 <GrammarPuzzle
@@ -2866,35 +2861,35 @@ export default function Home() {
         {studyLevel !== null && studyMode === "exam" ? (
           <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.examTitle}</h2>
+              <h2 className="text-xl font-semibold text-foreground">{text.examTitle}</h2>
               <button
                 type="button"
                 onClick={nextExamQuestion}
                 disabled={!examLocked || !activeExamQuestion}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.next}
               </button>
             </div>
 
-            <p className="mb-3 text-sm text-[var(--ink-soft)]">{text.examInstruction}</p>
+            <p className="mb-3 text-sm text-(--ink-soft)">{text.examInstruction}</p>
 
             {activeExamQuestion ? (
               <>
-                <p className="mb-3 text-sm text-[var(--ink-soft)]">
+                <p className="mb-3 text-sm text-(--ink-soft)">
                   {text.score}: {examScore} - {text.question} {safeExamIndex + 1}/{filteredExamQuestions.length}
                 </p>
-                <div className="rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)]/60 px-4 py-5">
+                <div className="rounded-2xl border border-(--brand)/20 bg-(--brand-soft)/60 px-4 py-5">
                   <p className="text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">JLPT</p>
-                  <p className="mt-3 text-lg leading-relaxed text-[var(--foreground)] sm:text-xl">
+                  <p className="mt-3 text-lg leading-relaxed text-foreground sm:text-xl">
                     {activeExamQuestion.before}
                     <span className="underline decoration-2 decoration-[var(--brand)] underline-offset-4">
                       {activeExamQuestion.target}
                     </span>
                     {activeExamQuestion.after}
                   </p>
-                  <p className="mt-3 text-sm font-semibold text-[var(--foreground)]">{text.examQuestionPrompt}</p>
-                  <p className="mt-1 text-xs text-[var(--ink-soft)]">{activeExamQuestion.translation}</p>
+                  <p className="mt-3 text-sm font-semibold text-foreground">{text.examQuestionPrompt}</p>
+                  <p className="mt-1 text-xs text-(--ink-soft)">{activeExamQuestion.translation}</p>
                 </div>
 
                 <div className="mt-4 grid gap-2">
@@ -2917,7 +2912,7 @@ export default function Home() {
                         type="button"
                         onClick={() => chooseExamAnswer(option)}
                         disabled={examLocked}
-                        className={`rounded-xl border px-3 py-3 text-left text-sm text-[var(--foreground)] transition hover:border-[var(--brand)] ${selectedStyle}`}
+                        className={`rounded-xl border px-3 py-3 text-left text-sm text-foreground transition hover:border-[var(--brand)] ${selectedStyle}`}
                       >
                         <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-current/20 text-xs font-semibold">
                           {String.fromCharCode(65 + optionIndex)}
@@ -2929,8 +2924,8 @@ export default function Home() {
                 </div>
 
                 {examLocked ? (
-                  <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
-                    <p className="font-semibold text-[var(--foreground)]">
+                  <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+                    <p className="font-semibold text-foreground">
                       {examChoice === activeExamQuestion.reading
                         ? text.listeningCorrect
                         : `${text.examCorrect}: ${activeExamQuestion.reading}`}
@@ -2948,12 +2943,12 @@ export default function Home() {
         {studyLevel !== null && studyMode === "writing" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-2">
-              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.writingTitle}</h2>
+              <h2 className="text-xl font-semibold text-foreground">{text.writingTitle}</h2>
               <div className="flex gap-2">
                 <select
                   value={writingScript}
                   onChange={(event) => setWritingScript(event.target.value as WritingScript)}
-                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-foreground"
                 >
                   {writingScripts.map((script) => (
                     <option key={script} value={script}>
@@ -2978,15 +2973,15 @@ export default function Home() {
         {studyLevel !== null && studyMode === "browse" ? (
           <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.browseTitle}</h2>
-              <p className="text-sm text-[var(--ink-soft)]">
+              <h2 className="text-xl font-semibold text-foreground">{text.browseTitle}</h2>
+              <p className="text-sm text-(--ink-soft)">
                 {text.showing} {filteredCards.length === 0 ? 0 : browseStartIndex + 1}-
                 {Math.min(browseStartIndex + browsePerPage, filteredCards.length)} {text.wordsIn} {text.deck.toLowerCase()}.
               </p>
             </div>
 
             <div className="mb-4 grid gap-2 sm:grid-cols-[auto_auto_1fr_auto_auto] sm:items-center">
-              <label htmlFor="browse-per-page" className="text-sm text-[var(--ink-soft)]">
+              <label htmlFor="browse-per-page" className="text-sm text-(--ink-soft)">
                 {text.browsePerPage}
               </label>
               <select
@@ -2996,7 +2991,7 @@ export default function Home() {
                   setBrowsePerPage(Number(event.target.value));
                   setBrowsePage(1);
                 }}
-                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-[var(--foreground)]"
+                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-foreground"
               >
                 {browsePerPageOptions.map((option) => (
                   <option key={option} value={option}>
@@ -3005,7 +3000,7 @@ export default function Home() {
                 ))}
               </select>
 
-              <p className="text-sm text-[var(--ink-soft)] sm:text-center">
+              <p className="text-sm text-(--ink-soft) sm:text-center">
                 {text.browsePage} {safeBrowsePage}/{browseTotalPages}
               </p>
 
@@ -3013,7 +3008,7 @@ export default function Home() {
                 type="button"
                 onClick={() => setBrowsePage(Math.max(1, safeBrowsePage - 1))}
                 disabled={safeBrowsePage <= 1}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.browsePrevious}
               </button>
@@ -3021,34 +3016,34 @@ export default function Home() {
                 type="button"
                 onClick={() => setBrowsePage(Math.min(browseTotalPages, safeBrowsePage + 1))}
                 disabled={safeBrowsePage >= browseTotalPages}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.browseNext}
               </button>
             </div>
 
-            <p className="mb-3 text-xs text-[var(--ink-soft)]">{text.browseSlideHint}</p>
+            <p className="mb-3 text-xs text-(--ink-soft)">{text.browseSlideHint}</p>
 
             {filteredCards.length > 0 ? (
               <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 sm:grid sm:overflow-visible">
                 {browseVisibleCards.map((card) => (
                   <div
                     key={`${card.kanji}-${card.kana}`}
-                    className="min-w-[82%] snap-start rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] p-4 sm:min-w-0"
+                    className="min-w-[82%] snap-start rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-4 sm:min-w-0"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-3xl select-none" aria-hidden="true">{getCardEmoji(card)}</p>
-                        <p className="text-2xl font-semibold text-[var(--foreground)]">{card.kanji}</p>
-                        <p className="text-sm text-[var(--ink-soft)]">{card.kana} - {card.romaji}</p>
+                        <p className="text-2xl font-semibold text-foreground">{card.kanji}</p>
+                        <p className="text-sm text-(--ink-soft)">{card.kana} - {card.romaji}</p>
                       </div>
-                      <span className="rounded-full bg-[var(--brand-soft)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
+                      <span className="rounded-full bg-(--brand-soft) px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
                         {categoryLabels[language][card.category]}
                       </span>
                     </div>
-                    <p className="mt-3 text-sm font-medium text-[var(--foreground)]">{card.meaning}</p>
-                    <p className="mt-2 text-sm text-[var(--ink-soft)]">{card.example}</p>
-                    <p className="mt-1 text-sm text-[var(--ink-soft)]">{card.translation}</p>
+                    <p className="mt-3 text-sm font-medium text-foreground">{card.meaning}</p>
+                    <p className="mt-2 text-sm text-(--ink-soft)">{card.example}</p>
+                    <p className="mt-1 text-sm text-(--ink-soft)">{card.translation}</p>
                   </div>
                 ))}
               </div>
@@ -3061,12 +3056,12 @@ export default function Home() {
 
       <aside className="space-y-4 lg:space-y-6">
         <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
-          <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.dailyReminder}</h2>
-          <p className="mt-2 text-sm text-[var(--ink-soft)]">
+          <h2 className="text-xl font-semibold text-foreground">{text.dailyReminder}</h2>
+          <p className="mt-2 text-sm text-(--ink-soft)">
             {text.notificationPermission}: {notificationPermission}
           </p>
           <div className="mt-3 flex items-center gap-2">
-            <label htmlFor="reminder-hour" className="text-sm text-[var(--ink-soft)]">
+            <label htmlFor="reminder-hour" className="text-sm text-(--ink-soft)">
               {text.hour}
             </label>
             <input
@@ -3078,9 +3073,9 @@ export default function Home() {
               onChange={(event) =>
                 setReminderHour(Math.min(23, Math.max(0, Number(event.target.value) || 0)))
               }
-              className="w-20 rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-1 text-sm text-[var(--foreground)]"
+              className="w-20 rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-1 text-sm text-foreground"
             />
-            <span className="text-sm text-[var(--ink-soft)]">:00</span>
+            <span className="text-sm text-(--ink-soft)">:00</span>
           </div>
           <button
             type="button"
@@ -3092,28 +3087,28 @@ export default function Home() {
         </section>
 
         <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
-          <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.todayPlan}</h2>
-          <ul className="mt-4 space-y-2 text-sm text-[var(--ink-soft)]">
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.reviewPlan} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.grammarPlanPrefix} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.focusCategory}: {categoryLabels[language][selectedCategory]}</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.quizMode}: {quizModeLabels[language][quizMode]}</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.listeningQuestions}</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.writingTitle}: {writingScriptLabels[language][writingScript]}</li>
-            <li className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">{text.shadowing}</li>
+          <h2 className="text-xl font-semibold text-foreground">{text.todayPlan}</h2>
+          <ul className="mt-4 space-y-2 text-sm text-(--ink-soft)">
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.reviewPlan} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.grammarPlanPrefix} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.focusCategory}: {categoryLabels[language][selectedCategory]}</li>
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.quizMode}: {quizModeLabels[language][quizMode]}</li>
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.listeningQuestions}</li>
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.writingTitle}: {writingScriptLabels[language][writingScript]}</li>
+            <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.shadowing}</li>
           </ul>
         </section>
 
         <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
-          <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.progressByCategory}</h2>
+          <h2 className="text-xl font-semibold text-foreground">{text.progressByCategory}</h2>
           <div className="mt-4 space-y-2 text-sm">
             {progressByCategory.map((entry) => (
               <div
                 key={entry.category}
-                className="rounded-xl bg-[var(--surface-panel)] px-3 py-2 text-[var(--ink-soft)]"
+                className="rounded-xl bg-(--surface-panel) px-3 py-2 text-(--ink-soft)"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="font-semibold uppercase tracking-[0.12em] text-[var(--foreground)]">
+                  <span className="font-semibold uppercase tracking-[0.12em] text-foreground">
                     {categoryLabels[language][entry.category]}
                   </span>
                   <span>{entry.total} {text.cards}</span>
@@ -3128,14 +3123,14 @@ export default function Home() {
         </section>
 
         <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
-          <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.savedFocus}</h2>
-          <div className="mt-4 space-y-3 text-sm text-[var(--ink-soft)]">
+          <h2 className="text-xl font-semibold text-foreground">{text.savedFocus}</h2>
+          <div className="mt-4 space-y-3 text-sm text-(--ink-soft)">
             <div>
-              <p className="font-semibold text-[var(--foreground)]">{text.favorites}</p>
+              <p className="font-semibold text-foreground">{text.favorites}</p>
               {favoriteCards.length > 0 ? (
                 <ul className="mt-2 space-y-2">
                   {favoriteCards.map((card) => (
-                    <li key={getCardId(card)} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
+                    <li key={getCardId(card)} className="rounded-xl bg-(--surface-panel) px-3 py-2">
                       {card.kanji} - {card.meaning}
                     </li>
                   ))}
@@ -3146,11 +3141,11 @@ export default function Home() {
             </div>
 
             <div>
-              <p className="font-semibold text-[var(--foreground)]">{text.weakWords}</p>
+              <p className="font-semibold text-foreground">{text.weakWords}</p>
               {weakCards.length > 0 ? (
                 <ul className="mt-2 space-y-2">
                   {weakCards.map((card) => (
-                    <li key={getCardId(card)} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
+                    <li key={getCardId(card)} className="rounded-xl bg-(--surface-panel) px-3 py-2">
                       {card.kanji} - {card.meaning} - {text.misses} {weakWordCounts[getCardId(card)]}
                     </li>
                   ))}
@@ -3161,7 +3156,7 @@ export default function Home() {
             </div>
 
             <div>
-              <p className="font-semibold text-[var(--foreground)]">{text.writingWeakChars}</p>
+              <p className="font-semibold text-foreground">{text.writingWeakChars}</p>
               {weakWritingCharacters.length > 0 ? (
                 <ul className="mt-2 space-y-2">
                   {weakWritingCharacters.map(([characterKey, stat]) => {
@@ -3169,14 +3164,14 @@ export default function Home() {
                     const accuracy = Math.round((stat.passes / Math.max(stat.attempts, 1)) * 100);
 
                     return (
-                      <li key={characterKey} className="rounded-xl bg-[var(--surface-panel)] px-3 py-2">
-                        <div className="flex items-center justify-between gap-3 text-[var(--foreground)]">
+                      <li key={characterKey} className="rounded-xl bg-(--surface-panel) px-3 py-2">
+                        <div className="flex items-center justify-between gap-3 text-foreground">
                           <span className="text-xl font-semibold leading-none">{character}</span>
-                          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+                          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                             {scriptName}
                           </span>
                         </div>
-                        <p className="mt-1 text-xs text-[var(--ink-soft)]">
+                        <p className="mt-1 text-xs text-(--ink-soft)">
                           {accuracy}% {text.writingAccuracy} - {stat.attempts} {text.writingAttempts}
                         </p>
                       </li>
@@ -3191,14 +3186,14 @@ export default function Home() {
         </section>
 
         <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
-          <h2 className="text-xl font-semibold text-[var(--foreground)]">{text.kanaTrainer}</h2>
-          <p className="mt-2 text-sm text-[var(--ink-soft)]">{text.kanaTrainerHint}</p>
+          <h2 className="text-xl font-semibold text-foreground">{text.kanaTrainer}</h2>
+          <p className="mt-2 text-sm text-(--ink-soft)">{text.kanaTrainerHint}</p>
           <div className="mt-4 grid grid-cols-5 gap-2">
             {kanaTiles.map((kana) => (
               <button
                 key={kana}
                 type="button"
-                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-2 text-lg text-[var(--foreground)] transition hover:-translate-y-0.5 hover:border-[var(--brand)]"
+                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-2 text-lg text-foreground transition hover:-translate-y-0.5 hover:border-[var(--brand)]"
               >
                 {kana}
               </button>
@@ -3228,8 +3223,8 @@ function QuickActionCard({
       className="group apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] p-3 text-left transition duration-300 hover:border-[var(--brand)]/30"
     >
       <div className={`h-1.5 w-16 rounded-full ${accent} transition duration-300 group-hover:w-24`} />
-      <p className="mt-3 text-sm font-semibold text-[var(--foreground)]">{title}</p>
-      <p className="mt-1 text-sm leading-relaxed text-[var(--ink-soft)]">{description}</p>
+      <p className="mt-3 text-sm font-semibold text-foreground">{title}</p>
+      <p className="mt-1 text-sm leading-relaxed text-(--ink-soft)">{description}</p>
     </button>
   );
 }
@@ -3247,17 +3242,17 @@ function ProgressChip({
     <div
       className={`apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-left transition duration-300 hover:border-[var(--brand)]/25 ${active ? "combo-spark" : ""}`}
     >
-      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--ink-soft)]">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
         {label}
       </p>
-      <p className="mt-1 text-lg font-semibold text-[var(--foreground)]">{value}</p>
+      <p className="mt-1 text-lg font-semibold text-foreground">{value}</p>
     </div>
   );
 }
 
 function IvoSenseiLogo() {
   return (
-    <div className="apple-float flex items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel)] px-3 py-2 shadow-[0_12px_30px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm">
+    <div className="apple-float flex items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) px-3 py-2 shadow-[0_12px_30px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm">
       <Image
         src="/ivo-sensei-logo.svg"
         alt="Ivo Sensei"
@@ -3266,10 +3261,10 @@ function IvoSenseiLogo() {
         className="h-11 w-auto sm:h-12"
       />
       <div className="hidden min-w-0 sm:block">
-        <p className="font-heading text-sm leading-none font-semibold text-[var(--foreground)]">
+        <p className="font-heading text-sm leading-none font-semibold text-foreground">
           Learn Japanese Free
         </p>
-        <p className="mt-1 text-[11px] font-semibold tracking-[0.16em] text-[var(--ink-soft)] uppercase">
+        <p className="mt-1 text-[11px] font-semibold tracking-[0.16em] text-(--ink-soft) uppercase">
           by Ivo Sensei
         </p>
       </div>
@@ -3280,8 +3275,8 @@ function IvoSenseiLogo() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="apple-float rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-2 py-3">
-      <p className="text-xs font-medium text-[var(--ink-soft)]">{label}</p>
-      <p className="text-lg font-semibold text-[var(--foreground)]">{value}</p>
+      <p className="text-xs font-medium text-(--ink-soft)">{label}</p>
+      <p className="text-lg font-semibold text-foreground">{value}</p>
     </div>
   );
 }
@@ -3289,8 +3284,8 @@ function Stat({ label, value }: { label: string; value: string }) {
 function EmptyDeckState({ title, message }: { title: string; message: string }) {
   return (
     <div className="rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-panel-soft)] px-4 py-8 text-center">
-      <p className="text-sm font-medium text-[var(--foreground)]">{title}</p>
-      <p className="mt-2 text-sm text-[var(--ink-soft)]">{message}</p>
+      <p className="text-sm font-medium text-foreground">{title}</p>
+      <p className="mt-2 text-sm text-(--ink-soft)">{message}</p>
     </div>
   );
 }
@@ -3754,13 +3749,13 @@ function WritingPractice({
 
   return (
     <div>
-      <p className="mb-3 text-sm text-[var(--ink-soft)]">{text.writingInstruction}</p>
+      <p className="mb-3 text-sm text-(--ink-soft)">{text.writingInstruction}</p>
       <div className="mb-3 grid gap-3 sm:grid-cols-[120px_minmax(0,1fr)]">
-        <div className="rounded-2xl border border-[var(--brand)]/20 bg-[var(--brand-soft)] px-3 py-4 text-center">
+        <div className="rounded-2xl border border-(--brand)/20 bg-(--brand-soft) px-3 py-4 text-center">
           <p className="text-xs font-semibold tracking-[0.18em] text-[var(--brand)] uppercase">{text.writingTarget}</p>
-          <p className="mt-2 text-6xl leading-none font-semibold text-[var(--foreground)]">{target}</p>
+          <p className="mt-2 text-6xl leading-none font-semibold text-foreground">{target}</p>
           {targetStats ? (
-            <p className="mt-3 text-xs text-[var(--ink-soft)]">
+            <p className="mt-3 text-xs text-(--ink-soft)">
               {Math.round((targetStats.passes / Math.max(targetStats.attempts, 1)) * 100)}% {text.writingAccuracy}
             </p>
           ) : null}
@@ -3787,20 +3782,20 @@ function WritingPractice({
         </div>
       </div>
 
-      <p className="mb-3 text-xs text-[var(--ink-soft)]">{text.writingHint}</p>
+      <p className="mb-3 text-xs text-(--ink-soft)">{text.writingHint}</p>
 
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
           onClick={() => setGuideVisible((current) => !current)}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
         >
           {text.writingGuide}: {guideVisible ? "On" : "Off"}
         </button>
         <button
           type="button"
           onClick={clearCanvas}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
         >
           {text.writingClear}
         </button>
@@ -3815,15 +3810,15 @@ function WritingPractice({
           type="button"
           onClick={nextCharacter}
           disabled={similarity === null}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
         >
           {text.writingNext}
         </button>
       </div>
 
       {similarity !== null ? (
-        <div className="mt-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
-          <p className="font-semibold text-[var(--foreground)]">
+        <div className="mt-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+          <p className="font-semibold text-foreground">
             {text.writingSimilarity}: {Math.round(similarity * 100)}%
           </p>
           <p className="mt-1">{feedback}</p>
@@ -4115,7 +4110,7 @@ function GrammarPuzzle({
 
   return (
     <div className="mt-4 space-y-3">
-      <p className="text-sm font-medium text-[var(--ink-soft)]">
+      <p className="text-sm font-medium text-(--ink-soft)">
         {language === "id"
           ? "Seret potongan kata, atau tap satu kata lalu tap slot tujuan. Setelah selesai, cek strukturnya."
           : "Drag the word pieces, or tap one word then tap the target slot. Once done, check the structure."}
@@ -4133,8 +4128,8 @@ function GrammarPuzzle({
               ? "border-emerald-600 bg-emerald-100"
               : part
                 ? "border-rose-600 bg-rose-100"
-                : "border-[var(--border-strong)] bg-[var(--surface-panel)]"
-              : "border-[var(--border-strong)] bg-[var(--surface-panel)]";
+                : "border-[var(--border-strong)] bg-(--surface-panel)"
+              : "border-[var(--border-strong)] bg-(--surface-panel)";
 
           return (
             <div
@@ -4142,7 +4137,7 @@ function GrammarPuzzle({
               data-drop-target="slot"
               data-slot-index={slotIndex}
               onClick={() => placeSelectedToken({ kind: "slot", index: slotIndex })}
-              className={`min-h-12 rounded-xl border px-3 py-3 text-sm text-[var(--foreground)] transition-all duration-200 ease-out ${slotState} ${slotHovered ? "-translate-y-0.5 border-[var(--brand)] shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""} ${slotSelected ? "ring-2 ring-[var(--brand)]/30" : ""}`}
+              className={`min-h-12 rounded-xl border px-3 py-3 text-sm text-foreground transition-all duration-200 ease-out ${slotState} ${slotHovered ? "-translate-y-0.5 border-[var(--brand)] shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""} ${slotSelected ? "ring-2 ring-[var(--brand)]/30" : ""}`}
             >
               {part ? (
                 <button
@@ -4161,7 +4156,7 @@ function GrammarPuzzle({
                   {part}
                 </button>
               ) : (
-                <span className="text-[var(--ink-soft)] transition-colors duration-200">
+                <span className="text-(--ink-soft) transition-colors duration-200">
                   {language === "id" ? "Taruh di sini" : "Drop here"}
                 </span>
               )}
@@ -4175,7 +4170,7 @@ function GrammarPuzzle({
         onClick={() => placeSelectedToken({ kind: "bank" })}
         className={`rounded-xl border border-dashed border-[var(--foreground)]/25 bg-[var(--surface-panel-soft)] p-3 transition-all duration-200 ease-out ${activeDrag?.overTarget?.kind === "bank" ? "border-[var(--brand)] shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""}`}
       >
-        <p className="mb-2 text-xs font-semibold tracking-[0.16em] text-[var(--ink-soft)] uppercase">
+        <p className="mb-2 text-xs font-semibold tracking-[0.16em] text-(--ink-soft) uppercase">
           {language === "id" ? "Bank Kata" : "Word Bank"}
         </p>
         {bank.length > 0 ? (
@@ -4193,7 +4188,7 @@ function GrammarPuzzle({
                   onPointerMove={updatePointerDrag}
                   onPointerUp={endPointerDrag}
                   onPointerCancel={cancelPointerDrag}
-                  className={`touch-none select-none rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-1 text-sm text-[var(--foreground)] transition-all duration-200 ease-out ${
+                  className={`touch-none select-none rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-1 text-sm text-foreground transition-all duration-200 ease-out ${
                     activeDrag?.source === "bank" && activeDrag.index === pieceIndex
                       ? "scale-95 opacity-35"
                       : "cursor-grab shadow-[0_10px_24px_-20px_rgba(0,0,0,0.9)] hover:-translate-y-0.5 active:scale-95"
@@ -4205,7 +4200,7 @@ function GrammarPuzzle({
             })}
           </div>
         ) : (
-          <p className="text-sm text-[var(--ink-soft)]">
+          <p className="text-sm text-(--ink-soft)">
             {language === "id" ? "Semua potongan sudah dipakai." : "All pieces have been used."}
           </p>
         )}
@@ -4216,22 +4211,22 @@ function GrammarPuzzle({
           type="button"
           onClick={checkStructure}
           disabled={!allSlotsFilled}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
         >
           {language === "id" ? "Cek Struktur" : "Check Structure"}
         </button>
         <button
           type="button"
           onClick={resetPuzzle}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-[var(--foreground)]"
+          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
         >
           {language === "id" ? "Reset Puzzle" : "Reset Puzzle"}
         </button>
       </div>
 
       {checked ? (
-        <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-[var(--ink-soft)]">
-          <p className="font-semibold text-[var(--foreground)]">
+        <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+          <p className="font-semibold text-foreground">
             {isCorrect
               ? language === "id"
                 ? "Struktur benar. Bagus!"
@@ -4251,7 +4246,7 @@ function GrammarPuzzle({
             transform: `translate(${activeDrag.x - 18}px, ${activeDrag.y - 18}px)`,
           }}
         >
-          <div className="rounded-lg border border-[var(--brand)]/30 bg-[var(--surface-panel-strong)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] shadow-[0_18px_40px_-20px_rgba(0,0,0,0.85)] opacity-95">
+          <div className="rounded-lg border border-[var(--brand)]/30 bg-[var(--surface-panel-strong)] px-3 py-2 text-sm font-semibold text-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.85)] opacity-95">
             {activeDrag.token}
           </div>
         </div>

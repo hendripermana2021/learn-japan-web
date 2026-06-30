@@ -1053,7 +1053,6 @@ export default function Home() {
             card.romaji,
             card.meaning,
             card.example,
-            card.translation,
             card.category,
           ]
             .join(" ")
@@ -2023,7 +2022,7 @@ export default function Home() {
   }
 
   return (
-    <main className="relative mx-auto flex w-full max-w-[1200px] flex-1 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[2fr_1fr] lg:gap-8">
+    <main className="relative mx-auto flex w-full max-w-300 flex-1 flex-col gap-4 px-4 py-5 sm:px-6 sm:py-8 lg:grid lg:grid-cols-[2fr_1fr] lg:gap-8">
       {xpBadges.map((badge) => (
         <div
           key={badge.id}
@@ -2034,30 +2033,30 @@ export default function Home() {
       ))}
       {levelUpMsg !== null ? (
         <div className="pointer-events-none fixed inset-0 z-50">
-          <div className="absolute top-1/2 left-1/2 w-[min(88vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-[var(--brand)]/40 bg-[var(--paper)]/92 p-6 text-center shadow-[0_24px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-md animate-level-up">
-            <p className="text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">Level Up</p>
+          <div className="absolute top-1/2 left-1/2 w-[min(88vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-(--brand)/40 bg-(--paper)/92 p-6 text-center shadow-[0_24px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-md animate-level-up">
+            <p className="text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">Level Up</p>
             <p className="mt-2 text-4xl font-semibold text-foreground">Lv {levelUpMsg}</p>
             <p className="mt-2 text-sm text-(--ink-soft)">Great streak. Keep the momentum.</p>
           </div>
         </div>
       ) : null}
       <section className="space-y-4 lg:space-y-7">
-        <header className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+        <header className="apple-float rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <IvoSenseiLogo />
             <div className="flex flex-col items-end gap-2">
-              <p className="text-right text-xs font-semibold tracking-[0.2em] text-[var(--brand)] uppercase">
+              <p className="text-right text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">
                 {text.appName}
               </p>
               <Link
                 href="/japanese-daily-grammar"
-                className="rounded-full border border-[var(--brand)]/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+                className="rounded-full border border-(--brand)/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-(--brand) uppercase"
               >
                 Daily Grammar Guide
               </Link>
               <Link
                 href="/kanji"
-                className="rounded-full border border-[var(--brand)]/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-[var(--brand)] uppercase"
+                className="rounded-full border border-(--brand)/30 bg-(--surface-panel) px-3 py-1 text-xs font-semibold tracking-[0.12em] text-(--brand) uppercase"
               >
                 Kanji Study Lab
               </Link>
@@ -2078,15 +2077,15 @@ export default function Home() {
             onMouseMove={handleHeroPointerMove}
             onMouseLeave={resetHeroTilt}
           >
-            <section className="apple-sheen apple-hero-layer hero-rise apple-float apple-subtle-card self-start rounded-3xl bg-[var(--surface-panel-soft)] p-4 backdrop-blur-sm">
+            <section className="apple-sheen apple-hero-layer hero-rise apple-float apple-subtle-card self-start rounded-3xl bg-(--surface-panel-soft) p-4 backdrop-blur-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--brand)">
                     {text.quickActions}
                   </p>
                   <p className="mt-1 max-w-md text-sm text-(--ink-soft)">{text.quickActionsHint}</p>
                 </div>
-                <span className="rounded-full border border-(--brand)/20 bg-(--brand-soft) px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
+                <span className="rounded-full border border-(--brand)/20 bg-(--brand-soft) px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-(--brand)">
                   {modeLabels[language][studyMode]}
                 </span>
               </div>
@@ -2119,7 +2118,7 @@ export default function Home() {
             </section>
 
             <section className="apple-sheen apple-hero-layer hero-rise-delay apple-float apple-subtle-card self-start rounded-3xl bg-(--surface-panel) p-4 backdrop-blur-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--brand)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-(--brand)">
                 {text.challengeTitle}
               </p>
               <p className="mt-1 text-sm text-(--ink-soft)">{text.challengeHint}</p>
@@ -2130,7 +2129,7 @@ export default function Home() {
                     {text.challengeGoal}: {dailyChallengeTarget}
                   </p>
                 </div>
-                <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-right">
+                <div className="rounded-2xl border border-(--border-subtle) bg-(--surface-panel-strong) px-3 py-2 text-right">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                     {dailyChallengePercent}%
                   </p>
@@ -2139,7 +2138,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="challenge-glow mt-4 h-3 overflow-hidden rounded-full bg-[var(--surface-panel-strong)]">
+              <div className="challenge-glow mt-4 h-3 overflow-hidden rounded-full bg-(--surface-panel-strong)">
                 <div
                   className="h-full rounded-full bg-[linear-gradient(90deg,var(--brand),var(--accent))] transition-all duration-500 ease-out"
                   style={{ width: `${dailyChallengePercent}%` }}
@@ -2152,7 +2151,7 @@ export default function Home() {
                 <ProgressChip label={text.grammar} value={`${grammarScore}`} />
                 <ProgressChip label={text.writingTitle} value={`${writingScore}`} />
               </div>
-              <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-3">
+              <div className="mt-4 rounded-2xl border border-(--border-subtle) bg-(--surface-panel-soft) p-3">
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                     {text.dailyQuestsTitle}
@@ -2167,14 +2166,14 @@ export default function Home() {
                     const percent = Math.round((quest.progress / quest.target) * 100);
 
                     return (
-                      <div key={quest.id} className="rounded-xl border border-[var(--border-subtle)] bg-(--surface-panel) px-3 py-2">
+                      <div key={quest.id} className="rounded-xl border border-(--border-subtle) bg-(--surface-panel) px-3 py-2">
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-xs font-medium text-foreground">{quest.label}</p>
                           <p className="text-[11px] font-semibold text-(--ink-soft)">
                             {quest.progress}/{quest.target}
                           </p>
                         </div>
-                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[var(--surface-panel-strong)]">
+                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-(--surface-panel-strong)">
                           <div
                             className="h-full rounded-full bg-[linear-gradient(90deg,var(--brand),var(--accent))] transition-all duration-500"
                             style={{ width: `${percent}%` }}
@@ -2195,7 +2194,7 @@ export default function Home() {
                     : `${text.questReward}: +${dailyQuestRewardXp} XP`}
                 </p>
               </div>
-              <div className="mt-3 rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] p-3">
+              <div className="mt-3 rounded-2xl border border-(--border-subtle) bg-(--surface-panel-soft) p-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                   {text.achievementsTitle}
                 </p>
@@ -2211,7 +2210,7 @@ export default function Home() {
                           ? "border-slate-400/70 bg-slate-100 text-slate-800"
                           : tier === "bronze"
                             ? "border-orange-400/70 bg-orange-100 text-orange-900"
-                            : "border-[var(--border-subtle)] bg-(--surface-panel) text-(--ink-soft)";
+                            : "border-(--border-subtle) bg-(--surface-panel) text-(--ink-soft)";
 
                     return (
                       <span
@@ -2228,7 +2227,7 @@ export default function Home() {
             </section>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-[var(--foreground)]/10 bg-[var(--surface-strong)] px-4 py-3 text-sm text-foreground shadow-[0_10px_30px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+            <div className="rounded-2xl border border-(--foreground)/10 bg-(--surface-strong) px-4 py-3 text-sm text-foreground shadow-[0_10px_30px_-24px_rgba(0,0,0,0.8)] backdrop-blur-sm">
               <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
                 {text.language}
               </span>
@@ -2244,7 +2243,7 @@ export default function Home() {
                         setLanguage(option);
                         setAppStatus(uiCopy[option].localMode);
                       }}
-                      className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${selected ? "bg-[var(--brand)] text-[var(--brand-foreground)] shadow-[0_16px_28px_-20px_rgba(21,115,71,0.9)]" : "border border-[var(--border-subtle)] bg-(--surface-panel) text-foreground hover:border-[var(--brand)]/30"}`}
+                      className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${selected ? "bg-(--brand) text-(--brand-foreground) shadow-[0_16px_28px_-20px_rgba(21,115,71,0.9)]" : "border border-(--border-subtle) bg-(--surface-panel) text-foreground hover:border-(--brand)/30"}`}
                     >
                       {option === "id" ? text.indonesian : text.english}
                     </button>
@@ -2554,7 +2553,7 @@ export default function Home() {
                   const selected = quizChoice === option;
                   const correct =
                     option === (quizMode === "meaning" ? activeCard.meaning : activeCard.kana);
-                  let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+                  let selectedStyle = "border-(--border-subtle) bg-(--surface-panel-soft)";
 
                   if (quizLocked) {
                     if (selected && !correct) {
@@ -2696,7 +2695,7 @@ export default function Home() {
                     {listeningOptions.map((option, optionIndex) => {
                       const selected = listeningChoice === option;
                       const correct = option === activeCard.meaning;
-                      let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+                      let selectedStyle = "border-(--border-subtle) bg-(--surface-panel-soft)";
 
                       if (listeningLocked) {
                         if (selected && !correct) {
@@ -2758,7 +2757,7 @@ export default function Home() {
                   {listeningGrammarOptions.map((option, optionIndex) => {
                     const selected = listeningChoice === option;
                     const correct = option === activeListeningGrammarQuestion.translation;
-                    let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+                    let selectedStyle = "border-(--border-subtle) bg-(--surface-panel-soft)";
 
                     if (listeningLocked) {
                       if (selected && !correct) {
@@ -2801,7 +2800,7 @@ export default function Home() {
         ) : null}
 
         {studyLevel !== null && studyMode === "grammar" ? (
-          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+          <article className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-foreground">{text.grammarTitle}</h2>
               <div className="flex gap-2">
@@ -2812,7 +2811,7 @@ export default function Home() {
                     setGrammarIndex(0);
                     setListeningGrammarIndex(0);
                   }}
-                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-foreground"
+                  className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-1 text-sm text-foreground"
                 >
                   {studyLevels.map((level) => (
                     <option key={level} value={level}>
@@ -2824,7 +2823,7 @@ export default function Home() {
                   type="button"
                   onClick={nextGrammarQuestion}
                   disabled={!activeGrammarQuestion || !grammarSolvedIds.includes(activeGrammarQuestion.id)}
-                  className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {text.next}
                 </button>
@@ -2837,7 +2836,7 @@ export default function Home() {
 
             {activeGrammarQuestion ? (
               <>
-                <p className="text-sm font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">
+                <p className="text-sm font-semibold tracking-[0.16em] text-(--brand) uppercase">
                   {activeGrammarQuestion.prompt}
                 </p>
                 <p className="mt-3 text-base text-(--ink-soft)">{text.buildFromEnglish}</p>
@@ -2859,14 +2858,14 @@ export default function Home() {
         ) : null}
 
         {studyLevel !== null && studyMode === "exam" ? (
-          <article className={`rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
+          <article className={`rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6 ${cardFlashClass}`}>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-foreground">{text.examTitle}</h2>
               <button
                 type="button"
                 onClick={nextExamQuestion}
                 disabled={!examLocked || !activeExamQuestion}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.next}
               </button>
@@ -2880,10 +2879,10 @@ export default function Home() {
                   {text.score}: {examScore} - {text.question} {safeExamIndex + 1}/{filteredExamQuestions.length}
                 </p>
                 <div className="rounded-2xl border border-(--brand)/20 bg-(--brand-soft)/60 px-4 py-5">
-                  <p className="text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">JLPT</p>
+                  <p className="text-xs font-semibold tracking-[0.16em] text-(--brand) uppercase">JLPT</p>
                   <p className="mt-3 text-lg leading-relaxed text-foreground sm:text-xl">
                     {activeExamQuestion.before}
-                    <span className="underline decoration-2 decoration-[var(--brand)] underline-offset-4">
+                    <span className="underline decoration-2 decoration-(--brand) underline-offset-4">
                       {activeExamQuestion.target}
                     </span>
                     {activeExamQuestion.after}
@@ -2896,7 +2895,7 @@ export default function Home() {
                   {activeExamQuestion.choices.map((option, optionIndex) => {
                     const selected = examChoice === option;
                     const correct = option === activeExamQuestion.reading;
-                    let selectedStyle = "border-[var(--border-subtle)] bg-[var(--surface-panel-soft)]";
+                    let selectedStyle = "border-(--border-subtle) bg-(--surface-panel-soft)";
 
                     if (examLocked) {
                       if (selected && !correct) {
@@ -2912,7 +2911,7 @@ export default function Home() {
                         type="button"
                         onClick={() => chooseExamAnswer(option)}
                         disabled={examLocked}
-                        className={`rounded-xl border px-3 py-3 text-left text-sm text-foreground transition hover:border-[var(--brand)] ${selectedStyle}`}
+                        className={`rounded-xl border px-3 py-3 text-left text-sm text-foreground transition hover:border-(--brand) ${selectedStyle}`}
                       >
                         <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-current/20 text-xs font-semibold">
                           {String.fromCharCode(65 + optionIndex)}
@@ -2924,7 +2923,7 @@ export default function Home() {
                 </div>
 
                 {examLocked ? (
-                  <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+                  <div className="mt-4 rounded-xl border border-(--border-subtle) bg-(--surface-panel-tint) px-3 py-3 text-sm text-(--ink-soft)">
                     <p className="font-semibold text-foreground">
                       {examChoice === activeExamQuestion.reading
                         ? text.listeningCorrect
@@ -2941,14 +2940,14 @@ export default function Home() {
         ) : null}
 
         {studyLevel !== null && studyMode === "writing" ? (
-          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+          <article className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-2">
               <h2 className="text-xl font-semibold text-foreground">{text.writingTitle}</h2>
               <div className="flex gap-2">
                 <select
                   value={writingScript}
                   onChange={(event) => setWritingScript(event.target.value as WritingScript)}
-                  className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-foreground"
+                  className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-1 text-sm text-foreground"
                 >
                   {writingScripts.map((script) => (
                     <option key={script} value={script}>
@@ -2971,7 +2970,7 @@ export default function Home() {
         ) : null}
 
         {studyLevel !== null && studyMode === "browse" ? (
-          <article className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+          <article className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-semibold text-foreground">{text.browseTitle}</h2>
               <p className="text-sm text-(--ink-soft)">
@@ -2991,7 +2990,7 @@ export default function Home() {
                   setBrowsePerPage(Number(event.target.value));
                   setBrowsePage(1);
                 }}
-                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-3 py-1 text-sm text-foreground"
+                className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-3 py-1 text-sm text-foreground"
               >
                 {browsePerPageOptions.map((option) => (
                   <option key={option} value={option}>
@@ -3008,7 +3007,7 @@ export default function Home() {
                 type="button"
                 onClick={() => setBrowsePage(Math.max(1, safeBrowsePage - 1))}
                 disabled={safeBrowsePage <= 1}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.browsePrevious}
               </button>
@@ -3016,7 +3015,7 @@ export default function Home() {
                 type="button"
                 onClick={() => setBrowsePage(Math.min(browseTotalPages, safeBrowsePage + 1))}
                 disabled={safeBrowsePage >= browseTotalPages}
-                className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {text.browseNext}
               </button>
@@ -3029,21 +3028,19 @@ export default function Home() {
                 {browseVisibleCards.map((card) => (
                   <div
                     key={`${card.kanji}-${card.kana}`}
-                    className="min-w-[82%] snap-start rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-4 sm:min-w-0"
+                    className="min-w-[82%] snap-start rounded-2xl border border-(--border-subtle) bg-(--surface-panel) p-4 sm:min-w-0"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-3xl select-none" aria-hidden="true">{getCardEmoji(card)}</p>
                         <p className="text-2xl font-semibold text-foreground">{card.kanji}</p>
                         <p className="text-sm text-(--ink-soft)">{card.kana} - {card.romaji}</p>
                       </div>
-                      <span className="rounded-full bg-(--brand-soft) px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--brand)]">
+                      <span className="rounded-full bg-(--brand-soft) px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-(--brand)">
                         {categoryLabels[language][card.category]}
                       </span>
                     </div>
                     <p className="mt-3 text-sm font-medium text-foreground">{card.meaning}</p>
                     <p className="mt-2 text-sm text-(--ink-soft)">{card.example}</p>
-                    <p className="mt-1 text-sm text-(--ink-soft)">{card.translation}</p>
                   </div>
                 ))}
               </div>
@@ -3055,7 +3052,7 @@ export default function Home() {
       </section>
 
       <aside className="space-y-4 lg:space-y-6">
-        <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+        <section className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <h2 className="text-xl font-semibold text-foreground">{text.dailyReminder}</h2>
           <p className="mt-2 text-sm text-(--ink-soft)">
             {text.notificationPermission}: {notificationPermission}
@@ -3073,20 +3070,20 @@ export default function Home() {
               onChange={(event) =>
                 setReminderHour(Math.min(23, Math.max(0, Number(event.target.value) || 0)))
               }
-              className="w-20 rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-1 text-sm text-foreground"
+              className="w-20 rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-2 py-1 text-sm text-foreground"
             />
             <span className="text-sm text-(--ink-soft)">:00</span>
           </div>
           <button
             type="button"
             onClick={enableReminders}
-            className="mt-3 rounded-xl bg-[var(--interactive-bg)] px-3 py-2 text-sm font-semibold text-[var(--interactive-foreground)] transition hover:brightness-110"
+            className="mt-3 rounded-xl bg-(--interactive-bg) px-3 py-2 text-sm font-semibold text-(--interactive-foreground) transition hover:brightness-110"
           >
             {text.enableReminder}
           </button>
         </section>
 
-        <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+        <section className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <h2 className="text-xl font-semibold text-foreground">{text.todayPlan}</h2>
           <ul className="mt-4 space-y-2 text-sm text-(--ink-soft)">
             <li className="rounded-xl bg-(--surface-panel) px-3 py-2">{text.reviewPlan} ({studyLevel ? studyLevelLabels[language][studyLevel] : text.chooseLevel})</li>
@@ -3099,7 +3096,7 @@ export default function Home() {
           </ul>
         </section>
 
-        <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+        <section className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <h2 className="text-xl font-semibold text-foreground">{text.progressByCategory}</h2>
           <div className="mt-4 space-y-2 text-sm">
             {progressByCategory.map((entry) => (
@@ -3122,7 +3119,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+        <section className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <h2 className="text-xl font-semibold text-foreground">{text.savedFocus}</h2>
           <div className="mt-4 space-y-3 text-sm text-(--ink-soft)">
             <div>
@@ -3185,7 +3182,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
+        <section className="rounded-3xl border border-(--border-subtle) bg-(--paper) p-4 shadow-[0_16px_50px_-30px_rgba(0,0,0,0.5)] sm:p-6">
           <h2 className="text-xl font-semibold text-foreground">{text.kanaTrainer}</h2>
           <p className="mt-2 text-sm text-(--ink-soft)">{text.kanaTrainerHint}</p>
           <div className="mt-4 grid grid-cols-5 gap-2">
@@ -3193,7 +3190,7 @@ export default function Home() {
               <button
                 key={kana}
                 type="button"
-                className="rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-2 text-lg text-foreground transition hover:-translate-y-0.5 hover:border-[var(--brand)]"
+                className="rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-2 py-2 text-lg text-foreground transition hover:-translate-y-0.5 hover:border-(--brand)"
               >
                 {kana}
               </button>
@@ -3220,7 +3217,7 @@ function QuickActionCard({
     <button
       type="button"
       onClick={onClick}
-      className="group apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] p-3 text-left transition duration-300 hover:border-[var(--brand)]/30"
+      className="group apple-float rounded-2xl border border-(--border-subtle) bg-(--surface-panel-strong) p-3 text-left transition duration-300 hover:border-(--brand)/30"
     >
       <div className={`h-1.5 w-16 rounded-full ${accent} transition duration-300 group-hover:w-24`} />
       <p className="mt-3 text-sm font-semibold text-foreground">{title}</p>
@@ -3240,7 +3237,7 @@ function ProgressChip({
 }) {
   return (
     <div
-      className={`apple-float rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-panel-strong)] px-3 py-2 text-left transition duration-300 hover:border-[var(--brand)]/25 ${active ? "combo-spark" : ""}`}
+      className={`apple-float rounded-2xl border border-(--border-subtle) bg-(--surface-panel-strong) px-3 py-2 text-left transition duration-300 hover:border-(--brand)/25 ${active ? "combo-spark" : ""}`}
     >
       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-(--ink-soft)">
         {label}
@@ -3252,7 +3249,7 @@ function ProgressChip({
 
 function IvoSenseiLogo() {
   return (
-    <div className="apple-float flex items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) px-3 py-2 shadow-[0_12px_30px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm">
+    <div className="apple-float flex items-center gap-3 rounded-2xl border border-(--border-subtle) bg-(--surface-panel) px-3 py-2 shadow-[0_12px_30px_-24px_rgba(0,0,0,0.85)] backdrop-blur-sm">
       <Image
         src="/ivo-sensei-logo.svg"
         alt="Ivo Sensei"
@@ -3274,7 +3271,7 @@ function IvoSenseiLogo() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="apple-float rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-2 py-3">
+    <div className="apple-float rounded-xl border border-(--border-subtle) bg-(--surface-panel-tint) px-2 py-3">
       <p className="text-xs font-medium text-(--ink-soft)">{label}</p>
       <p className="text-lg font-semibold text-foreground">{value}</p>
     </div>
@@ -3283,7 +3280,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 function EmptyDeckState({ title, message }: { title: string; message: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-panel-soft)] px-4 py-8 text-center">
+    <div className="rounded-2xl border border-dashed border-(--border-strong) bg-(--surface-panel-soft) px-4 py-8 text-center">
       <p className="text-sm font-medium text-foreground">{title}</p>
       <p className="mt-2 text-sm text-(--ink-soft)">{message}</p>
     </div>
@@ -3752,7 +3749,7 @@ function WritingPractice({
       <p className="mb-3 text-sm text-(--ink-soft)">{text.writingInstruction}</p>
       <div className="mb-3 grid gap-3 sm:grid-cols-[120px_minmax(0,1fr)]">
         <div className="rounded-2xl border border-(--brand)/20 bg-(--brand-soft) px-3 py-4 text-center">
-          <p className="text-xs font-semibold tracking-[0.18em] text-[var(--brand)] uppercase">{text.writingTarget}</p>
+          <p className="text-xs font-semibold tracking-[0.18em] text-(--brand) uppercase">{text.writingTarget}</p>
           <p className="mt-2 text-6xl leading-none font-semibold text-foreground">{target}</p>
           {targetStats ? (
             <p className="mt-3 text-xs text-(--ink-soft)">
@@ -3763,10 +3760,10 @@ function WritingPractice({
         <div className="relative w-fit overflow-hidden rounded-2xl">
           {guideVisible ? (
             <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl">
-              <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(21,115,71,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(21,115,71,0.12)_1px,transparent_1px)] bg-[size:24px_24px]" />
-              <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-[var(--brand)]/20" />
-              <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-[var(--brand)]/20" />
-              <div className="absolute inset-0 flex items-center justify-center text-[170px] font-semibold text-[var(--brand)]/12">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(21,115,71,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(21,115,71,0.12)_1px,transparent_1px)] bg-size-[24px_24px]" />
+              <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-(--brand)/20" />
+              <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-(--brand)/20" />
+              <div className="absolute inset-0 flex items-center justify-center text-[170px] font-semibold text-(--brand)/12">
                 {target}
               </div>
             </div>
@@ -3777,7 +3774,7 @@ function WritingPractice({
             onPointerMove={onPointerMove}
             onPointerUp={endDrawing}
             onPointerCancel={endDrawing}
-            className="relative z-20 touch-none rounded-2xl border-2 border-[var(--border-strong)] bg-white shadow-[0_20px_40px_-30px_rgba(0,0,0,0.75)]"
+            className="relative z-20 touch-none rounded-2xl border-2 border-(--border-strong) bg-white shadow-[0_20px_40px_-30px_rgba(0,0,0,0.75)]"
           />
         </div>
       </div>
@@ -3788,21 +3785,21 @@ function WritingPractice({
         <button
           type="button"
           onClick={() => setGuideVisible((current) => !current)}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
+          className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground"
         >
           {text.writingGuide}: {guideVisible ? "On" : "Off"}
         </button>
         <button
           type="button"
           onClick={clearCanvas}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
+          className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground"
         >
           {text.writingClear}
         </button>
         <button
           type="button"
           onClick={evaluateDrawing}
-          className="rounded-lg bg-[var(--interactive-bg)] px-3 py-1 text-sm font-semibold text-[var(--interactive-foreground)] transition hover:brightness-110"
+          className="rounded-lg bg-(--interactive-bg) px-3 py-1 text-sm font-semibold text-(--interactive-foreground) transition hover:brightness-110"
         >
           {text.writingCheck}
         </button>
@@ -3810,14 +3807,14 @@ function WritingPractice({
           type="button"
           onClick={nextCharacter}
           disabled={similarity === null}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
         >
           {text.writingNext}
         </button>
       </div>
 
       {similarity !== null ? (
-        <div className="mt-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+        <div className="mt-3 rounded-xl border border-(--border-subtle) bg-(--surface-panel-tint) px-3 py-3 text-sm text-(--ink-soft)">
           <p className="font-semibold text-foreground">
             {text.writingSimilarity}: {Math.round(similarity * 100)}%
           </p>
@@ -4128,8 +4125,8 @@ function GrammarPuzzle({
               ? "border-emerald-600 bg-emerald-100"
               : part
                 ? "border-rose-600 bg-rose-100"
-                : "border-[var(--border-strong)] bg-(--surface-panel)"
-              : "border-[var(--border-strong)] bg-(--surface-panel)";
+                : "border-(--border-strong) bg-(--surface-panel)"
+              : "border-(--border-strong) bg-(--surface-panel)";
 
           return (
             <div
@@ -4137,7 +4134,7 @@ function GrammarPuzzle({
               data-drop-target="slot"
               data-slot-index={slotIndex}
               onClick={() => placeSelectedToken({ kind: "slot", index: slotIndex })}
-              className={`min-h-12 rounded-xl border px-3 py-3 text-sm text-foreground transition-all duration-200 ease-out ${slotState} ${slotHovered ? "-translate-y-0.5 border-[var(--brand)] shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""} ${slotSelected ? "ring-2 ring-[var(--brand)]/30" : ""}`}
+              className={`min-h-12 rounded-xl border px-3 py-3 text-sm text-foreground transition-all duration-200 ease-out ${slotState} ${slotHovered ? "-translate-y-0.5 border-(--brand) shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""} ${slotSelected ? "ring-2 ring-(--brand)/30" : ""}`}
             >
               {part ? (
                 <button
@@ -4147,11 +4144,11 @@ function GrammarPuzzle({
                   onPointerMove={updatePointerDrag}
                   onPointerUp={endPointerDrag}
                   onPointerCancel={cancelPointerDrag}
-                  className={`touch-none select-none rounded-md bg-[var(--surface-panel-tint)] px-2 py-1 font-medium transition-all duration-200 ease-out ${
+                  className={`touch-none select-none rounded-md bg-(--surface-panel-tint) px-2 py-1 font-medium transition-all duration-200 ease-out ${
                     activeDrag?.source === "slot" && activeDrag.index === slotIndex
                       ? "scale-95 opacity-35"
                       : "cursor-grab shadow-[0_8px_20px_-18px_rgba(0,0,0,0.85)] active:scale-95"
-                  } ${slotSelected ? "ring-2 ring-[var(--brand)]/30" : ""}`}
+                  } ${slotSelected ? "ring-2 ring-(--brand)/30" : ""}`}
                 >
                   {part}
                 </button>
@@ -4168,7 +4165,7 @@ function GrammarPuzzle({
       <div
         data-drop-target="bank"
         onClick={() => placeSelectedToken({ kind: "bank" })}
-        className={`rounded-xl border border-dashed border-[var(--foreground)]/25 bg-[var(--surface-panel-soft)] p-3 transition-all duration-200 ease-out ${activeDrag?.overTarget?.kind === "bank" ? "border-[var(--brand)] shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""}`}
+        className={`rounded-xl border border-dashed border-(--foreground)/25 bg-(--surface-panel-soft) p-3 transition-all duration-200 ease-out ${activeDrag?.overTarget?.kind === "bank" ? "border-(--brand) shadow-[0_16px_32px_-24px_rgba(21,115,71,0.9)]" : ""}`}
       >
         <p className="mb-2 text-xs font-semibold tracking-[0.16em] text-(--ink-soft) uppercase">
           {language === "id" ? "Bank Kata" : "Word Bank"}
@@ -4188,11 +4185,11 @@ function GrammarPuzzle({
                   onPointerMove={updatePointerDrag}
                   onPointerUp={endPointerDrag}
                   onPointerCancel={cancelPointerDrag}
-                  className={`touch-none select-none rounded-lg border border-[var(--border-strong)] bg-[var(--surface-panel-strong)] px-2 py-1 text-sm text-foreground transition-all duration-200 ease-out ${
+                  className={`touch-none select-none rounded-lg border border-(--border-strong) bg-(--surface-panel-strong) px-2 py-1 text-sm text-foreground transition-all duration-200 ease-out ${
                     activeDrag?.source === "bank" && activeDrag.index === pieceIndex
                       ? "scale-95 opacity-35"
                       : "cursor-grab shadow-[0_10px_24px_-20px_rgba(0,0,0,0.9)] hover:-translate-y-0.5 active:scale-95"
-                  } ${pieceSelected ? "ring-2 ring-[var(--brand)]/30 border-[var(--brand)]/40" : ""}`}
+                  } ${pieceSelected ? "ring-2 ring-(--brand)/30 border-(--brand)/40" : ""}`}
                 >
                   {piece}
                 </button>
@@ -4211,21 +4208,21 @@ function GrammarPuzzle({
           type="button"
           onClick={checkStructure}
           disabled={!allSlotsFilled}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground disabled:cursor-not-allowed disabled:opacity-50"
         >
           {language === "id" ? "Cek Struktur" : "Check Structure"}
         </button>
         <button
           type="button"
           onClick={resetPuzzle}
-          className="rounded-lg border border-[var(--foreground)]/20 px-3 py-1 text-sm text-foreground"
+          className="rounded-lg border border-(--foreground)/20 px-3 py-1 text-sm text-foreground"
         >
           {language === "id" ? "Reset Puzzle" : "Reset Puzzle"}
         </button>
       </div>
 
       {checked ? (
-        <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-tint)] px-3 py-3 text-sm text-(--ink-soft)">
+        <div className="mt-4 rounded-xl border border-(--border-subtle) bg-(--surface-panel-tint) px-3 py-3 text-sm text-(--ink-soft)">
           <p className="font-semibold text-foreground">
             {isCorrect
               ? language === "id"
@@ -4246,7 +4243,7 @@ function GrammarPuzzle({
             transform: `translate(${activeDrag.x - 18}px, ${activeDrag.y - 18}px)`,
           }}
         >
-          <div className="rounded-lg border border-[var(--brand)]/30 bg-[var(--surface-panel-strong)] px-3 py-2 text-sm font-semibold text-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.85)] opacity-95">
+          <div className="rounded-lg border border-(--brand)/30 bg-(--surface-panel-strong) px-3 py-2 text-sm font-semibold text-foreground shadow-[0_18px_40px_-20px_rgba(0,0,0,0.85)] opacity-95">
             {activeDrag.token}
           </div>
         </div>

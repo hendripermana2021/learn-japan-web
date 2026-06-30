@@ -100,7 +100,7 @@ const quickDailyPatterns = [
 export default function JapaneseDailyGrammarPage() {
   return (
     <main className="mx-auto flex w-full max-w-275 flex-1 flex-col gap-5 px-4 py-6 sm:px-6 sm:py-8">
-      <header className="apple-float rounded-3xl border border-(--border-subtle) bg-[var(--paper)] p-5 sm:p-6">
+      <header className="apple-float rounded-3xl border border-(--border-subtle) bg-(--paper) p-5 sm:p-6">
         <p className="text-xs font-semibold tracking-[0.2em] text-(--brand) uppercase">Learn Japan Free - Ivo Sensei</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] text-foreground sm:text-4xl">
           Japanese Daily Grammar Guide
@@ -119,11 +119,11 @@ export default function JapaneseDailyGrammarPage() {
         </div>
       </header>
 
-      <section className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
+      <section className="apple-float rounded-3xl border border-(--border-subtle) bg-(--paper) p-5 sm:p-6">
         <h2 className="text-xl font-semibold text-foreground">Quick Daily Patterns</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {quickDailyPatterns.map((item) => (
-            <article key={item.pattern} className="rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-3">
+            <article key={item.pattern} className="rounded-2xl border border-(--border-subtle) bg-(--surface-panel) p-3">
               <p className="text-base font-semibold text-foreground">{item.pattern}</p>
               <p className="mt-1 text-sm text-(--ink-soft)">{item.meaning}</p>
               <p className="mt-2 text-sm text-foreground">{item.example}</p>
@@ -134,23 +134,23 @@ export default function JapaneseDailyGrammarPage() {
 
       <section className="grid gap-4">
         {grammarCards.map((card) => (
-          <article key={card.name} className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
+          <article key={card.name} className="apple-float rounded-3xl border border-(--border-subtle) bg-(--paper) p-5 sm:p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <h2 className="text-2xl font-semibold tracking-[-0.01em] text-foreground">{card.name}</h2>
-              <span className="rounded-full border border-(--brand)/20 bg-(--brand-soft) px-3 py-1 text-xs font-semibold tracking-[0.16em] text-[var(--brand)] uppercase">
+              <span className="rounded-full border border-(--brand)/20 bg-(--brand-soft) px-3 py-1 text-xs font-semibold tracking-[0.16em] text-(--brand) uppercase">
                 Daily Use
               </span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-(--ink-soft)">{card.useCase}</p>
 
-            <div className="mt-4 rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-3">
+            <div className="mt-4 rounded-2xl border border-(--border-subtle) bg-(--surface-panel) p-3">
               <p className="text-xs font-semibold tracking-[0.16em] text-(--ink-soft) uppercase">Pattern</p>
               <p className="mt-1 text-sm font-medium text-foreground">{card.pattern}</p>
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {card.examples.map((example) => (
-                <div key={example.jp} className="rounded-2xl border border-[var(--border-subtle)] bg-(--surface-panel) p-3">
+                <div key={example.jp} className="rounded-2xl border border-(--border-subtle) bg-(--surface-panel) p-3">
                   <p className="text-lg font-semibold text-foreground">{example.jp}</p>
                   <p className="mt-1 text-sm text-(--ink-soft)">{example.romaji}</p>
                   <p className="mt-2 text-sm text-foreground">{example.en}</p>
@@ -158,14 +158,14 @@ export default function JapaneseDailyGrammarPage() {
               ))}
             </div>
 
-            <p className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-panel-soft)] px-3 py-2 text-sm text-(--ink-soft)">
+            <p className="mt-4 rounded-xl border border-(--border-subtle) bg-(--surface-panel-soft) px-3 py-2 text-sm text-(--ink-soft)">
               Tip: {card.tip}
             </p>
           </article>
         ))}
       </section>
 
-      <section className="apple-float rounded-3xl border border-[var(--border-subtle)] bg-[var(--paper)] p-5 sm:p-6">
+      <section className="apple-float rounded-3xl border border-(--border-subtle) bg-(--paper) p-5 sm:p-6">
         <h2 className="text-xl font-semibold text-foreground">How to Practice Daily</h2>
         <ol className="mt-4 grid gap-2 text-sm text-(--ink-soft)">
           <li>1. Start with masu form for polite speaking safety.</li>

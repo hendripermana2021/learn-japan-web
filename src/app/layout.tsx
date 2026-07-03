@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     images: ["/icon.svg"],
   },
   verification: {
-    google: "5wyHjsfwHWuTcB1R3IHwX5xNmtKHeuoFE-f75ZIdFBM",
+    google: "wtecmXSlI428LKdgxNmiu6KWBoUduny0Z5oXp_CLPMw",
   },
 };
 
